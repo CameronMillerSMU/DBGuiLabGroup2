@@ -39,6 +39,22 @@ CREATE TABLE flora.user(
     backgroundPath VARCHAR(200),
     PRIMARY KEY (username));
 
+CREATE TABLE flora.ownedPlants(
+    id int SERIAL DEFAULT VALUE,
+    owner VARCHAR(30) NOT NULL,
+    type VARCHAR(30) NOT NULL,
+    privateTag BOOLEAN NOT NULL,
+    lastWatered DATETIME NOT NULL,
+    insideTag BOOLEAN NOT NULL,
+    todaysTasks VARCHAR(30),
+    specificPhoto VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (owner) REFERENCES user(username),
+    FOREIGN KEY (type) REFERENCES plants(name)
+);
+
+
+
 
 
 
