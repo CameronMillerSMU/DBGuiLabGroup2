@@ -53,7 +53,6 @@ CREATE TABLE flora.ownedPlants(
     FOREIGN KEY (type) REFERENCES plants(name)
 );
 
-#haven't built or posted, no internet
 CREATE TABLE flora.plantPost(
     postId int SERIAL DEFAULT VALUE,
     topic VARCHAR(30) NOT NULL,
