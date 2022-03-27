@@ -53,8 +53,46 @@ CREATE TABLE flora.ownedPlants(
     FOREIGN KEY (type) REFERENCES plants(name)
 );
 
+#haven't built or posted, no internet
+CREATE TABLE flora.plantPost(
+    postId int SERIAL DEFAULT VALUE,
+    topic VARCHAR(30) NOT NULL,
+    poster VARCHAR(30) NOT NULL,
+    title VARCHAR(30) NOT NULL,
+    text VARCHAR(144) NOT NULL,
+    privateTag BOOLEAN NOT NULL,
+    likeCounter INT NOT NULL,
+    PRIMARY KEY (postId),
+    FOREIGN KEY(poster) REFERENCES user(username),
+    FOREIGN KEY (topic) REFERENCES forum(topic)
+);
 
+CREATE TABLE flora.forum(
+    topic VARCHAR(30) NOT NULL,
+    description VARCHAR(30) NOT NULL,
+    PRIMARY KEY (topic)
+);
 
+CREATE TABLE flora.comment(
+    commentID INT SERIAL DEFAULT VALUE,
+    postId INT NOT NULL,
+    commentAuthor VARCHAR(30) NOT NULL,
+    text VARCHAR(144) NOT NULL,
+    replyTo VARCHAR(30) NOT NULL,
+    rootTag VARCHAR(30) NOT NULL,
+    privateTag BOOLEAN NOT NULL,
+    likeCounter INT NOT NULL,
+    PRIMARY KEY (commentID),
+    FOREIGN KEY (postId) REFERENCES plantPost(postId),
+    FOREIGN KEY (commentAuthor) REFERENCES user(username),
+    FOREIGN KEY (replyTo) REFERENCES user(username)
+);
 
-
-
+CREATE TABLE flora.wishTicket(
+    ticketId INT SERIAL DEFAULT VALUE,
+    user VARCHAR(30) NOT NULL,
+    plant VARCHAR(30) NOT NULL,
+    PRIMARY KEY (ticketId),
+    FOREIGN KEY (user) REFERENCES user(username),
+    FOREIGN KEY(plant) REFERENCES plants(name)
+);
