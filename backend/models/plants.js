@@ -1,12 +1,11 @@
 const knex = require('knex');
-const bcrypt = require('bcrypt');
 
 const PLANT_TABLE = 'plants';
 
 const createNewPlant = async (name, description, category, climate, imagePath) => {
 
     const query = knex(PLANT_TABLE).insert({ name, description, category, climate, imagePath });
-    console.log('Raw query for createNewUser:', query.toString());
+    console.log('Raw query for createNewPlant:', query.toString());
     const result = await query;
 
     return result;
@@ -42,4 +41,5 @@ module.exports = {
     findPlantByName,
     findPlantByCategory,
     findPlantByClimate,
+    getAllPlants
 };
