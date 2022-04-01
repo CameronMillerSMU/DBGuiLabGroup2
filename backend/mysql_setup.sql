@@ -95,3 +95,8 @@ CREATE TABLE flora.wishTicket(
     FOREIGN KEY (user) REFERENCES user(username),
     FOREIGN KEY(plant) REFERENCES plants(name)
 );
+
+INSERT INTO plants (name, description, category, climate, imagePath) VALUES
+        ('Green Seaweed', 'A seaweed', 'Marine', 'Marine', 'link');
+
+SELECT * FROM plants;
