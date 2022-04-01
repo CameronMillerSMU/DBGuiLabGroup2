@@ -1,6 +1,7 @@
 const knex = require('knex');
 
 const PLANT_TABLE = 'plants';
+const USER_TABLE = 'user';
 
 const createNewPlant = async (name, description, category, climate, imagePath) => {
 
@@ -35,6 +36,14 @@ const findPlantByClimate = async (climate) => {
     return result;
 }
 
+const createUser = async (username, password, birthday, location, background ) => {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const query = knex(USER_TABLE).insert({ username, hashedPassword, birthday, location, FALSE, FALSE, FALSE, background });
+    console.log('Raw query for createNewUser:', query.toString());
+    const result = await query;
+    return result;
+}
 
 module.exports = {
     createNewPlant,
