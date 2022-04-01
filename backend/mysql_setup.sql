@@ -1,64 +1,65 @@
--- create database db
+-- Create Database DB
 CREATE DATABASE flora;
 
--- use newly create database
+-- Use Newly Create Database
 USE flora;
 
--- create table in db
 CREATE TABLE flora.plants (
-    name VARCHAR(30) NOT NULL,
-    description VARCHAR(100),
-    category VARCHAR(30),
-    climate VARCHAR(30),
-    imagePath VARCHAR(200),
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(300),
+    category VARCHAR(100),
+    climate VARCHAR(100),
+    imagePath VARCHAR(300),
     PRIMARY KEY (name)
 );
 
-SELECT * FROM plants;
-
 CREATE TABLE flora.location(
-    cityName VARCHAR(30),
-    tempLow int,
-    tempHigh int,
+    cityName VARCHAR(100),
+    tempLow float,
+    tempHigh float,
     lastUpdate DATETIME,
-    weatherType VARCHAR(30),
-    nearestStore VARCHAR(30),
+    weatherType VARCHAR(100),
+    nearestStore VARCHAR(100),
     PRIMARY KEY (cityName)
 );
 
-SELECT * FROM location;
-
 CREATE TABLE flora.user(
-    username VARCHAR(30) NOT NULL,
-    passwordHash VARCHAR(30) NOT NULL,
-    birthday DATE NOT NULL,
-    location VARCHAR(30),
-    adminTag BOOLEAN NOT NULL,
-    registerTag BOOLEAN NOT NULL,
-    privateTag BOOLEAN NOT NULL,
-    backgroundPath VARCHAR(200),
+    username VARCHAR(100) NOT NULL,
+    passwordHash VARCHAR(100) NOT NULL,
+    birthday DATE,
+    location VARCHAR(300),
+    adminTag BOOLEAN,
+    registerTag BOOLEAN,
+    privateTag BOOLEAN,
+    backgroundPath VARCHAR(300),
     PRIMARY KEY (username));
 
 CREATE TABLE flora.ownedPlants(
     id int SERIAL DEFAULT VALUE,
-    owner VARCHAR(30) NOT NULL,
-    type VARCHAR(30) NOT NULL,
+    owner VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
     privateTag BOOLEAN NOT NULL,
-    lastWatered DATETIME NOT NULL,
+    lastWatered DATETIME NOT NULL, -- If Date 0/0/0, Never Watered
     insideTag BOOLEAN NOT NULL,
-    todaysTasks VARCHAR(30),
-    specificPhoto VARCHAR(100) NOT NULL,
+    todaysTasks VARCHAR(300),
+    specificPhoto VARCHAR(300),
     PRIMARY KEY (id),
     FOREIGN KEY (owner) REFERENCES user(username),
-    FOREIGN KEY (type) REFERENCES plants(name)
+    FOREIGN KEY (name) REFERENCES plants(name)
+);
+
+CREATE TABLE flora.forum(
+    topic VARCHAR(100) NOT NULL,
+    description VARCHAR(300) NOT NULL,
+    PRIMARY KEY (topic)
 );
 
 CREATE TABLE flora.plantPost(
-    postId int SERIAL DEFAULT VALUE,
-    topic VARCHAR(30) NOT NULL,
-    poster VARCHAR(30) NOT NULL,
-    title VARCHAR(30) NOT NULL,
-    text VARCHAR(144) NOT NULL,
+    postId INT SERIAL DEFAULT VALUE,
+    topic VARCHAR(100) NOT NULL,
+    poster VARCHAR(100) NOT NULL,
+    title VARCHAR(100) NOT NULL,
+    post VARCHAR(240) NOT NULL,
     privateTag BOOLEAN NOT NULL,
     likeCounter INT NOT NULL,
     PRIMARY KEY (postId),
@@ -66,19 +67,14 @@ CREATE TABLE flora.plantPost(
     FOREIGN KEY (topic) REFERENCES forum(topic)
 );
 
-CREATE TABLE flora.forum(
-    topic VARCHAR(30) NOT NULL,
-    description VARCHAR(30) NOT NULL,
-    PRIMARY KEY (topic)
-);
 
 CREATE TABLE flora.comment(
     commentID INT SERIAL DEFAULT VALUE,
     postId INT NOT NULL,
-    commentAuthor VARCHAR(30) NOT NULL,
-    text VARCHAR(144) NOT NULL,
-    replyTo VARCHAR(30) NOT NULL,
-    rootTag VARCHAR(30) NOT NULL,
+    commentAuthor VARCHAR(100) NOT NULL,
+    post VARCHAR(240) NOT NULL,
+    replyTo VARCHAR(100) NOT NULL,
+    rootTag VARCHAR(100) NOT NULL,
     privateTag BOOLEAN NOT NULL,
     likeCounter INT NOT NULL,
     PRIMARY KEY (commentID),
@@ -89,14 +85,9 @@ CREATE TABLE flora.comment(
 
 CREATE TABLE flora.wishTicket(
     ticketId INT SERIAL DEFAULT VALUE,
-    user VARCHAR(30) NOT NULL,
+    username VARCHAR(30) NOT NULL,
     plant VARCHAR(30) NOT NULL,
     PRIMARY KEY (ticketId),
-    FOREIGN KEY (user) REFERENCES user(username),
+    FOREIGN KEY (username) REFERENCES user(username),
     FOREIGN KEY(plant) REFERENCES plants(name)
 );
-
-INSERT INTO plants (name, description, category, climate, imagePath) VALUES
-        ('Green Seaweed', 'A seaweed', 'Marine', 'Marine', 'link');
-
-SELECT * FROM plants;

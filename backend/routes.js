@@ -43,8 +43,8 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  // POST /multplynumber
-  app.post('/multplynumber', (req, res) => {
+  // POST /createuser
+  app.post('/createuser', (req, res) => {
     console.log(req.body.product);
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
