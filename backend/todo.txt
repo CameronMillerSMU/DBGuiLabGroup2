@@ -1,0 +1,4 @@
+Finish the actual API.
+    Add in controllers.
+    Authentication stuff.
+    Claims for different users. 
