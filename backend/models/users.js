@@ -29,6 +29,18 @@ const findUserByUsername = async (username) => {
     return result;
 }
 
+const getAllUsersExcludePrivate = async () => {
+    const query = knex(USER_TABLE).where({ privateTag: 0 });
+    const result = await query;
+    return result;
+}
+
+const findUserByUsernameExcludePrivate = async (username) => {
+    const query = knex(USER_TABLE).where({ username, privateTag: 0 });
+    const result = await query;
+    return result;
+}
+
 const authenticateUser = async (username, password) => {
     const users = await findUserByUsername(username);
     console.log('Results of users query', users);
@@ -47,9 +59,10 @@ const authenticateUser = async (username, password) => {
 
 
 module.exports = {
-    getAllUsers,
     createNewUser,
+    getAllUsers,
     findUserByUsername,
+    getAllUsersExcludePrivate,
+    findUserByUsernameExcludePrivate,
     authenticateUser, 
-    getAllUsers
 };

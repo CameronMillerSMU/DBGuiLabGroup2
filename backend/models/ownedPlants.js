@@ -35,10 +35,38 @@ const findOwnedPlantById = async (id) => {
     return result;
 }
 
+const getAllOwnedPlantsExcludePrivate = async () => {
+    const query = knex(PLANT_TABLE).where({ privateTag: 0 });
+    const result = await query;
+    return result;
+}
+
+const findOwnedPlantsByOwnerExcludePrivate = async (owner) => {
+    const query = knex(PLANT_TABLE).where({ owner, privateTag: 0 });
+    const result = await query;
+    return result;
+}
+
+const findOwnedPlantByNameExcludePrivate = async (name) => {
+    const query = knex(PLANT_TABLE).where({ name, privateTag: 0 });
+    const result = await query;
+    return result;
+}
+
+const findOwnedPlantByIdExcludePrivate = async (id) => {
+    const query = knex(PLANT_TABLE).where({ id, privateTag: 0 });
+    const result = await query;
+    return result;
+}
+
 module.exports = {
     createNewOwnedPlant,
     findOwnedPlantsByOwner,
     findOwnedPlantByName,
     findOwnedPlantById,
-    getAllOwnedPlants
+    getAllOwnedPlants,
+    findOwnedPlantsByOwnerExcludePrivate,
+    findOwnedPlantByNameExcludePrivate,
+    findOwnedPlantByIdExcludePrivate,
+    getAllOwnedPlantsExcludePrivate
 };

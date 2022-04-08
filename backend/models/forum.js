@@ -17,8 +17,20 @@ const getAllForums = async () => {
     return result;
 }
 
+const getAllForumsExcludePrivate = async () => {
+    const query = knex(FORUM_TABLE).where({ privateTag: 0 });
+    const result = await query;
+    return result;
+}
+
 const findForumByTopic = async (topic) => {
     const query = knex(FORUM_TABLE).where({ topic });
+    const result = await query;
+    return result;
+}
+
+const findForumByTopicExcludePrivate = async (topic) => {
+    const query = knex(FORUM_TABLE).where({ topic, privateTag: 0 });
     const result = await query;
     return result;
 }
@@ -26,5 +38,7 @@ const findForumByTopic = async (topic) => {
 module.exports = {
     createNewForum,
     findForumByTopic,
-    getAllForums
+    getAllForums,
+    findForumByTopicExcludePrivate,
+    getAllForumsExcludePrivate
 };
