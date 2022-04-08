@@ -1,5 +1,5 @@
 const express = require('express');
-const User = require('../models/students');
+const User = require('../models/users');
 
 /**
  * https://expressjs.com/en/guide/routing.html#express-router
@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/current', async (req, res, next) => {
     try {
         const user = req.user;
-        const result = await User.findUserByEmail(user.email);
+        const result = await User.findUserByUsername(user.username);
         res.status(201).json(result);
     } catch (err) {
         console.error('Failed to load current user:', err);
@@ -24,7 +24,7 @@ router.post('/', async (req, res, next) => {
     try {
         const body = req.body;
         console.log(body);
-        const result = await req.models.user.createNewUser(body.email, body.password);
+        const result = await req.models.user.createNewUser(body.username, body.password);
         res.status(201).json(result);
     } catch (err) {
         console.error('Failed to create new user:', err);

@@ -1,10 +1,12 @@
-const knex = require('knex');
+const jwt = require('jsonwebtoken');
+const User = require('../models/users');
+const Plant = require('../models/plants');
 
-const PLANT_TABLE = 'plants';
-
+const accessTokenSecret = 'mysupercoolsecret';
 
 const createNewPlant = async (name, description, category, climate, imagePath) => {
-    const query = knex(PLANT_TABLE).insert({ name, description, category, climate, imagePath });
+
+    const query = Plant.createNewPlant(name, description, category, climate, imagePath);
     console.log('Raw query for createNewPlant:', query.toString());
     const result = await query;
 
@@ -12,29 +14,28 @@ const createNewPlant = async (name, description, category, climate, imagePath) =
 };
 
 const getAllPlants = async () => {
-    const query = knex(PLANT_TABLE);
+    const query = Plant.getAllPlants();
     const result = await query;
     return result;
 }
 
 const findPlantByName = async (name) => {
-    const query = knex(PLANT_TABLE).where({ name });
+    const query = Plant.findPlantByName(name);
     const result = await query;
     return result;
 }
 
 const findPlantByCategory = async (category) => {
-    const query = knex(PLANT_TABLE).where({ category });
+    const query = Plant.findPlantByCategory(category);
     const result = await query;
     return result;
 }
 
 const findPlantByClimate = async (climate) => {
-    const query = knex(PLANT_TABLE).where({ climate });
+    const query = Plant.findPlantByClimate(climate);
     const result = await query;
     return result;
 }
-
 
 module.exports = {
     createNewPlant,
