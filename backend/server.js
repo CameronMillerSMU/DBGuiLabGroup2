@@ -7,6 +7,10 @@ const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
 // const mysqlConnect = require('./db');
 const routes = require('./routes');
 
+const plantsRoutes = require('./routes/plants');
+const sessionRoutes = require('./routes/session');
+const usersRoutes = require('./routes/users');
+
 // set up some configs for express.
 const config = {
   name: 'sample-express-app',
@@ -29,6 +33,10 @@ app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
 //include routes
 routes(app, logger);
+
+app.use('/plants', plantsRoutes);
+app.use('/session', sessionRoutes);
+app.use('/users', usersRoutes);
 
 // connecting the express object to listen on a particular port as defined in the config object.
 app.listen(config.port, config.host, (e) => {
