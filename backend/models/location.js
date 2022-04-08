@@ -4,9 +4,8 @@ const LOCATION_TABLE = 'location';
 
 const createNewLocation = async (cityName, tempLow, tempHigh, lastUpdate, weatherType, nearestStore) => {
     const query = knex(LOCATION_TABLE).insert({ cityName, tempLow, tempHigh, lastUpdate, weatherType, nearestStore });
-    console.log('Raw query for createNewCity:', query.toString());
+    console.log('Raw query for createNewLocation:', query.toString());
     const result = await query;
-
     return result;
 };
 
@@ -30,7 +29,7 @@ const findLocationByWeather = async (weather) => {
 
 module.exports = {
     createNewLocation,
+    getAllLocations,
     findLocationByName,
     findLocationByWeather,
-    getAllLocations
 };

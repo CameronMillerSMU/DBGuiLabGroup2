@@ -64,5 +64,5 @@ module.exports = {
     findUserByUsername,
     getAllUsersExcludePrivate,
     findUserByUsernameExcludePrivate,
-    authenticateUser
+    authenticateUser, 
 };

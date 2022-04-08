@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
+import Login from './pages/Login';
+import Album from './pages/Home';
 
 // React functional component
 function App () {
@@ -68,9 +70,8 @@ function App () {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return (
-    <div className="App">
-      <header className="App-header">
+  /*
+  <header className="App-header">
         <button onClick={fetchBase} style={{marginBottom: '1rem'}}> {`GET: http://${url}:8000/`} </button>
         <button onClick={reset}> Reset DB </button>
         <form onSubmit={handleSubmit}>
@@ -82,6 +83,12 @@ function App () {
           { values.map((value, i) => <li key={i}>{value.value}</li>) }
         </ul>
       </header>
+  */
+
+  return (
+    <div className="App">
+      <Album />
+
     </div>
   );
 }
