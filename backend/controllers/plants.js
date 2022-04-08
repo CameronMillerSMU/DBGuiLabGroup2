@@ -1,8 +1,5 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/users');
 const Plant = require('../models/plants');
 
-const accessTokenSecret = 'mysupercoolsecret';
 
 const createNewPlant = async (name, description, category, climate, imagePath) => {
 

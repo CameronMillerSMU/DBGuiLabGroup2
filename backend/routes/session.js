@@ -13,7 +13,7 @@ router.post('/', async (req, res, next) => {
     try {
         const body = req.body;
         
-        const result = await UserController.authenticateStudent(body.email, body.password);
+        const result = await UserController.authenticateUser(body.email, body.password);
         res.status(201).json(result);
     } catch (err) {
         console.error('Failed to create new user:', err);
