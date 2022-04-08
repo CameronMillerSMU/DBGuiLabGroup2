@@ -8,7 +8,7 @@ router.post('/', async (req, res, next) => {
         const body = req.body;
         console.log(body);
         //name, description, category, climate, imagePath
-        const result = await req.models.user.createNewPlant(body.name, body.description, body.category, body.climate, body.imagePath);
+        const result = await PlantController.createNewPlant(body.name, body.description, body.category, body.climate, body.imagePath);
         res.status(201).json(result);
     } catch (err) {
         console.error('Failed to create new Plant:', err);

@@ -50,5 +50,6 @@ module.exports = {
     getAllUsers,
     createNewUser,
     findUserByUsername,
-    authenticateUser
+    authenticateUser, 
+    getAllUsers
 };

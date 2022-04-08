@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/users');
+const UserController = require('../controllers/users');
 
 /**
  * https://expressjs.com/en/guide/routing.html#express-router
@@ -12,7 +13,7 @@ const router = express.Router();
 router.get('/current', async (req, res, next) => {
     try {
         const user = req.user;
-        const result = await User.findUserByUsername(user.username);
+        const result = await UserController.findUserByUsername(user.username);
         res.status(201).json(result);
     } catch (err) {
         console.error('Failed to load current user:', err);
@@ -20,11 +21,23 @@ router.get('/current', async (req, res, next) => {
     }
 });
 
+router.get('/', async (req, res, next) => {
+    try {
+        const body = req.body;
+        console.log(body);
+        const result = await UserController.getAllUsers();
+        res.status(201).json(result);
+    } catch (err) {
+        console.error('Failed to get all users:', err);
+        res.status(500).json({ message: err.toString() });
+    }
+})
+
 router.post('/', async (req, res, next) => {
     try {
         const body = req.body;
         console.log(body);
-        const result = await req.models.user.createNewUser(body.username, body.password);
+        const result = await UserController.createNewUser(body.username, body.password);
         res.status(201).json(result);
     } catch (err) {
         console.error('Failed to create new user:', err);
