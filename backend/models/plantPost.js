@@ -23,13 +23,13 @@ const getAllPlantPostsExcludePrivate = async () => {
     return result;
 }
 
-const findPlantPostByPostId = async (postId, ) => {
+const findPlantPostByPostId = async (postId) => {
     const query = knex(POST_TABLE).where({ postId});
     const result = await query;
     return result;
 }
 
-const findPlantPostByPostIdExcludePrivate = async (postId, ) => {
+const findPlantPostByPostIdExcludePrivate = async (postId) => {
     const query = knex(POST_TABLE).where({ postId, privateTag: 0 });
     const result = await query;
     return result;
