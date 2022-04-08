@@ -23,12 +23,11 @@ CREATE TABLE flora.location(
     PRIMARY KEY (cityName)
 );
 
-CREATE TABLE flora.user(
+CREATE TABLE flora.users(
     username VARCHAR(100) NOT NULL,
     passwordHash VARCHAR(100) NOT NULL,
     birthday DATE,
     location VARCHAR(300),
-    adminTag BOOLEAN,
     registerTag BOOLEAN,
     privateTag BOOLEAN,
     backgroundPath VARCHAR(300),
@@ -44,7 +43,7 @@ CREATE TABLE flora.ownedPlants(
     todaysTasks VARCHAR(300),
     specificPhoto VARCHAR(300),
     PRIMARY KEY (id),
-    FOREIGN KEY (owner) REFERENCES user(username),
+    FOREIGN KEY (owner) REFERENCES users(username),
     FOREIGN KEY (name) REFERENCES plants(name)
 );
 
@@ -63,7 +62,7 @@ CREATE TABLE flora.plantPost(
     privateTag BOOLEAN NOT NULL,
     likeCounter INT NOT NULL,
     PRIMARY KEY (postId),
-    FOREIGN KEY(poster) REFERENCES user(username),
+    FOREIGN KEY(poster) REFERENCES users(username),
     FOREIGN KEY (topic) REFERENCES forum(topic)
 );
 
@@ -79,8 +78,8 @@ CREATE TABLE flora.comment(
     likeCounter INT NOT NULL,
     PRIMARY KEY (commentID),
     FOREIGN KEY (postId) REFERENCES plantPost(postId),
-    FOREIGN KEY (commentAuthor) REFERENCES user(username),
-    FOREIGN KEY (replyTo) REFERENCES user(username)
+    FOREIGN KEY (commentAuthor) REFERENCES users(username),
+    FOREIGN KEY (replyTo) REFERENCES users(username)
 );
 
 CREATE TABLE flora.wishTicket(
@@ -88,6 +87,6 @@ CREATE TABLE flora.wishTicket(
     username VARCHAR(30) NOT NULL,
     plant VARCHAR(30) NOT NULL,
     PRIMARY KEY (ticketId),
-    FOREIGN KEY (username) REFERENCES user(username),
+    FOREIGN KEY (username) REFERENCES users(username),
     FOREIGN KEY(plant) REFERENCES plants(name)
 );
