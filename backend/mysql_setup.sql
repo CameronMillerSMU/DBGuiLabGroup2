@@ -60,7 +60,6 @@ CREATE TABLE flora.plantPost(
     title VARCHAR(100) NOT NULL,
     post VARCHAR(240) NOT NULL,
     privateTag BOOLEAN NOT NULL,
-    likeCounter INT NOT NULL,
     PRIMARY KEY (postId),
     FOREIGN KEY(poster) REFERENCES users(username),
     FOREIGN KEY (topic) REFERENCES forum(topic)
@@ -68,18 +67,17 @@ CREATE TABLE flora.plantPost(
 
 
 CREATE TABLE flora.comment(
-    commentID INT SERIAL DEFAULT VALUE,
+    commentId INT SERIAL DEFAULT VALUE,
     postId INT NOT NULL,
     commentAuthor VARCHAR(100) NOT NULL,
     post VARCHAR(240) NOT NULL,
-    replyTo VARCHAR(100) NOT NULL,
+    replyTo INT,
     rootTag VARCHAR(100) NOT NULL,
     privateTag BOOLEAN NOT NULL,
-    likeCounter INT NOT NULL,
-    PRIMARY KEY (commentID),
+    PRIMARY KEY (commentId),
     FOREIGN KEY (postId) REFERENCES plantPost(postId),
     FOREIGN KEY (commentAuthor) REFERENCES users(username),
-    FOREIGN KEY (replyTo) REFERENCES users(username)
+    FOREIGN KEY (replyTo) REFERENCES comment(commentId)
 );
 
 CREATE TABLE flora.wishTicket(
@@ -89,4 +87,13 @@ CREATE TABLE flora.wishTicket(
     PRIMARY KEY (ticketId),
     FOREIGN KEY (username) REFERENCES users(username),
     FOREIGN KEY(plant) REFERENCES plants(name)
+);
+
+CREATE TABLE flora.like(
+    commentId INT,
+    postId INT,
+    user VARCHAR(100) NOT NULL,
+    FOREIGN KEY (commentId) REFERENCES comment(commentId),
+    FOREIGN KEY(postId) REFERENCES plantPost(postId),
+    FOREIGN KEY(user) REFERENCES users(username)
 );
