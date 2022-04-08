@@ -71,13 +71,13 @@ CREATE TABLE flora.comment(
     postId INT NOT NULL,
     commentAuthor VARCHAR(100) NOT NULL,
     post VARCHAR(240) NOT NULL,
-    replyTo VARCHAR(100) NOT NULL,
+    replyTo INT,
     rootTag VARCHAR(100) NOT NULL,
     privateTag BOOLEAN NOT NULL,
     PRIMARY KEY (commentId),
     FOREIGN KEY (postId) REFERENCES plantPost(postId),
     FOREIGN KEY (commentAuthor) REFERENCES users(username),
-    FOREIGN KEY (replyTo) REFERENCES users(username)
+    FOREIGN KEY (replyTo) REFERENCES comment(commentId)
 );
 
 CREATE TABLE flora.wishTicket(
