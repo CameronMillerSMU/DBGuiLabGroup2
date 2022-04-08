@@ -47,6 +47,7 @@ const authenticateUser = async (username, password) => {
 
 
 module.exports = {
+    getAllUsers,
     createNewUser,
     findUserByUsername,
     authenticateUser
