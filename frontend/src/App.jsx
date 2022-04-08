@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import axios from 'axios';
 import Login from './pages/Login';
-import Album from './pages/Home';
 
 // React functional component
 function App () {
@@ -87,8 +86,7 @@ function App () {
 
   return (
     <div className="App">
-      <Album />
-
+      <Login />
     </div>
   );
 }
