@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
+//call <Home /> once logged in or "continue without account"
+
 export default function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();

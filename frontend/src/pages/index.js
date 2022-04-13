@@ -1,9 +1,9 @@
 export * from './AdminSettings';
 export * from './Calendar';
-export { default as Collection } from './Collection';
 export * from './Forum';
-export { default as Home } from './Home';
-export { default as Login } from './Login';
+export * from './Home';
+export * from './Login';
+export * from './OwnedPlants';
 export * from './PlantPage';
 export * from './PlantPost';
 export * from './Profile';
