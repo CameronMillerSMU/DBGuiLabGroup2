@@ -3,6 +3,7 @@ import './App.css';
 import axios from 'axios';
 import Login from './pages/Login';
 import Album from './pages/Home';
+import Collection from './pages/Collection';
 
 // React functional component
 function App () {
@@ -87,7 +88,7 @@ function App () {
 
   return (
     <div className="App">
-      <Album />
+      <Collection />
 
     </div>
   );
