@@ -1,44 +1,45 @@
+// Some Other Config Statements
 require('dotenv').config()
+const cors = require('cors');
+
+// Standard Require Statements
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-const cors = require('cors');
-const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
-// const mysqlConnect = require('./db');
-const routes = require('./routes');
+const mysqlConnect = require('./db');
 
-const plantsRoutes = require('./routes/plants');
+// Actual Routes
 const sessionRoutes = require('./routes/session');
-const usersRoutes = require('./routes/users');
+// const userRoutes = require('./routes/users');
 
-// set up some configs for express.
+// Middleware Require
+const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
+
+// Express Configuration
 const config = {
-  name: 'sample-express-app',
+  name: 'plants-app',
   port: 8000,
   host: '0.0.0.0',
 };
 
-// create the express.js object
+// Create Express Object
 const app = express();
 
-// create a logger object.  Using logger is preferable to simply writing to the console.
+// Logger Object: Instead of Outputting Stuff to Console!
 const logger = log({ console: true, file: false, label: config.name });
 
-// specify middleware to use
+// Middleware Specifications
 app.use(bodyParser.json());
 app.use(cors({
   origin: '*'
 }));
 app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
-//include routes
-routes(app, logger);
+// Calls Routes (App.Use)
+sessionRoutes(app, logger);
+// userRoutes(app, logger);
 
-app.use('/plants', plantsRoutes);
-app.use('/session', sessionRoutes);
-app.use('/users', usersRoutes);
-
-// connecting the express object to listen on a particular port as defined in the config object.
+// Connecting Express To Listen To Config Port
 app.listen(config.port, config.host, (e) => {
   if (e) {
     throw new Error('Internal Server Error');
