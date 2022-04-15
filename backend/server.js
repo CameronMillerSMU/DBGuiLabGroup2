@@ -1,14 +1,12 @@
-// Some Other Config Statements
+// Some Other Config Statements (Env Stuff)
 require('dotenv').config()
-const cors = require('cors');
 
 // Standard Require Statements
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
-const mysqlConnect = require('./db');
+const cors = require('cors');
 
-// Actual Routes
+// Actual Routes /session
 const sessionRoutes = require('./routes/session');
 // const userRoutes = require('./routes/users');
 
@@ -35,14 +33,18 @@ app.use(cors({
 }));
 app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
+// Add Health Route (Testing)
+app.get('/health', (request, response, next) => {
+  const responseBody = { status: 'up', port };
+  return response.json(responseBody);
+});
+
 // Calls Routes (App.Use)
 sessionRoutes(app, logger);
 // userRoutes(app, logger);
 
 // Connecting Express To Listen To Config Port
 app.listen(config.port, config.host, (e) => {
-  if (e) {
-    throw new Error('Internal Server Error');
-  }
+  if (e) { throw new Error('Internal Server Error'); }
   logger.info(`${config.name} running on ${config.host}:${config.port}`);
 });

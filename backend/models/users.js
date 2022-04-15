@@ -10,7 +10,7 @@ const createNewUser = async (username, password) => {
     // const hashedPassword = await bcrypt.hash(password, salt);
     // console.log('Hashed password', hashedPassword);
 
-    const query = knex(USER_TABLE).insert({ username, passwordHash: password });
+    const query = knex(USER_TABLE).insert({ username, password });
     console.log('Raw query for createNewUser:', query.toString());
     const result = await query;
 

@@ -1,4 +1,6 @@
 const pool = require('../db');
+const express = require('express');
+const UserController = require('../controllers/users');
 const User = require('../models/users');
 
 module.exports = function routes(app, logger) {
