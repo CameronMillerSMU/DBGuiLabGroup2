@@ -90,9 +90,9 @@ CREATE TABLE flora.wishTicket(
 );
 
 CREATE TABLE flora.like(
-    commentId INT SERIAL DEFAULT VALUE,
+    commentId INT,
     postId INT,
-    user VARCHAR(100) NOT NULL,
+    user VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (commentId, postId, user),
     FOREIGN KEY (commentId) REFERENCES comment(commentId),
     FOREIGN KEY(postId) REFERENCES plantPost(postId),
