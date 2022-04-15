@@ -19,7 +19,8 @@ module.exports = function routes(app, logger) {
             console.log('Successfully Created New User');
             return res.status(201).json(result);
         } catch (err) {
-            return res.status(500).json({ message: 'Could Not Create New User' });
+            result = await User.getAllUsers(body.username, body.password);
+            return res.status(500).json(result);
         }
     });
 
