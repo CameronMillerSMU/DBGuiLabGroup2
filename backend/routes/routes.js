@@ -2,7 +2,8 @@ const pool = require('./db')
 const plants =  require('../routes/plants');
 
 module.exports = function routes(app, logger) {
-  // GET /
+
+  // Get Statement (TEST STATEMENT)
   app.get('/', (req, res) => {
     res.status(200).send('Go to 0.0.0.0:3000.');
   });

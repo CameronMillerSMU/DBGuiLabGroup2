@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 
-// mysql connection
+// MySQL Connection ()
 var pool = mysql.createPool({
   host: process.env.MYSQL_CLOUD_HOST,
   user: process.env.MYSQL_CLOUD_USER,
