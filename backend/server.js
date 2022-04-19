@@ -34,9 +34,9 @@ app.use(cors({
 app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
 // Add Health Route (Testing)
-app.get('/health', (request, response, next) => {
-  const responseBody = { status: 'up', port };
-  return response.json(responseBody);
+app.get('/health', (req, res) => {
+  const body = { status: 'up', config };
+  return res.json(body);
 });
 
 // Calls Routes (App.Use)
