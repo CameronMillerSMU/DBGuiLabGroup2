@@ -7,8 +7,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // Actual Routes /session
-const sessionRoutes = require('./routes/session');
-const userRoutes = require('./routes/users');
+const usersRoutes = require('./routes/users');
 const plantsRoutes = require('./routes/plants');
 
 // Middleware Require
@@ -41,8 +40,7 @@ app.get('/health', (req, res) => {
 });
 
 // Calls Routes (App.Use)
-sessionRoutes(app, logger);
-userRoutes(app, logger);
+usersRoutes(app, logger);
 plantsRoutes(app, logger);
 
 // Connecting Express To Listen To Config Port

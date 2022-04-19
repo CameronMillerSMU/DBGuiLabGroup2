@@ -28,6 +28,7 @@ CREATE TABLE flora.users (
     location VARCHAR(300),
     registerTag BOOLEAN,
     privateTag BOOLEAN,
+    imagePath VARCHAR(500),
     backgroundPath VARCHAR(300)
 );
 
