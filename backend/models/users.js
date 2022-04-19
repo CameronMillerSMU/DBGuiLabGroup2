@@ -1,5 +1,5 @@
 const knex = require('../database/knex');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const USER_TABLE = 'flora.users';
 
@@ -10,7 +10,7 @@ const createNewUser = async (username, password) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     console.log('Hashed password', hashedPassword);
 
-    const query = knex(USER_TABLE).insert({ username, password });
+    const query = knex(USER_TABLE).insert({ username, password: hashedPassword });
     console.log('Raw query for createNewUser:', query.toString());
     const result = await query;
 
