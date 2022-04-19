@@ -1,30 +1,47 @@
 const knex = require('../database/knex');
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const USER_TABLE = 'flora.users';
 
+// Create User, Do Checks
 const createNewUser = async (username, password) => {
-    // console.log('Raw password:', password);
-    // const salt = await bcrypt.genSalt(10);
-    // console.log('Password salt', salt);
-    // const hashedPassword = await bcrypt.hash(password, salt);
-    // console.log('Hashed password', hashedPassword);
+    
+    // Need Username
+    if (!username) {
+        return {
+            success: false,
+            message: 'Username Required'
+        }
+    }
 
-    const query = knex(USER_TABLE).insert({ username, password });
-    console.log('Raw query for createNewUser:', query.toString());
+    // Need Password
+    if (!password) {
+        return {
+            success: false,
+            message: 'Password Required'
+        }
+    }
+
+    // Hash Password with Bcrypt
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const query = knex(USER_TABLE).insert({ username, password: hashedPassword });
+    result = await query;
+    result['success'] = true;
+    return result;
+
+};
+
+// Find Specified User
+const findByUserName = async (username) => {
+    const query = knex(USER_TABLE).where({ username });
     const result = await query;
-
     return result;
 };
 
 const getAllUsers = async () => {
     const query = knex(USER_TABLE);
-    const result = await query;
-    return result;
-};
-
-const findUserByUsername = async (username) => {
-    const query = knex(USER_TABLE).where({ username });
     const result = await query;
     return result;
 };
@@ -83,8 +100,8 @@ const deleteUser = async (username) => {
 
 module.exports = {
     createNewUser,
+    findByUserName,
     getAllUsers,
-    findUserByUsername,
     getAllUsersExcludePrivate,
     findUserByUsernameExcludePrivate,
     authenticateUser,
