@@ -7,21 +7,21 @@ module.exports = function routes(app, logger) {
 
     // Get Statement (TEST STATEMENT)
     app.get('/', (req, res) => {
-        res.status(200).send('Go to 0.0.0.0:3000.');
+      res.status(200).send('Go to 0.0.0.0:3000.');
     });
 
     // Post NewUser -> JSON Object To New User
     app.post('/newuser', async (req, res) => {
+      try {
         const body = req.body;
-        try {
-            console.log('Attempting To Create New User');
-            result = await User.createNewUser(body.username, body.password);
-            console.log('Successfully Created New User');
-            return res.status(201).json(result);
-        } catch (err) {
-            result = await User.getAllUsers(body.username, body.password);
-            return res.status(500).json(result);
-        }
+        result = await User.createNewUser(body.username, body.password);
+        if (result.success) {
+          result = await User.findByUserName(body.username);
+          return res.status(201).json(result[0]); } 
+        else { return res.status(400).json(result); }
+      } catch (err) {
+        return res.status(400).json({ message: 'Duplicate Entry' });
+      }
     });
 
     // // Post Token ->
