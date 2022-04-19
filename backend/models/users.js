@@ -21,25 +21,25 @@ const getAllUsers = async () => {
     const query = knex(USER_TABLE);
     const result = await query;
     return result;
-}
+};
 
 const findUserByUsername = async (username) => {
     const query = knex(USER_TABLE).where({ username });
     const result = await query;
     return result;
-}
+};
 
 const getAllUsersExcludePrivate = async () => {
     const query = knex(USER_TABLE).where({ privateTag: 0 });
     const result = await query;
     return result;
-}
+};
 
 const findUserByUsernameExcludePrivate = async (username) => {
     const query = knex(USER_TABLE).where({ username, privateTag: 0 });
     const result = await query;
     return result;
-}
+};
 
 const authenticateUser = async (username, password) => {
     const users = await findUserByUsername(username);
@@ -55,8 +55,31 @@ const authenticateUser = async (username, password) => {
         return user;
     }
     return null;
-}
+};
 
+const updateUserPassword = async (username, new_password) => {
+    console.log('Raw password:', new_password);
+    const salt = await bcrypt.genSalt(10);
+    console.log('Password salt', salt);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
+    console.log('Hashed password', hashedPassword);
+    
+    const query = knex('users').where({username}).update({password: hashedpassword});
+    const result = await query;
+    return result;
+};
+
+const updateUserUsername = async (username, new_username) => {
+    const query = knex('users').where({username}).update({username: new_username});
+    const result = await query;
+    return result;
+};
+
+const deleteUser = async (username) => {
+    const query = knex('users').where({username}).del();
+    const result = await query;
+    return result;
+};
 
 module.exports = {
     createNewUser,
@@ -64,5 +87,8 @@ module.exports = {
     findUserByUsername,
     getAllUsersExcludePrivate,
     findUserByUsernameExcludePrivate,
-    authenticateUser, 
+    authenticateUser,
+    updateUserPassword,
+    updateUserUsername,
+    deleteUser
 };

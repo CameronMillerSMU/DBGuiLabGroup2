@@ -1,4 +1,5 @@
-const pool = require('../db')
+const pool = require('./db')
+const plants =  require('../routes/plants');
 
 module.exports = function routes(app, logger) {
 
