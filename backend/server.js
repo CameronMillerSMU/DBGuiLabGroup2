@@ -42,6 +42,7 @@ app.get('/health', (req, res) => {
 
 // Calls Routes (App.Use)
 sessionRoutes(app, logger);
+userRoutes(app, logger);
 plantsRoutes(app, logger);
 
 // Connecting Express To Listen To Config Port
