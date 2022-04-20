@@ -9,6 +9,10 @@ export class ApiCalls {
     }
 
     signup(user) {
-        return axios.post(`${this.url}/users`, user);
+        return axios.post(`${this.url}/register`, user);
+    }
+
+    session(user) {
+        return axios.get(`${this.url}/session`, user);
     }
 }
