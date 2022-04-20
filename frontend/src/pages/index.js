@@ -3,7 +3,6 @@ export * from './Calendar';
 export * from './Forum';
 export * from './Home';
 export * from './Login';
-export * from './OwnedPlants';
 export * from './PlantPage';
 export * from './PlantPost';
 export * from './Profile';

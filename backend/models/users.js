@@ -1,53 +1,47 @@
 const knex = require('../database/knex');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
-const USER_TABLE = 'users';
+const USER_TABLE = 'flora.users';
 
-const createNewUser = async (username, password, birthday, location, privateTag, backgroundPath) => {
-    console.log('Raw password:', password);
+// Create
+
+// Create User, Do Checks
+const createNewUser = async (username, password) => {
+    
+    // Need Username
+    if (!username) {
+        return {
+            success: false,
+            message: 'Username Required'
+        }
+    }
+
+    // Need Password
+    if (!password) {
+        return {
+            success: false,
+            message: 'Password Required'
+        }
+    }
+
+    // Hash Password with Bcrypt
     const salt = await bcrypt.genSalt(10);
-    console.log('Password salt', salt);
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log('Hashed password', hashedPassword);
 
-    const query = knex(USER_TABLE).insert({ username, password: hashedPassword, birthday, location, privateTag, backgroundPath});
-    console.log('Raw query for createNewUser:', query.toString());
-    const result = await query;
-
+    const query = knex(USER_TABLE).insert({ username, password: hashedPassword });
+    result = await query;
+    result['success'] = true;
     return result;
+
 };
 
-const getAllUsers = async () => {
-    const query = knex(USER_TABLE);
-    const result = await query;
-    return result;
-}
+// Requests
 
-const findUserByUsername = async (username) => {
-    const query = knex(USER_TABLE).where({ username });
-    const result = await query;
-    return result;
-}
-
-const getAllUsersExcludePrivate = async () => {
-    const query = knex(USER_TABLE).where({ privateTag: 0 });
-    const result = await query;
-    return result;
-}
-
-const findUserByUsernameExcludePrivate = async (username) => {
-    const query = knex(USER_TABLE).where({ username, privateTag: 0 });
-    const result = await query;
-    return result;
-}
-
+// Authenticate User
 const authenticateUser = async (username, password) => {
-    const users = await findUserByUsername(username);
-    console.log('Results of users query', users);
+    const users = await findByUserName(username);
     if (users.length === 0) {
-        console.error(`No users matched the username: ${username}`);
-        return null;
-    }
+        return null; }
     const user = users[0];
     const validPassword = await bcrypt.compare(password, user.password);
     if (validPassword) {
@@ -55,14 +49,99 @@ const authenticateUser = async (username, password) => {
         return user;
     }
     return null;
-}
+};
 
+// Find All Users 
+const getUsers = async () => {
+    const query = knex(USER_TABLE);
+    const result = await query;
+    return result;
+};
+
+// Find All Unprivated Users 
+const getUsersNonPrivate = async () => {
+    const query = knex(USER_TABLE).where({ privateTag: 0 });
+    const result = await query;
+    return result;
+};
+
+// Find All Registered Users
+const getUsersRegistered = async () => {
+    const query = knex(USER_TABLE).where({ registerTag: 1 });
+    const result = await query;
+    return result;
+};
+
+// Find Specified User
+const findByUserName = async (username) => {
+    const query = knex(USER_TABLE).where({ username });
+    const result = await query;
+    return result;
+};
+
+// Updates
+
+// Update Username
+const updateUserName = async (username, new_username) => {
+    const query = knex(USER_TABLE).where({username}).update({username: new_username});
+    const result = await query;
+    return result;
+};
+
+// Update Password
+const updatePassword = async (username, new_password) => {
+    
+    // Need Username
+    if (!username) {
+        return {
+            success: false,
+            message: 'Username Required'
+        }
+    }
+
+    // Need Password
+    if (!new_password) {
+        return {
+            success: false,
+            message: 'Password Required'
+        }
+    }
+
+    // Hash Password with Bcrypt
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
+
+    const query = knex(USER_TABLE).where({username}).update({password: hashedPassword});
+    result = await query;
+    result['success'] = true;
+    return result;
+    
+};
+
+// Update Picture
+const updatePicture = async (username, new_picture) => {
+    const query = knex(USER_TABLE).where({username}).update({imagePath: new_picture});
+    const result = await query;
+    return result;
+};
+
+// Delete
+
+// Delete User With Username
+const deleteUserName = async (username) => {
+    const query = knex(USER_TABLE).where({username}).del();
+    const result = await query;
+    return result;
+};
 
 module.exports = {
     createNewUser,
-    getAllUsers,
-    findUserByUsername,
-    getAllUsersExcludePrivate,
-    findUserByUsernameExcludePrivate,
-    authenticateUser, 
+    authenticateUser,
+    findByUserName,
+    getUsers,
+    getUsersNonPrivate,
+    updatePassword,
+    updateUserName,
+    updatePicture,
+    deleteUserName
 };

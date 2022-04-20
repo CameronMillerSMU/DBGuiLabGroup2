@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "knex": "^1.0.4",
-    "node.js": "^0.0.1-security"
-  }
-}

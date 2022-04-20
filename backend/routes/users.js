@@ -1,26 +1,62 @@
+const pool = require('../db');
 const express = require('express');
+
 const UserController = require('../controllers/users');
+const User = require('../models/users');
 
-/**
- * https://expressjs.com/en/guide/routing.html#express-router
- * 
- * A router is a special Express object that can be used to define how to route and manage
- * requests. We configure a router here to handle a few routes specific to students
- */
-const router = express.Router();
+const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth');
 
-router.get('/current', async (req, res, next) => {
+module.exports = function routes(app, logger) {
+
+  // Get Statement (TEST STATEMENT)
+  app.get('/', (req, res) => {
+    res.status(200).send('Go to 0.0.0.0:3000.');
+  });
+
+  // User Login Process:
+
+  // Post NewUser -> JSON Object To New User
+  app.post('/register', async (req, res) => {
     try {
-        const user = req.user;
-        const result = await UserController.findUserByUsername(user.username);
-        res.status(201).json(result);
+      const body = req.body;
+      result = await User.createNewUser(body.username, body.password);
+      if (result.success) {
+        result = await User.findByUserName(body.username);
+        return res.status(201).json(result[0]); } 
+      else { return res.status(400).json(result); }
     } catch (err) {
-        console.error('Failed to load current user:', err);
-        res.sendStatus(500).json({ message: err.toString() });
+      return res.status(400).json({ message: 'Duplicate Entry' });
     }
-});
+  });
 
-router.get('/', async (req, res, next) => {
+  // Post Token -> JSON Object To New User (Login)
+  app.post('/login', async (req, res) => {
+    try {
+      const body = req.body;
+      const result = await UserController.authenticateUser(body.username, body.password);
+      if (result == null) {
+        return res.status(401).json({ message: 'Body Does Not Match Existing Credentials' }); }
+      return res.status(201).json(result);
+    } catch (err) {
+      return res.status(401).json({ message: 'Body Does Not Match Existing Credentials' });
+    }
+  });
+
+  // If Token, Get Username (User = Token) (Get Login)
+  app.get('/session', authenticateJWT, async (req, res)  => {
+    try {
+      const user = req.user;
+      const result = await User.findByUserName(user.username);
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(401).json({ message: 'Bad Token' });
+    }
+  });
+
+  // Standard Get Users
+
+  //
+  router.get('/', async (req, res, next) => {
     try {
         const body = req.body;
         console.log(body);
@@ -30,21 +66,23 @@ router.get('/', async (req, res, next) => {
         console.error('Failed to get all users:', err);
         res.status(500).json({ message: err.toString() });
     }
-})
+  });
 
-router.post('/', async (req, res, next) => {
-    try {
-        const body = req.body;
-        console.log(body);
-        const result = await UserController.createNewUser(body.username, body.password);
-        res.status(201).json(result);
-    } catch (err) {
-        console.error('Failed to create new user:', err);
-        res.status(500).json({ message: err.toString() });
-    }
+}
 
-    next();
-})
 
-module.exports = router;
+// router.post('/', async (req, res, next) => {
+//     try {
+//         const body = req.body;
+//         console.log(body);
+//         const result = await UserController.createNewUser(body.username, body.password);
+//         res.status(201).json(result);
+//     } catch (err) {
+//         console.error('Failed to create new user:', err);
+//         res.status(500).json({ message: err.toString() });
+//     }
 
+//     next();
+// })
+
+// module.exports = router;

@@ -1,47 +1,50 @@
+// Some Other Config Statements (Env Stuff)
 require('dotenv').config()
+
+// Standard Require Statements
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
 const cors = require('cors');
-const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
-// const mysqlConnect = require('./db');
-const routes = require('./routes');
 
-const plantsRoutes = require('./routes/plants');
-const sessionRoutes = require('./routes/session');
+// Actual Routes /session
 const usersRoutes = require('./routes/users');
+const plantsRoutes = require('./routes/plants');
 
-// set up some configs for express.
+// Middleware Require
+const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
+
+// Express Configuration
 const config = {
-  name: 'sample-express-app',
+  name: 'plants-app',
   port: 8000,
   host: '0.0.0.0',
 };
 
-// create the express.js object
+// Create Express Object
 const app = express();
 
-// create a logger object.  Using logger is preferable to simply writing to the console.
+// Logger Object: Instead of Outputting Stuff to Console!
 const logger = log({ console: true, file: false, label: config.name });
 
-// specify middleware to use
+// Middleware Specifications
 app.use(bodyParser.json());
 app.use(cors({
   origin: '*'
 }));
 app.use(ExpressAPILogMiddleware(logger, { request: true }));
 
-//include routes
-routes(app, logger);
+// Add Health Route (Testing)
+app.get('/health', (req, res) => {
+  const body = { status: 'up', config };
+  return res.json(body);
+});
 
-app.use('/plants', plantsRoutes);
-app.use('/session', sessionRoutes);
-app.use('/users', usersRoutes);
+// Calls Routes (App.Use)
+usersRoutes(app, logger);
+plantsRoutes(app, logger);
 
-// connecting the express object to listen on a particular port as defined in the config object.
+// Connecting Express To Listen To Config Port
 app.listen(config.port, config.host, (e) => {
-  if (e) {
-    throw new Error('Internal Server Error');
-  }
+  if (e) { throw new Error('Internal Server Error'); }
   logger.info(`${config.name} running on ${config.host}:${config.port}`);
 });
