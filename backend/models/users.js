@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 
 const USER_TABLE = 'flora.users';
 
+// Create
+
 // Create User, Do Checks
 const createNewUser = async (username, password) => {
     
@@ -33,18 +35,20 @@ const createNewUser = async (username, password) => {
 
 };
 
-// Find Specified User
-const findByUserName = async (username) => {
-    const query = knex(USER_TABLE).where({ username });
-    const result = await query;
-    return result;
-};
+// Requests
 
-// Find Unprivated Specified User 
-const findByUserNameNonPrivate = async (username) => {
-    const query = knex(USER_TABLE).where({ username, privateTag: 0 });
-    const result = await query;
-    return result;
+// Authenticate User
+const authenticateUser = async (username, password) => {
+    const users = await findByUserName(username);
+    if (users.length === 0) {
+        return null; }
+    const user = users[0];
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (validPassword) {
+        delete user.password;
+        return user;
+    }
+    return null;
 };
 
 // Find All Users 
@@ -61,18 +65,27 @@ const getUsersNonPrivate = async () => {
     return result;
 };
 
-// Authenticate User
-const authenticateUser = async (username, password) => {
-    const users = await findByUserName(username);
-    if (users.length === 0) {
-        return null; }
-    const user = users[0];
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (validPassword) {
-        delete user.password;
-        return user;
-    }
-    return null;
+// Find All Registered Users
+const getUsersRegistered = async () => {
+    const query = knex(USER_TABLE).where({ registerTag: 1 });
+    const result = await query;
+    return result;
+};
+
+// Find Specified User
+const findByUserName = async (username) => {
+    const query = knex(USER_TABLE).where({ username });
+    const result = await query;
+    return result;
+};
+
+// Updates
+
+// Update Username
+const updateUserName = async (username, new_username) => {
+    const query = knex(USER_TABLE).where({username}).update({username: new_username});
+    const result = await query;
+    return result;
 };
 
 // Update Password
@@ -105,12 +118,14 @@ const updatePassword = async (username, new_password) => {
     
 };
 
-// Update Username
-const updateUserName = async (username, new_username) => {
-    const query = knex(USER_TABLE).where({username}).update({username: new_username});
+// Update Picture
+const updatePicture = async (username, new_picture) => {
+    const query = knex(USER_TABLE).where({username}).update({imagePath: new_picture});
     const result = await query;
     return result;
 };
+
+// Delete
 
 // Delete User With Username
 const deleteUserName = async (username) => {
@@ -121,12 +136,12 @@ const deleteUserName = async (username) => {
 
 module.exports = {
     createNewUser,
+    authenticateUser,
     findByUserName,
-    findByUserNameNonPrivate,
     getUsers,
     getUsersNonPrivate,
-    authenticateUser,
     updatePassword,
     updateUserName,
+    updatePicture,
     deleteUserName
 };
