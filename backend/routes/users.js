@@ -13,8 +13,10 @@ module.exports = function routes(app, logger) {
     res.status(200).send('Go to 0.0.0.0:3000.');
   });
 
+  // User Login Process:
+
   // Post NewUser -> JSON Object To New User
-  app.post('/newuser', async (req, res) => {
+  app.post('/register', async (req, res) => {
     try {
       const body = req.body;
       result = await User.createNewUser(body.username, body.password);
@@ -27,8 +29,8 @@ module.exports = function routes(app, logger) {
     }
   });
 
-  // Post Token -> JSON Object To New User
-  app.post('/token', async (req, res) => {
+  // Post Token -> JSON Object To New User (Login)
+  app.post('/login', async (req, res) => {
     try {
       const body = req.body;
       const result = await UserController.authenticateUser(body.username, body.password);
@@ -40,7 +42,7 @@ module.exports = function routes(app, logger) {
     }
   });
 
-  // If Token, Get Username (User = Token)
+  // If Token, Get Username (User = Token) (Get Login)
   app.get('/session', authenticateJWT, async (req, res)  => {
     try {
       const user = req.user;
@@ -49,31 +51,25 @@ module.exports = function routes(app, logger) {
     } catch (err) {
       return res.status(401).json({ message: 'Bad Token' });
     }
-  })
+  });
+
+  // Standard Get Users
+
+  //
+  router.get('/', async (req, res, next) => {
+    try {
+        const body = req.body;
+        console.log(body);
+        const result = await UserController.getAllUsers();
+        res.status(201).json(result);
+    } catch (err) {
+        console.error('Failed to get all users:', err);
+        res.status(500).json({ message: err.toString() });
+    }
+  });
+
 }
 
-// router.get('/current', async (req, res, next) => {
-//     try {
-//         const user = req.user;
-//         const result = await UserController.findUserByUsername(user.username);
-//         res.status(201).json(result);
-//     } catch (err) {
-//         console.error('Failed to load current user:', err);
-//         res.sendStatus(500).json({ message: err.toString() });
-//     }
-// });
-
-// router.get('/', async (req, res, next) => {
-//     try {
-//         const body = req.body;
-//         console.log(body);
-//         const result = await UserController.getAllUsers();
-//         res.status(201).json(result);
-//     } catch (err) {
-//         console.error('Failed to get all users:', err);
-//         res.status(500).json({ message: err.toString() });
-//     }
-// })
 
 // router.post('/', async (req, res, next) => {
 //     try {
