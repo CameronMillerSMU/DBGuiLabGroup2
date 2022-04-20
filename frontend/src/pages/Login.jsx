@@ -12,15 +12,35 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useState } from 'react';
+import { useDebugValue } from 'react';
+import { User } from '../common/User';
 
 const theme = createTheme();
 
-export default function Login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+export const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [validated, setValidated] = useState(false);
+
+
+  const handleSubmit = (e) => {
+    const form = e.currentTarget;
+    if(form.checkValidity() === false) {
+      e.stopPropagation();
+      setValidated(true);
+    }
+    else {
+      let newUser = new User(username, password);
+      
+
+
+    }
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
     console.log({
-      email: data.get('email'),
+      username: data.get('username'),
       password: data.get('password'),
     });
   };
@@ -48,11 +68,12 @@ export default function Login() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="username"
+              name="username"
+              autoComplete="username"
               autoFocus
+              onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -63,10 +84,7 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Button
               type="submit"
