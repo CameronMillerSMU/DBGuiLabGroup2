@@ -28,7 +28,7 @@ const createNewUser = async (username, password) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const query = knex(USER_TABLE).insert({ username, password: hashedPassword });
+    const query = knex(USER_TABLE).insert({ username, password: hashedPassword, registerTag: false, privateTag: false });
     result = await query;
     result['success'] = true;
     return result;
@@ -118,9 +118,44 @@ const updatePassword = async (username, new_password) => {
     
 };
 
+// Update Birthday
+const updateBirthday = async (username, new_birthday) => {
+    const query = knex(USER_TABLE).where({username}).update({birthday: new_birthday});
+    const result = await query;
+    return result;
+};
+
+// Update Location
+const updateLocation = async (username, new_location) => {
+    const query = knex(USER_TABLE).where({username}).update({location: new_location});
+    const result = await query;
+    return result;
+};
+
+// Update Registration
+const updateRegistration = async (username, new_registration) => {
+    const query = knex(USER_TABLE).where({username}).update({registerTag: new_registration});
+    const result = await query;
+    return result;
+};
+
+// Update Privacy
+const updatePrivacy = async (username, new_privacy) => {
+    const query = knex(USER_TABLE).where({username}).update({privateTag: new_privacy});
+    const result = await query;
+    return result;
+};
+
 // Update Picture
 const updatePicture = async (username, new_picture) => {
     const query = knex(USER_TABLE).where({username}).update({imagePath: new_picture});
+    const result = await query;
+    return result;
+};
+
+// Update Background
+const updateBackground = async (username, new_background) => {
+    const query = knex(USER_TABLE).where({username}).update({backgroundPath: new_background});
     const result = await query;
     return result;
 };
