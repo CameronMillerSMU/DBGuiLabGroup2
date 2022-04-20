@@ -1,4 +1,3 @@
-const pool = require('../db');
 const express = require('express');
 
 const UserController = require('../controllers/users');
