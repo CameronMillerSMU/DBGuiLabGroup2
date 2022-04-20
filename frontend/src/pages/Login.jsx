@@ -15,10 +15,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { useDebugValue } from 'react';
 import { User } from '../common/User';
+import { ApiCalls } from '../common/ApiCalls';
+import { Navigate } from 'react-router-dom';
 
 const theme = createTheme();
 
-export const Login = () => {
+export const Login = (props) => {
+  const api = new ApiCalls();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,22 +31,24 @@ export const Login = () => {
 
   const handleSubmit = (e) => {
     const form = e.currentTarget;
+    e.preventDefault();
     if(form.checkValidity() === false) {
       e.stopPropagation();
       setValidated(true);
     }
     else {
       let newUser = new User(username, password);
-      
-
+      api.login(newUser).then(res => {
+        props.setToken(res.data.data.jwt);
+        localStorage.setItem('token', res.data.data.jwt);
+        Navigate("/home"); //takes to homepage once logged in
+      }).catch(err =>{
+        console.log(err);
+        alert(err);
+      })
 
     }
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-    });
+
   };
 
   return (
@@ -96,12 +102,12 @@ export const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
+                <Link to="/home" variant="body2">
+                  Continue without logging in
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

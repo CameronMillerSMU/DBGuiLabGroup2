@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { Routes } from 'react-router';
 import './App.css';
 import axios from 'axios';
 import { Login } from './pages';
@@ -16,9 +18,14 @@ function App () {
     setUpdateToken(token);
   }, [token]);
 
+  //missing update to header file surrounding routes
   return (
     <div className="App">
-      <Login />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login setToken={setToken}/>} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
