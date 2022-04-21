@@ -35,11 +35,24 @@ const findPlantByClimate = async (climate) => {
     return result;
 };
 
+const updateDescription = async (name, new_description) => {
+    const query = knex(PLANT_TABLE).where({name}).update({description: new_description});
+    const result = await query;
+    return result;
+};
+
+const deletePlant = async (name) => {
+    const query = knex(PLANT_TABLE).where({name}).del();
+    const result = await query;
+    return result;
+};
 
 module.exports = {
     createNewPlant,
     findPlantByName,
     findPlantByCategory,
     findPlantByClimate,
-    getAllPlants
+    getAllPlants,
+    updateDescription,
+    deletePlant
 };
