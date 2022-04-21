@@ -5,7 +5,7 @@ import './App.css';
 import axios from 'axios';
 import Album from './pages/Home';
 import OwnedPlants from './pages/OwnedPlants';
-import Home from './pages/Home';
+import { Home } from './pages/Home';
 import { Login } from './pages';
 
 // React functional component
