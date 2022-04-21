@@ -33,17 +33,19 @@ function Copyright() {
 
 const theme = createTheme();
 
+//The cards are just plant pictures don't need ot be interactive
 
 export const Home = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
+      
       <main>
         {/* Hero unit */}
         <Box
           sx={{
-            bgcolor: 'background.paper',
+            bgcolor: 'background.paper', //how to set background as image?
             pt: 8,
             pb: 6,
           }}
@@ -88,8 +90,8 @@ export const Home = (props) => {
                       // 16:9
                       pt: '56.25%',
                     }}
-                    image="https://source.unsplash.com/random"
-                    alt="random"
+                    image="plant1.jpg"
+                    alt="plant"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
@@ -116,8 +118,8 @@ export const Home = (props) => {
                       // 16:9
                       pt: '56.25%',
                     }}
-                    image="https://source.unsplash.com/random"
-                    alt="random"
+                    image="plant2.jpg"
+                    alt="plant2"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
@@ -144,8 +146,8 @@ export const Home = (props) => {
                       // 16:9
                       pt: '56.25%',
                     }}
-                    image="https://source.unsplash.com/random"
-                    alt="random"
+                    image="plant3.jpg"
+                    alt="plant3"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
