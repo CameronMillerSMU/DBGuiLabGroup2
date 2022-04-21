@@ -55,16 +55,13 @@ module.exports = function routes(app, logger) {
 
   // Standard Get Users
 
-  //
-  router.get('/', async (req, res, next) => {
+  // Get All Users
+  app.get('/users', authenticateJWT, async (req, res) => {
     try {
-        const body = req.body;
-        console.log(body);
-        const result = await UserController.getAllUsers();
+        const result = await User.getUsers();
         res.status(201).json(result);
     } catch (err) {
-        console.error('Failed to get all users:', err);
-        res.status(500).json({ message: err.toString() });
+        res.status(401).json({ message: 'Could Not Query Users' });
     }
   });
 
