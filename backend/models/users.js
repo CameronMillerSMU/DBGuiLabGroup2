@@ -172,9 +172,10 @@ const deleteUserName = async (username) => {
 module.exports = {
     createNewUser,
     authenticateUser,
-    findByUserName,
     getUsers,
     getUsersNonPrivate,
+    getUsersRegistered,
+    findByUserName,
     updatePassword,
     updateUserName,
     updatePicture,

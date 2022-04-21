@@ -65,21 +65,35 @@ module.exports = function routes(app, logger) {
     }
   });
 
+   // Find All Unprivated Users 
+   app.get('/pusers', authenticateJWT, async (req, res) => {
+    try {
+        const result = await User.getUsersNonPrivate();
+        res.status(201).json(result);
+    } catch (err) {
+        res.status(401).json({ message: 'Could Not Query Users' });
+    }
+  });
+
+  // Find All Registered Users
+  app.get('/rusers', authenticateJWT, async (req, res) => {
+    try {
+        const result = await User.getUsersRegistered();
+        res.status(201).json(result);
+    } catch (err) {
+        res.status(401).json({ message: 'Could Not Query Users' });
+    }
+  });
+
+  // Find Specified User
+  app.get('/user', authenticateJWT, async (req, res) => {
+    try {
+        const body = req.body;
+        result = await User.findByUserName(body.username);
+        res.status(201).json(result[0]);
+    } catch (err) {
+        res.status(401).json({ message: 'Could Not Find User' });
+    }
+  });
+
 }
-
-
-// router.post('/', async (req, res, next) => {
-//     try {
-//         const body = req.body;
-//         console.log(body);
-//         const result = await UserController.createNewUser(body.username, body.password);
-//         res.status(201).json(result);
-//     } catch (err) {
-//         console.error('Failed to create new user:', err);
-//         res.status(500).json({ message: err.toString() });
-//     }
-
-//     next();
-// })
-
-// module.exports = router;
