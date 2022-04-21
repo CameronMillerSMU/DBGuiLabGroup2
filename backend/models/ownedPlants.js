@@ -66,7 +66,13 @@ const updateName = async (id, new_name) => {
 };
 
 const updatePrivacy = async (id, new_privacy) => {
-    const query = knex(PLANT_TABLE).where({id}).update({private: new_privacy});
+    const query = knex(PLANT_TABLE).where({id}).update({privateTag: new_privacy});
+    const result = await query;
+    return result;
+};
+
+const updateInside = async (id, new_inside) => {
+    const query = knex(PLANT_TABLE).where({id}).update({insideTag: new_inside});
     const result = await query;
     return result;
 };
@@ -107,6 +113,7 @@ module.exports = {
     getAllOwnedPlantsExcludePrivate,
     updateName,
     updatePrivacy,
+    updateInside,
     updateLastWatered,
     updateCurrentTasks,
     updateSpecificPhoto,
