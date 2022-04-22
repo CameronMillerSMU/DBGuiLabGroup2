@@ -3,11 +3,9 @@ const knex = require('knex');
 const PLANT_TABLE = 'ownedPlants';
 
 const createNewOwnedPlant = async (owner, name, privateTag, insideTag) => {
-
     const query = knex(PLANT_TABLE).insert({ owner, name, privateTag, insideTag});
     console.log('Raw query for createNewOwnedPlant:', query.toString());
     const result = await query;
-
     return result;
 };
 
