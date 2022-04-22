@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ApiCalls } from '../common';
+import { ApiCalls } from '../common/ApiCalls';
 import { useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { BrowserRouter, Route } from 'react-router-dom';
@@ -57,7 +57,7 @@ export const SignUp = (props) => {
           navigate("/");
           console.log(res.data.data.jwt);
       }).catch(err => {
-          console.log(err.data.data)
+          console.log(err.data.data);
           alert(err.data.data);
       });
     }
