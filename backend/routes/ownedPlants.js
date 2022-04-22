@@ -10,6 +10,7 @@ const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth'
 module.exports = function routes(app, logger){
     app.get('/allOwned', authenticateJWT, async (req, res) => {
         try {
+            console.log("ERROR 1");
             const result = await ownedPlantController.getAllOwnedPlants();
             res.status(200).json(result);
           } catch (err) {
@@ -21,8 +22,9 @@ module.exports = function routes(app, logger){
         const body = req.body;
         try {
             const result = await ownedPlantController.createNewOwnedPlant(body.owner, body.name, body.privateTag, body.insideTag);
-                return res.status(201).json(result); 
+            return res.status(200).json(result); 
             } catch (err) {
+                console.log("ERROR HERE IDIOT: " + err);
               return res.status(401).json({ message: "Failed to make a new owned plant." });
             }
         

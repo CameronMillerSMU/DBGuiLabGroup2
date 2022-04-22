@@ -1,17 +1,21 @@
-const knex = require('knex');
+const knex = require('../database/knex');
 
 const PLANT_TABLE = 'ownedPlants';
 
 const createNewOwnedPlant = async (owner, name, privateTag, insideTag) => {
-    const query = knex(PLANT_TABLE).insert({ owner, name, privateTag, insideTag});
+    const query = knex(PLANT_TABLE).insert({ owner:owner, name:name, privateTag:privateTag, insideTag:insideTag});
     console.log('Raw query for createNewOwnedPlant:', query.toString());
     const result = await query;
+    console.log("HERE IDIOT: ");
     return result;
 };
 
 const getAllOwnedPlants = async () => {
+    //console.log('0 HERE');
     const query = knex(PLANT_TABLE);
+    //console.log('1 HERE');
     const result = await query;
+    //console.log('2 HERE');
     return result;
 }
 
