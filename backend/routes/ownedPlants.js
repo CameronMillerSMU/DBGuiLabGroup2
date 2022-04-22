@@ -3,7 +3,6 @@ const express = require('express');
 const ownedPlantController = require('../controllers/ownedPlants');
 const User = require('../models/users');
 const ownedPlant = require('../models/ownedPlants');
-const router = express.Router();
 
 const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth');
 
