@@ -12,6 +12,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ApiCalls } from '../common';
+import { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { User } from '../common/User';
 
 function Copyright(props) {
   return (
@@ -28,14 +33,34 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp() {
+export const SignUp = (props) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  const [validated, setValidated] = useState(false);
+
+  const api = new ApiCalls();
+
   const handleSubmit = (event) => {
+    const form = event.currentTarget;
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    if(form.checkValidity() == false) {
+      event.stopPropagation();
+      setValidated(true);
+    }
+    else {
+      let newUser = new User(username, password);
+      api.signup(newUser).then(res => {
+          props.setToken(res.data.data.jwt);
+          localStorage.setItem("token", res.data.data.jwt);
+          navigate("/");
+          console.log(res.data.data.jwt);
+      }).catch(err => {
+          console.log(err.data.data)
+          alert(err.data.data);
+      });
+    }
   };
 
   return (
