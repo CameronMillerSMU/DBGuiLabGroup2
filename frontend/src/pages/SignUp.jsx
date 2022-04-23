@@ -7,6 +7,7 @@ import { Password } from '@mui/icons-material';
 import { ApiCalls } from '../common/ApiCalls';
 import { User } from '../common/User';
 import { Navigate } from 'react-router-dom';
+import { apiEndpoint, apiConfig } from './ApiConfig';
 
   
 export const SignUp = (props) => {

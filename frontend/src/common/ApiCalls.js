@@ -1,18 +1,16 @@
 import axios from 'axios';
+import { apiEndpoint, apiConfig } from './ApiConfig';
 
-export class ApiCalls {
+
+
+export const addUser = (user) => newPromise((resolve, reject) => {
+    user[0] = "thisismyusername";
+    user[1] = "thisismypassword";
     
-    url = "http://localhost:8000";
-
-    login(user) {
-        return axios.post(`${this.url}/login`, user);
-    }
-
-    signup(user) {
-        return axios.post(`${this.url}/register`, user);
-    }
-
-    session(user) {
-        return axios.get(`${this.url}/session`, user);
-    }
-}
+    axois.post(`${apiEndpoint}/users/${user[0]}/${user[1]}`, apiConfig)
+    .then(x => resolve(x.data))
+    .catch(x => {
+        alert(x);
+        reject(x);
+    });
+});
