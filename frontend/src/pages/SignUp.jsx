@@ -21,11 +21,15 @@ export const SignUp = (props) => {
   const handleSignUp = () => {
     let newUser = new User(userName, password);
     api.signup(newUser).then(res => {
+      console.log("Bruh1");
       props.setToken(res.data.data.jwt);
+      console.log("Bruh2");
       localStorage.setItem('token', res.data.data.jwt);
+      console.log("Bruh3");
       Navigate("/");
     })
   };
+  
 
 
   return <>
