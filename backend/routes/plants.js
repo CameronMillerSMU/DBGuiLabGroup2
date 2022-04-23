@@ -14,14 +14,14 @@ module.exports = function routes(app, logger) {
             const result = await PlantController.createNewPlant(body.name, body.description, body.category, body.climate, body.imagePath);
             res.status(201).json(result);
         } catch (err) {
-            res.status(400).json({ message: 'Failed to Create New Plant' });
+            res.status(400).json({ message: 'Failed To Create New Plant' });
         }
     });
 
     // Requests (GETS)
 
     // Get All Plants
-    app.get('/allplant', authenticateJWT, async (req, res) => {
+    app.get('/allplants', authenticateJWT, async (req, res) => {
         try {
             const result = await PlantController.getAllPlants();
             res.status(200).json(result);
