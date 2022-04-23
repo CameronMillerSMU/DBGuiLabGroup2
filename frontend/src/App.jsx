@@ -7,6 +7,7 @@ import Album from './pages/Home';
 import OwnedPlants from './pages/OwnedPlants';
 import Home from './pages/Home';
 import { Login } from './pages';
+import { SignUp }from './pages/SignUp';
 
 // React functional component
 function App () {
