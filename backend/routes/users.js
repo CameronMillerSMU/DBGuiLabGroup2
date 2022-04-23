@@ -36,7 +36,7 @@ module.exports = function routes(app, logger) {
       const result = await UserController.authenticateUser(body.username, body.password);
       if (result == null) {
         return res.status(401).json({ message: 'Body Does Not Match Existing Credentials' }); }
-      return res.status(201).json(result);
+      return res.status(200).send({ data: { jwt: result, username }});
     } catch (err) {
       return res.status(401).json({ message: 'Body Does Not Match Existing Credentials' });
     }

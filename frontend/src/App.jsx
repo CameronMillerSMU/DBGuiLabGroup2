@@ -7,13 +7,15 @@ import Album from './pages/Home';
 import OwnedPlants from './pages/OwnedPlants';
 import Home from './pages/Home';
 import { Login } from './pages';
-import { SignUp }from './pages/SignUp';
+import { SignUp } from './pages';
+
 
 // React functional component
 function App () {
 
   const [token, setToken] = useState();
   const [updateToken, setUpdateToken] = useState();
+  
 
   useEffect(() => {
     const token = localStorage.getItem('token');
