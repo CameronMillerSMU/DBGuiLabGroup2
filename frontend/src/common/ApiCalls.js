@@ -3,11 +3,8 @@ import { apiEndpoint, apiConfig } from './ApiConfig';
 
 
 
-export const addUser = (user) => newPromise((resolve, reject) => {
-    user[0] = "thisismyusername";
-    user[1] = "thisismypassword";
-    
-    axois.post(`${apiEndpoint}/users/${user[0]}/${user[1]}`, apiConfig)
+export const addUser = (user) => new Promise((resolve, reject) => {    
+    axios.post(`${apiEndpoint}/register`, user, apiConfig)
     .then(x => resolve(x.data))
     .catch(x => {
         alert(x);

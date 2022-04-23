@@ -4,14 +4,13 @@ import { TextField } from '../TextField';
 import { AppContext } from "../AppContext";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Password } from '@mui/icons-material';
-import { ApiCalls } from '../common/ApiCalls';
 import { User } from '../common/User';
 import { Navigate } from 'react-router-dom';
-import { apiEndpoint, apiConfig } from './ApiConfig';
+import { apiEndpoint, apiConfig } from '../common/ApiConfig';
+import { addUser } from '../common/ApiCalls';
 
   
 export const SignUp = (props) => {
-  const api = new ApiCalls();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,8 +19,8 @@ export const SignUp = (props) => {
   const [password, setPassword] = useState('');
 
   const handleSignUp = () => {
-    let newUser = new User(userName, password);
-    api.signup(newUser).then(res => {
+    let newUser = new User({username: userName, password: password});
+    addUser(newUser).then(res => {
       console.log("Bruh1");
       props.setToken(res.data.data.jwt);
       console.log("Bruh2");
