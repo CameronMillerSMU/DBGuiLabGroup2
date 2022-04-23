@@ -3,11 +3,13 @@ export class PlantPost {
         plantPostHeader,
         plantPostContent,
         userId,
-        posterId) {
+        likes,
+        replies) {
         this.plantImg = plantImg;
         this.plantPostHeader = plantPostHeader;
         this.plantPostContent = plantPostContent;
+        this.likes = likes;
         this.userId = userId;
-        this.posterId = posterId;
+        this.replies = replies;
     }
 }
