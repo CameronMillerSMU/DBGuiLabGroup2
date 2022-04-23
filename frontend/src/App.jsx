@@ -6,7 +6,7 @@ import axios from 'axios';
 import Album from './pages/Home';
 import OwnedPlants from './pages/OwnedPlants';
 import Home from './pages/Home';
-import { Login } from './pages';
+import { Login, Weather } from './pages';
 
 // React functional component
 function App () {
@@ -27,6 +27,7 @@ function App () {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login setToken={setToken}/>} />
+          <Route path="/weather" element={<Weather token={token}/>} />
         </Routes>
       </BrowserRouter>
     </div>
