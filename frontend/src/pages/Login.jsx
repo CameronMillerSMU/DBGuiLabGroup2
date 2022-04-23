@@ -39,8 +39,8 @@ export const Login = (props) => {
     else {
       let newUser = new User(username, password);
       api.login(newUser).then(res => {
-        props.setToken(res.data.data.jwt);
-        localStorage.setItem('token', res.data.data.jwt);
+        props.setToken(res.data.jwt);
+        localStorage.setItem('token', res.data.jwt);
         Navigate("/home"); //takes to homepage once logged in
       }).catch(err =>{
         console.log(err);
