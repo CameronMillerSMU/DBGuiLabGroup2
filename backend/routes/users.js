@@ -19,6 +19,8 @@ module.exports = function routes(app, logger) {
   app.post('/register', async (req, res) => {
     try {
       const body = req.body;
+      console.log(body[0]);
+      console.log(body[1]);
       result = await User.createNewUser(body.username, body.password);
       if (result.success) {
         const token = await UserController.authenticateUser(body.username, body.password);
@@ -33,10 +35,10 @@ module.exports = function routes(app, logger) {
   app.post('/login', async (req, res) => {
     try {
       const body = req.body;
-      const token = await UserController.authenticateUser(body.username, body.password);
-      if (token == null) {
-        return res.status(400).json({ message: 'Body Does Not Match Existing Credentials' }); }
-      return res.status(201).json(token);
+      const result = await UserController.authenticateUser(body.username, body.password);
+      if (result == null) {
+        return res.status(401).json({ message: 'Body Does Not Match Existing Credentials' }); }
+      return res.status(200).send({ data: { jwt: result, username }});
     } catch (err) {
       return res.status(400).json({ message: 'Body Does Not Match Existing Credentials' });
     }
