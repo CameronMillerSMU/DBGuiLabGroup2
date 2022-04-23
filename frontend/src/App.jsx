@@ -13,7 +13,6 @@ function App () {
 
   const [token, setToken] = useState();
   const [updateToken, setUpdateToken] = useState();
-dock
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -27,6 +26,7 @@ dock
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login setToken={setToken}/>} />
+          <Route path="/register" element={<SignUp setToken={setToken}/>} />
         </Routes>
       </BrowserRouter>
     </div>
