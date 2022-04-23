@@ -21,8 +21,8 @@ module.exports = function routes(app, logger) {
       const body = req.body;
       result = await User.createNewUser(body.username, body.password);
       if (result.success) {
-        result = await User.findByUserName(body.username);
-        return res.status(201).json(result[0]); } 
+        const token = await UserController.authenticateUser(body.username, body.password);
+        return res.status(201).json(token); } 
       else { return res.status(400).json(result); }
     } catch (err) {
       return res.status(400).json({ message: 'Duplicate Entry' });
@@ -33,12 +33,12 @@ module.exports = function routes(app, logger) {
   app.post('/login', async (req, res) => {
     try {
       const body = req.body;
-      const result = await UserController.authenticateUser(body.username, body.password);
-      if (result == null) {
-        return res.status(401).json({ message: 'Body Does Not Match Existing Credentials' }); }
-      return res.status(201).json(result);
+      const token = await UserController.authenticateUser(body.username, body.password);
+      if (token == null) {
+        return res.status(400).json({ message: 'Body Does Not Match Existing Credentials' }); }
+      return res.status(201).json(token);
     } catch (err) {
-      return res.status(401).json({ message: 'Body Does Not Match Existing Credentials' });
+      return res.status(400).json({ message: 'Body Does Not Match Existing Credentials' });
     }
   });
 
@@ -155,6 +155,18 @@ module.exports = function routes(app, logger) {
       return res.status(200).json(result);
     } catch (err) {
       return res.status(401).json({ message: 'Could Not Update Privacy' });
+    }
+  });
+
+  // Update Admin (0 = False, 1 = True, TINYINT)
+  app.put('/updateadmin', authenticateJWT, async (req, res) => {
+    try {
+      const body = req.body;
+      result = await User.updateAdmin(body.username, body.admin);
+      result = await User.findByUserName(body.username);
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(401).json({ message: 'Could Not Update Admin' });
     }
   });
 

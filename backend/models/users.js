@@ -118,6 +118,13 @@ const updatePrivacy = async (username, new_privacy) => {
     return result;
 };
 
+// Update Admin
+const updateAdmin = async (username, new_admin) => {
+    const query = knex(USER_TABLE).where({username}).update({adminTag: new_admin});
+    const result = await query;
+    return result;
+};
+
 // Update Picture
 const updatePicture = async (username, new_picture) => {
     const query = knex(USER_TABLE).where({username}).update({imagePath: new_picture});
@@ -153,6 +160,7 @@ module.exports = {
     updateLocation,
     updateRegistration,
     updatePrivacy,
+    updateAdmin,
     updatePicture,
     updateBackground,
     deleteUserName
