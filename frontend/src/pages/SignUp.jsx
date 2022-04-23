@@ -19,8 +19,9 @@ export const SignUp = (props) => {
   const [password, setPassword] = useState('');
 
   const handleSignUp = () => {
-    let newUser = new User({username: userName, password: password});
-    addUser(newUser).then(res => {
+    // let newUser = new User({username: userName, password: password});
+    let userArray = [userName, password];
+    addUser(userArray).then(res => {
       console.log("Bruh1");
       props.setToken(res.data.data.jwt);
       console.log("Bruh2");

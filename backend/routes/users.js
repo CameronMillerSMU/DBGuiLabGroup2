@@ -19,11 +19,8 @@ module.exports = function routes(app, logger) {
   app.post('/register', async (req, res) => {
     try {
       const body = req.body;
-      const nnn = req.body.body;
-      console.log(body);
-      console.log(nnn);
-      console.log(body.username);
-      console.log(nnn.username);
+      console.log(body[0]);
+      console.log(body[1]);
       result = await User.createNewUser(body.username, body.password);
       if (result.success) {
         result = await User.findByUserName(body.username);
