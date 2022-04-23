@@ -9,7 +9,7 @@ const cors = require('cors');
 // Actual Routes /session
 const usersRoutes = require('./routes/users');
 const plantsRoutes = require('./routes/plants');
-// const ownedPlantRoutes = require('.routes/ownedPlants');
+const ownedPlantRoutes = require('./routes/ownedPlants');
 
 // Middleware Require
 const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
@@ -43,7 +43,7 @@ app.get('/health', (req, res) => {
 // Calls Routes (App.Use)
 usersRoutes(app, logger);
 plantsRoutes(app, logger);
-// ownedPlantRoutes(app, logger);
+ownedPlantRoutes(app, logger);
 
 // Connecting Express To Listen To Config Port
 app.listen(config.port, config.host, (e) => {
