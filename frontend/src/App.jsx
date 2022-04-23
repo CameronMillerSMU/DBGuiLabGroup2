@@ -7,6 +7,7 @@ import Album from './pages/Home';
 import OwnedPlants from './pages/OwnedPlants';
 import Home from './pages/Home';
 import { Login } from './pages';
+import { Header } from './common/Header';
 
 // React functional component
 function App () {
@@ -25,8 +26,11 @@ function App () {
   return (
     <div className="App">
       <BrowserRouter>
+        <Header token={updateToken} setToken={setToken}/>
         <Routes>
           <Route path="/" element={<Login setToken={setToken}/>} />
+          <Route path="/home" element={<Home setToken={setToken}/>} />
+          
         </Routes>
       </BrowserRouter>
     </div>

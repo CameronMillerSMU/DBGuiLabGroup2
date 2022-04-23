@@ -16,7 +16,7 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
+import { ResponsiveAppBar } from '../common/Header';
 import { PlantCard } from '../common/PlantCard';
 import { SettingsApplicationsTwoTone } from '@mui/icons-material';
 import Plant from '../common/Plant';

@@ -1,10 +1,10 @@
 export class Location {
     constructor(location, tempLow, tempHigh, lastUpdated, weatherType, nearbyStores) {
-        this.commentID = commentID;
-        this.post = post;
-        this.commenter = commenter;
-        this.text = text;
-        this.replyTo = replyTo;
-        this.rootTag = rootTag;
+        this.location = location;
+        this.tempLow = tempLow;
+        this.tempHigh = tempHigh;
+        this.lastUpdated = lastUpdated;
+        this.weatherType = weatherType;
+        this.nearbyStores = nearbyStores;
     }
 }
