@@ -4,9 +4,8 @@ const LOCATION_TABLE = 'location';
 
 const createNewLocation = async (cityName, tempLow, tempHigh, lastUpdate, weatherType, nearestStore) => {
     const query = knex(LOCATION_TABLE).insert({ cityName, tempLow, tempHigh, lastUpdate, weatherType, nearestStore });
-    console.log('Raw query for createNewCity:', query.toString());
+    console.log('Raw query for createNewLocation:', query.toString());
     const result = await query;
-
     return result;
 };
 
@@ -14,23 +13,44 @@ const getAllLocations = async () => {
     const query = knex(LOCATION_TABLE);
     const result = await query;
     return result;
-}
+};
 
-const findLocationByName = async (name) => {
-    const query = knex(LOCATION_TABLE).where({ name });
+const findLocationByCityName = async (cityName) => {
+    const query = knex(LOCATION_TABLE).where({ cityName });
     const result = await query;
     return result;
-}
+};
 
-const findLocationByWeather = async (weather) => {
-    const query = knex(LOCATION_TABLE).where({ weather });
+const updateLocationTemps = async (cityName, tempLow, tempHigh) => {
+    const query = knex(LOCATION_TABLE).where({cityName}).update({tempLow, tempHigh});
     const result = await query;
     return result;
-}
+};
+
+const updateLocationWeather = async (cityName, weatherType) => {
+    const query = knex(LOCATION_TABLE).where({cityName}).update({weatherType});
+    const result = await query;
+    return result;
+};
+
+const updateLocationStore = async (cityName, nearestStore) => {
+    const query = knex(LOCATION_TABLE).where({cityName}).update({nearestStore});
+    const result = await query;
+    return result;
+};
+
+const deleteLocation = async (cityName) => {
+    const query = knex(LOCATION_TABLE).where({cityName}).del();
+    const result = await query;
+    return result;
+};
 
 module.exports = {
     createNewLocation,
-    findLocationByName,
-    findLocationByWeather,
-    getAllLocations
+    getAllLocations,
+    findLocationByCityName,
+    updateLocationTemps,
+    updateLocationWeather,
+    updateLocationStore,
+    deleteLocation
 };
