@@ -11,9 +11,11 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import YardIcon from '@mui/icons-material/Yard';
+import { Link } from 'react-router-dom'
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = [];
+const settings = ['Profile', 'Logout'];
 
 export const Banner = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -39,12 +41,17 @@ export const Banner = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            onClick={ <Link to="/" class="btn btn-danger me-3">Cancel</Link> }
           >
-            LOGO
+            Flora&nbsp;  
+            <YardIcon fontSize='large' margin-left='25%' />
+           
+
+            
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -84,12 +91,13 @@ export const Banner = () => {
             </Menu>
           </Box>
           <Typography
-            variant="h6"
+            variant="h5"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            Flora&nbsp;
+            <YardIcon fontSize='large' margin-left='25%' />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

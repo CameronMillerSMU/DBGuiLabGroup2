@@ -2,7 +2,6 @@ export * from './ApiCalls';
 export * from './ApiConfig';
 export * from './Banner';
 export * from './Card';
-export * from './Comment';
 export * from './Location';
 export * from './OwnedPlants';
 export * from './Plant';
