@@ -1,7 +1,7 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
+import YardIcon from '@mui/icons-material/Yard';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -36,12 +36,11 @@ const theme = createTheme();
 export default function Album() {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <CameraIcon sx={{ mr: 2 }} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Album layout
+          <YardIcon fontSize="large"/>
+          <Typography variant="h3" color="inherit" noWrap>
+            Flora
           </Typography>
         </Toolbar>
       </AppBar>
