@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
-import { Card } from "../Card";
-import { TextField } from '../TextField';
+import { Card } from "../common/Card";
+import { TextField } from '../common/TextField';
 import { AppContext } from "../AppContext";
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Password } from '@mui/icons-material';

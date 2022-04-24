@@ -1,4 +1,3 @@
-//------------------DONE-------------------
 export class User {
     constructor(username, password, birthDate, location, adminTag, registeredTag, privateTag, backgroundPic, favoritePlants, ownedPlants) {
         //base variables

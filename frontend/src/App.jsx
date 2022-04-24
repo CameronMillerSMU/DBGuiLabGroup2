@@ -4,7 +4,7 @@ import { Routes } from 'react-router';
 import './App.css';
 import axios from 'axios';
 import Album from './pages/Home';
-import OwnedPlants from './pages/OwnedPlants';
+import OwnedPlants from './common/OwnedPlants';
 import { Home } from './pages/Home';
 import { Login } from './pages';
 import { SignUp }from './pages/SignUp';
