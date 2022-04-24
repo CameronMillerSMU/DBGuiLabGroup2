@@ -29,6 +29,7 @@ module.exports = function routes(app, logger) {
     } catch (err) {
       return res.status(400).json({ message: 'Duplicate Entry' });
     }
+
   });
 
   // Post Token -> JSON Object To New User (Login)

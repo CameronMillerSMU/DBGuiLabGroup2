@@ -15,13 +15,13 @@ export const SignUp = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const context = useContext(AppContext);
-  const [userName, setUserName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSignUp = () => {
-    // let newUser = new User({username: userName, password: password});
-    //let userArray = [userName, password];
-    const json = JSON.stringify({ username: userName, password: password });
+    // let newUser = new User({username: username, password: password});
+    //let userArray = [username, password];
+    const json = JSON.stringify({ username: username, password: password });
     addUser(json).then(res => {
       console.log("Bruh1");
       props.setToken(res.data.data.jwt);
@@ -37,8 +37,8 @@ export const SignUp = (props) => {
   return <>
       <Card title="Sign Up">
           <TextField label="User Name"
-              value={userName}
-              setValue={x => setUserName(x)} />
+              value={username}
+              setValue={x => setUsername(x)} />
           <TextField label="Password"
               value={password}
               setValue={x => setPassword(x)} />
