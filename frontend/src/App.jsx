@@ -29,6 +29,7 @@ function App () {
         <Routes>
           <Route path="/" element={<Login setToken={setToken}/>} />
           <Route path="/register" element={<SignUp setToken={setToken}/>} />
+          <Route path="/home" element={<Home token={token}/>} />
         </Routes>
       </BrowserRouter>
     </div>

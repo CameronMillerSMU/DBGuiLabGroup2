@@ -16,6 +16,8 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { Banner } from '../common/Banner';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
