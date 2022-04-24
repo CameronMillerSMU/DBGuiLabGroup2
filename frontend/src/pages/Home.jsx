@@ -1,7 +1,7 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
+import YardIcon from '@mui/icons-material/Yard';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -18,30 +18,17 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { Banner } from '../common/Banner';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 //const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
-
-//The cards are just plant pictures don't need ot be interactive
 
 export const Home = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
 
+      <Banner />
       
       <main>
         {/* Hero unit */}
@@ -183,7 +170,6 @@ export const Home = (props) => {
         >
           Footer
         </Typography>
-        <Copyright />
       </Box>
       {/* End footer */}
     </ThemeProvider>
