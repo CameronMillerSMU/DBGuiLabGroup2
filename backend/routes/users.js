@@ -19,12 +19,10 @@ module.exports = function routes(app, logger) {
   app.post('/register', async (req, res) => {
     try {
       const body = req.body;
-      console.log(body[0]);
-      console.log(body[1]);
-      result = await User.createNewUser(body.username, body.password);
+      result = await User.createNewUser(body[0], body[1]);
       if (result.success) {
-        result = await User.findByUserName(body.username);
-        return res.status(201).json(result[0]); } 
+        const token = await UserController.authenticateUser(body[0], body[1]);
+        return res.status(201).json({ data: token }); } 
       else { return res.status(400).json(result); }
     } catch (err) {
       return res.status(400).json({ message: 'Duplicate Entry' });

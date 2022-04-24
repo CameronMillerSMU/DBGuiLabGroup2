@@ -22,11 +22,12 @@ export const SignUp = (props) => {
     // let newUser = new User({username: userName, password: password});
     let userArray = [userName, password];
     addUser(userArray).then(res => {
-      console.log("Bruh1");
-      props.setToken(res.data.data.jwt);
-      console.log("Bruh2");
-      localStorage.setItem('token', res.data.data.jwt);
-      console.log("Bruh3");
+      console.log("bruh");
+      console.log(res);
+      console.log(res.body.body);
+      console.log(res[0]);
+      props.setToken(res);
+      localStorage.setItem('token', res.data);
       Navigate("/");
     })
   };
