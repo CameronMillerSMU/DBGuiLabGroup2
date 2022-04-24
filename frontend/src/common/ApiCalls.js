@@ -23,9 +23,6 @@ export const login = (params) => new Promise((resolve, reject) => {
 });
 
 
-
-
-
 export const getUserById = (id, token) => new Promise((resolve, reject) => {
     axios.get(`${apiEndpoint}/user`, token, id, apiConfig)
     .then(x => resolve(x.data))
@@ -44,14 +41,14 @@ export const deleteUser = (id, token) => new Promise((resolve, reject) => {
     });
 })
 
-export const getUsers = (params, token) => new Promise((resolve, reject) => {
+export const getUsers = (params) => new Promise((resolve, reject) => {
     let _apiConfig = { ...apiConfig };
     if(params) {
         _apiConfig.params = params;
     }
 
-    // should this have params and token or just token???
-    axios.get(`${apiEndpoint}/users`, token, params, _apiConfig)
+    // should this have params and token or just token??? put back token
+    axios.get(`${apiEndpoint}/users`, params, _apiConfig)
         .then(x => resolve(x.data))
         .catch(x => {
             alert(x);

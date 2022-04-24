@@ -58,8 +58,8 @@ module.exports = function routes(app, logger) {
     }
   });
 
-  // Get All Users
-  app.get('/users', authenticateJWT, async (req, res) => {
+  // Get All Users IMPORTANT PUT BACK , authenticateJWT
+  app.get('/users', async (req, res) => {
     try {
       const result = await User.getUsers();
       res.status(200).json(result);
