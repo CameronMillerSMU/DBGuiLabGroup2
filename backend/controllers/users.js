@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/users');
 
-const accessTokenSecret = 'mysupercoolsecret';
+const accessTokenSecret = 'jwt';
 
 // Return Token (Tokenizer)
 const authenticateUser = async (username, password) => {
