@@ -20,8 +20,9 @@ export const SignUp = (props) => {
 
   const handleSignUp = () => {
     // let newUser = new User({username: userName, password: password});
-    let userArray = [userName, password];
-    addUser(userArray).then(res => {
+    //let userArray = [userName, password];
+    const json = JSON.stringify({ username: userName, password: password });
+    addUser(json).then(res => {
       console.log("Bruh1");
       props.setToken(res.data.data.jwt);
       console.log("Bruh2");
