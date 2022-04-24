@@ -14,5 +14,7 @@ export class User {
         //wishlist
         this.favoritePlants = favoritePlants;
         this.ownedPlants = ownedPlants;
+
+        
     }
 }

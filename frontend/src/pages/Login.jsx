@@ -15,13 +15,13 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { useDebugValue } from 'react';
 import { User } from '../common/User';
-import { ApiCalls } from '../common/ApiCalls';
+import { apiEndpoint, apiConfig } from '../common/ApiConfig';
+import { addUser } from '../common/ApiCalls';
 import { Navigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 export const Login = (props) => {
-  const api = new ApiCalls();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -38,14 +38,7 @@ export const Login = (props) => {
     }
     else {
       let newUser = new User(username, password);
-      api.login(newUser).then(res => {
-        props.setToken(res.data.data.jwt);
-        localStorage.setItem('token', res.data.data.jwt);
-        Navigate("/home"); //takes to homepage once logged in
-      }).catch(err =>{
-        console.log(err);
-        alert(err);
-      })
+      
 
     }
 
