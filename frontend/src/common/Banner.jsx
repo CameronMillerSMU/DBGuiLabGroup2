@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-export const Menu = () => {
+export const Banner = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -137,4 +137,4 @@ export const Menu = () => {
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+export default Banner;
