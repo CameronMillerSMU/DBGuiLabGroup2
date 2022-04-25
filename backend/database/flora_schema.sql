@@ -26,12 +26,12 @@ CREATE TABLE flora.users (
     password VARCHAR(100) NOT NULL,
     birthday DATE,
     location VARCHAR(300),
-    FOREIGN KEY (location)) REFERENCES location(cityName),
     registerTag BOOLEAN,
     privateTag BOOLEAN,
     adminTag BOOLEAN,
     imagePath VARCHAR(100),
-    backgroundPath VARCHAR(300)
+    backgroundPath VARCHAR(300),
+    FOREIGN KEY (location) REFERENCES location(cityName)
 );
 
 CREATE TABLE flora.ownedPlants (
@@ -41,7 +41,7 @@ CREATE TABLE flora.ownedPlants (
     privateTag BOOLEAN NOT NULL,
     lastWatered DATETIME,
     insideTag BOOLEAN,
-    favoriteTag,
+    favoriteTag BOOLEAN,
     currentTasks VARCHAR(300),
     specificPhoto VARCHAR(300),
     FOREIGN KEY (owner) REFERENCES users(username),

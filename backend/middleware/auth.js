@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-const accessTokenSecret = 'mysupercoolsecret';
+const accessTokenSecret = 'jwt';
 
 // Return Unauthorized If Token Error
 const authenticateJWT = (req, res, next) => {
