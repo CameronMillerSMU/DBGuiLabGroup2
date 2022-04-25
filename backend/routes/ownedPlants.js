@@ -1,7 +1,6 @@
 const express = require('express');
 const pool = require('../db');
 
-const ownedPlantController = require('../controllers/ownedPlants');
 const User = require('../models/users');
 const ownedPlant = require('../models/ownedPlants');
 
@@ -11,7 +10,7 @@ module.exports = function routes(app, logger){
     app.get('/allOwned', authenticateJWT, async (req, res) => {
         try {
             console.log("ERROR 1");
-            const result = await ownedPlantController.getAllOwnedPlants();
+            const result = await ownedPlant.getAllOwnedPlants();
             res.status(200).json(result);
           } catch (err) {
             res.status(401).json({ message: 'Could Not Get All Plants'});

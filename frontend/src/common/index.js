@@ -13,3 +13,4 @@ export * from './TextField';
 export * from './User';
 export * from './Weather';
 export * from './Wishlist';
+export * from './index';
