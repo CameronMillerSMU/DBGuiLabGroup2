@@ -11,7 +11,8 @@ import { apiEndpoint, apiConfig } from '../common/ApiConfig';
 import { addUser, ApiCalls } from '../common/ApiCalls';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-  
+import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
+
 export const SignUp = (props) => {
 
   const navigate = useNavigate();
@@ -22,46 +23,60 @@ export const SignUp = (props) => {
     SettingsOverscanOutlined(event.target.value);
   };
   const ApiCall = new ApiCalls();
-  
+
   const handleSignUp = async (event) => {
-      event.preventDefault();
-      const data = new FormData(event.currentTarget);
-      ApiCall.register(data.get('username'), data.get('password')).then(res => {
-        if(res.status <= 201) {
-          navigate('/');
-        }
-      }).catch(err => {
-        alert("User is already associated with this website");
-      });
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    ApiCall.register(data.get('username'), data.get('password')).then(res => {
+      if (res.status <= 201) {
+        navigate('/');
+      }
+    }).catch(err => {
+      alert("User is already associated with this website");
+    });
   };
 
 
   return <>
-    <Box component="form" noValidate onSubmit={handleSignUp}>
-      <TextField
-        name = "username"
-        required
-        id="username"
-        label="username"
-      ></TextField>
-      <TextField
-        name = "password"
-        required
-        id="password"
-        label="password"
-      ></TextField>
-      <Button
-        type = "submit"
-        variant = "outlined"
-      >Submit</Button>
-      <Button
-        onClick={() => navigate("/")}
-        variant = "outlined"
-      >Sign In</Button>
-      <Button
+    <ResponsiveAppBar />
+    <div className="w-75 mx-auto">
+      <div className="border mb-2 mt-5">
+        <h1 className="text-white bg-primary p-3 mb-0">Sign Up</h1>
+        <Box component="form" noValidate onSubmit={handleSignUp} className="bg-white py-2 mt-0">
+          <div className="mb-5 ms-3 col-md-4" controlId="username">
+            <TextField
+              placeholder="Enter Your Username"
+              name="username"
+              required
+              id="username"
+              label="username" >
+            </TextField>
+          </div>
+          <div className="mb-2 ms-3 col-md-4" controlId="password">
+            <TextField
+              placeholder="Enter Your Password"
+              name="password"
+              required
+              id="password"
+              label="password"
+            ></TextField>
+          </div>
+          <Button
+            type="submit"
+            variant="outlined"
+          >
+            Submit</Button>
+          <p>Already have an account?</p>
+          <Button
+            onClick={() => navigate("/")}
+            variant="outlined"
+          >Log in</Button>
+          <Button
             onClick={() => navigate("/home")}
             variant="outlined"
           >Cancel</Button>
-    </Box>
+        </Box>
+      </div>
+    </div>
   </>;
 };
