@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react';
 import * as React from 'react';
-import { Card } from "../Card";
 import TextField from '@mui/material/TextField';
 import { AppContext } from "../AppContext";
 import { useNavigate, useLocation } from 'react-router-dom';
