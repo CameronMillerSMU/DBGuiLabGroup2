@@ -7,7 +7,7 @@ const USER_TABLE = 'flora.users';
 
 // Create User, Do Checks
 const createNewUser = async (username, password) => {
-    
+    console.log("A");
     // Need Username
     if (!username) {
         return {
@@ -23,11 +23,11 @@ const createNewUser = async (username, password) => {
             message: 'Password Required'
         }
     }
-
+    console.log("B");
     // Hash Password with Bcrypt
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
+    console.log("C");
     const query = knex(USER_TABLE).insert({username, password: hashedPassword, registerTag: false, privateTag: false});
     result = await query;
     result['success'] = true;

@@ -12,3 +12,4 @@ export * from './SignUp';
 export * from './StoreProfile';
 export * from './Weather';
 export * from './Wishlist';
+export * from './index';

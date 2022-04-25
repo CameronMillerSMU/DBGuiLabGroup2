@@ -16,101 +16,61 @@ import { useState } from 'react';
 import { useDebugValue } from 'react';
 import { User } from '../common/User';
 import { apiEndpoint, apiConfig } from '../common/ApiConfig';
-import { addUser } from '../common/ApiCalls';
-import { Navigate } from 'react-router-dom';
+import { ApiCalls } from '../common/ApiCalls';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
-export const Login = (props) => {
+export const Login = () => {
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [value, setValue] = React.useState('User');
+  const changeEvent = (e) => {
+    setValue(e.target.value);
+  };
+  const ApiCall = new ApiCalls();
+  const Navigate = useNavigate();
 
-  const [validated, setValidated] = useState(false);
-
-
-  const handleSubmit = (e) => {
-    const form = e.currentTarget;
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    if(form.checkValidity() === false) {
-      e.stopPropagation();
-      setValidated(true);
-    }
-    else {
-      let newUser = new User(username, password);
-      
+    const data = new FormData(e.currentTarget);
+    ApiCall.login(data.get('username'), data.get('password')).then(result => {
+        if(result.status <= 201) {
+          ApiCall.getToken().then(response => {
+            console.log('Result: ');
+            console.log(response);
+            sessionStorage.setItem('username', response.data.username);
+            sessionStorage.setItem('password', response.data.password);
+          })
+          .catch(error1 => {
+            console.log('Error: ')
+            console.log(error1);
+          });
+          Navigate('/home');
+        }
 
-    }
-
+    }).catch(error2 => {
+      alert("Username or Password incorrect");
+    });
   };
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="username"
-              name="username"
-              autoComplete="username"
-              autoFocus
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="/home" variant="body2">
-                  Continue without logging in
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        
-      </Container>
-    </ThemeProvider>
-  );
-
-  
+  return <>
+  <Box component="form" noValidate onSubmit={handleSignUp}>
+    <TextField
+      name = "username"
+      required
+      id="username"
+      label="username"
+    ></TextField>
+    <TextField
+      name = "password"
+      required
+      id="password"
+      label="password"
+    ></TextField>
+    <Button
+      type = "submit"
+      variant = "outlined"
+    >Submit</Button>
+  </Box>
+  </>;
 }
