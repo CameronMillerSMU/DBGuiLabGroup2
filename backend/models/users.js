@@ -28,7 +28,7 @@ const createNewUser = async (username, password) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const query = knex(USER_TABLE).insert({username, password: hashedPassword, registerTag: false, privateTag: false});
+    const query = knex(USER_TABLE).insert({username, password: hashedPassword, registerTag: false, privateTag: false, adminTag: false});
     result = await query;
     result['success'] = true;
     return result;
@@ -44,8 +44,7 @@ const authenticateUser = async (username, password) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (validPassword) {
         delete user.password;
-        return user;
-    }
+        return user; }
     return null;
 };
 
