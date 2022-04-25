@@ -57,7 +57,11 @@ export const SignUp = (props) => {
       <Button
         onClick={() => navigate("/")}
         variant = "outlined"
-      >Already have an account</Button>
+      >Sign In</Button>
+      <Button
+            onClick={() => navigate("/home")}
+            variant="outlined"
+          >Cancel</Button>
     </Box>
   </>;
 };

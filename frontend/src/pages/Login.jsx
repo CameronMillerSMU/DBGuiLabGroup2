@@ -59,7 +59,7 @@ export const Login = () => {
         <h1 className="text-white bg-primary p-3 mb-0">Login</h1>
         <Box component="form" noValidate onSubmit={handleSignUp} className="bg-white py-2 mt-0">
           <div className="mb-5 ms-3 col-md-4" controlId="username">
-            <TextField 
+            <TextField
               placeholder="Enter Your Username"
               name="username"
               required
@@ -68,7 +68,7 @@ export const Login = () => {
             </TextField>
           </div>
           <div className="mb-2 ms-3 col-md-4" controlId="password">
-            <TextField 
+            <TextField
               placeholder="Enter Your Password"
               name="password"
               required
@@ -79,42 +79,24 @@ export const Login = () => {
           <Button
             type="submit"
             variant="outlined"
-          >Submit</Button>
-          <p className="ms-3">Need an account? <Link to="/register">Sign Up</Link></p>
+          >
+            Submit</Button>
+          <p>Need an account?</p>
+          <Button
+            onClick={() => navigate("/register")}
+            variant="outlined"
+          >Sign Up</Button>
+          <Button
+            onClick={() => navigate("/home")}
+            variant="outlined"
+          >Cancel</Button>
         </Box>
       </div>
-      <Link to="/home" className="btn btn-danger me-3">Cancel</Link>
-      <button className="btn btn-success" id="loginButton" type="submit" form="login-form">Submit</button>
     </div>
   </>;
 }
 
 /*
-<div className="w-75 mx-auto">
-            <div className="border mb-2 mt-5">
-                <h1 className="text-white bg-primary p-3 mb-0">Login</h1>
-                <Form noValidate validated={validated} id="login-form" onSubmit={handleLogin} className="bg-white py-2 mt-0">
-                    <Form.Group className="mb-2 ms-3 col-md-4" controlId="username">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Your Username" value={username} onChange={(event) => setUsername(event.target.value)} required />
-                        <Form.Control.Feedback type="invalid"> Please enter a username.</Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group className="mb-2 ms-3 col-md-4" controlId="password">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Enter Your Password" value={password} onChange={(event) => setPassword(event.target.value)} required />
-                        <Form.Control.Feedback type="invalid"> Please enter a password.</Form.Control.Feedback>
-                    </Form.Group>
-                    <p className="ms-3">Need an account? <Link to="/Signup">Sign Up</Link></p>
-                </Form>
-                
-            </div>
-            <Link to="/" className="btn btn-danger me-3">Cancel</Link>
-            <button className="btn btn-success" id="loginButton" type="submit" form="login-form">Submit</button>
-            
-        </div>
-        */
-
-        /*
 <div className="w-75 mx-auto">
             <div className="border mb-2 mt-5">
                 <h1 className="text-white bg-primary p-3 mb-0">Login</h1>
