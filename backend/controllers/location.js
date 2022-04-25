@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/users');
-const Location = require('../models/location');
+const location = require('../models/location');
 
 const accessTokenSecret = 'mysupercoolsecret';
 
