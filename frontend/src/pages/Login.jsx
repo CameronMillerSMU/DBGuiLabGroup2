@@ -28,7 +28,7 @@ export const Login = () => {
     setValue(e.target.value);
   };
   const ApiCall = new ApiCalls();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -45,7 +45,7 @@ export const Login = () => {
             console.log('Error: ')
             console.log(error1);
           });
-          Navigate('/home');
+          navigate('/home');
         }
 
     }).catch(error2 => {
@@ -71,6 +71,11 @@ export const Login = () => {
       type = "submit"
       variant = "outlined"
     >Submit</Button>
+    <Button
+        onClick={() => navigate("/register")}
+        variant = "outlined"
+      >
+      Don't have an account? Sign Up!</Button>
   </Box>
   </>;
 }

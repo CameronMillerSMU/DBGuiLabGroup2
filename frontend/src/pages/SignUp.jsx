@@ -22,29 +22,13 @@ export const SignUp = (props) => {
     SettingsOverscanOutlined(event.target.value);
   };
   const ApiCall = new ApiCalls();
-
-  // const handleSignUp = async (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event)
-  //   // let newUser = new User({username: userName, password: password});
-  //   let userArray = [userName, password];
-  //   addUser(userArray).then(res => {
-  //     console.log("bruh");
-  //     console.log(res);
-  //     console.log(res.body.body);
-  //     console.log(res[0]);
-  //     props.setToken(res);
-  //     localStorage.setItem('token', res.data);
-  //     Navigate("/");
-  //   })
-  // };
   
   const handleSignUp = async (event) => {
       event.preventDefault();
       const data = new FormData(event.currentTarget);
       ApiCall.register(data.get('username'), data.get('password')).then(res => {
         if(res.status <= 201) {
-          Navigate('/');
+          navigate('/');
         }
       }).catch(err => {
         alert("User is already associated with this website");
@@ -70,6 +54,10 @@ export const SignUp = (props) => {
         type = "submit"
         variant = "outlined"
       >Submit</Button>
+      <Button
+        onClick={() => navigate("/")}
+        variant = "outlined"
+      >Already have an account</Button>
     </Box>
   </>;
 };
