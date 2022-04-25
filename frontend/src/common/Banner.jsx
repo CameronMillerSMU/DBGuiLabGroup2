@@ -12,10 +12,10 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import YardIcon from '@mui/icons-material/Yard';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-const pages = [];
-const settings = ['Profile', 'Logout'];
+const pages = ['Home', 'Plants', 'Profile'];
+const settings = ['Logout'];
 
 export const Banner = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -35,6 +35,8 @@ export const Banner = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const navigate = useNavigate();
 
   return (
     <AppBar position="static">
@@ -83,11 +85,16 @@ export const Banner = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={ navigate("/home") }>
+                  <Typography textAlign="center">Home</Typography>
+              </MenuItem>
+              <MenuItem onClick={ navigate("/plants") }>
+                  <Typography textAlign="center">Plants</Typography>
+              </MenuItem>
+              <MenuItem onClick={ navigate("/profile") }>
+                  <Typography textAlign="center">Profile</Typography>
+              </MenuItem>
+              
             </Menu>
           </Box>
           <Typography
@@ -99,16 +106,18 @@ export const Banner = () => {
             Flora&nbsp;
             <YardIcon fontSize='large' margin-left='25%' />
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
-              </Button>
-            ))}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} >
+
+            <MenuItem onClick={handleCloseNavMenu}>
+              <Typography textAlign="center">Home</Typography>
+            </MenuItem>
+            <MenuItem onClick={handleCloseNavMenu}>
+              <Typography textAlign="center">Plants</Typography>
+            </MenuItem>
+            <MenuItem onClick={handleCloseNavMenu}>
+              <Typography textAlign="center">Profile</Typography>
+            </MenuItem>
+          
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
