@@ -15,8 +15,14 @@ const getAllLocations = async () => {
     return result;
 };
 
-const findLocationByCityName = async (cityName) => {
+const findLocationByName = async (cityName) => {
     const query = knex(LOCATION_TABLE).where({ cityName });
+    const result = await query;
+    return result;
+};
+
+const findLocationByWeather = async (weatherType) => {
+    const query = knex(LOCATION_TABLE).where({ weatherType });
     const result = await query;
     return result;
 };
@@ -48,7 +54,8 @@ const deleteLocation = async (cityName) => {
 module.exports = {
     createNewLocation,
     getAllLocations,
-    findLocationByCityName,
+    findLocationByName,
+    findLocationByWeather,
     updateLocationTemps,
     updateLocationWeather,
     updateLocationStore,
