@@ -2,11 +2,24 @@ const knex = require('knex');
 
 const LOCATION_TABLE = 'location';
 
+// Create (POST)
+
+// Create Plant With All Provided Information, Do Checks
 const createNewLocation = async (cityName, tempLow, tempHigh, lastUpdate, weatherType, nearestStore) => {
-    const query = knex(LOCATION_TABLE).insert({ cityName, tempLow, tempHigh, lastUpdate, weatherType, nearestStore });
-    console.log('Raw query for createNewLocation:', query.toString());
-    const result = await query;
+
+    // Need City Name
+    if (!cityName) {
+        return {
+            success: false,
+            message: 'City Name Required'
+        }
+    }
+
+    const query = knex(PLANT_TABLE).insert({cityName, tempLow: tempLow, tempHigh: tempHigh, lastUpdate: lastUpdate, weatherType: weatherType, nearestStore: nearestStore});
+    result = await query;
+    result['success'] = true;
     return result;
+
 };
 
 const getAllLocations = async () => {

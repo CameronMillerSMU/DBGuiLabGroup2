@@ -81,9 +81,9 @@ const findByUserName = async (username) => {
 // Updates (PUT)
 
 // Update Password
-const updatePassword = async (username, newpassword) => {
+const updatePassword = async (username, new_password) => {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newpassword, salt);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
     const query = knex(USER_TABLE).where({username}).update({password: hashedPassword});
     result = await query;
     return result;

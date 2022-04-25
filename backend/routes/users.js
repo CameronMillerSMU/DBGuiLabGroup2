@@ -10,7 +10,7 @@ module.exports = function routes(app, logger) {
 
   // Get Statement (TEST STATEMENT)
   app.get('/', (req, res) => {
-    res.status(200).send('Go to 0.0.0.0:3000.');
+    return res.status(200).send('Go to 0.0.0.0:3000.');
   });
 
   // Create (POSTS)
@@ -27,7 +27,6 @@ module.exports = function routes(app, logger) {
     } catch (err) {
       return res.status(400).json({ message: 'Duplicate Entry' });
     }
-
   });
 
   // Post Token -> JSON Object To New User (Login)
@@ -62,9 +61,9 @@ module.exports = function routes(app, logger) {
     try {
       const result = await User.getUsers();
       if (result.length === 0) { return res.status(401).json({ message: 'No Users Exist' }); }
-      res.status(200).json(result[0]);
+      return res.status(200).json(result[0]);
     } catch (err) {
-      res.status(401).json({ message: 'Could Not Query Users' });
+      return res.status(401).json({ message: 'Could Not Query Users' });
     }
   });
 
@@ -73,9 +72,9 @@ module.exports = function routes(app, logger) {
     try {
       const result = await User.getUsersPublic();
       if (result.length === 0) { return res.status(401).json({ message: 'No Public Users Exist' }); }
-      res.status(200).json(result[0]);
+      return res.status(200).json(result[0]);
     } catch (err) {
-      res.status(401).json({ message: 'Could Not Query Public Users' });
+      return res.status(401).json({ message: 'Could Not Query Public Users' });
     }
   });
 
@@ -84,9 +83,9 @@ module.exports = function routes(app, logger) {
     try {
       const result = await User.getUsersRegistered();
       if (result.length === 0) { return res.status(401).json({ message: 'No Registered Users Exist' }); }
-      res.status(200).json(result[0]);
+      return res.status(200).json(result[0]);
     } catch (err) {
-      res.status(401).json({ message: 'Could Not Query Registered Users' });
+      return res.status(401).json({ message: 'Could Not Query Registered Users' });
     }
   });
 
@@ -96,9 +95,9 @@ module.exports = function routes(app, logger) {
       const body = req.body;
       result = await User.findByUserName(body.username);
       if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
-      res.status(200).json(result[0]);
+      return res.status(200).json(result[0]);
     } catch (err) {
-      res.status(401).json({ message: 'Could Not Find User' });
+      return res.status(401).json({ message: 'Could Not Find User' });
     }
   });
 
