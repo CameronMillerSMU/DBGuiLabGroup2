@@ -1,4 +1,4 @@
-export { addUser } from './ApiCalls';
+export * from './ApiCalls';
 export * from './ApiConfig';
 export * from './Comment';
 export * from './Location';

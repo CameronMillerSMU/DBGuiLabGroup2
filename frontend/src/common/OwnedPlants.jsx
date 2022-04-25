@@ -16,10 +16,10 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
-import { PlantCard } from '../common/PlantCard';
+import { ResponsiveAppBar } from './ResponsiveAppBar';
+import { PlantCard } from './PlantCard';
 import { SettingsApplicationsTwoTone } from '@mui/icons-material';
-import Plant from '../common/Plant';
+import Plant from './Plant';
 
 function Copyright() {
   return (

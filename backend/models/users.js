@@ -44,8 +44,7 @@ const authenticateUser = async (username, password) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (validPassword) {
         delete user.password;
-        return user;
-    }
+        return user; }
     return null;
 };
 
@@ -79,12 +78,12 @@ const findByUserName = async (username) => {
     return result;
 };
 
-// Updates
+// Updates (PUT)
 
 // Update Password
-const updatePassword = async (username, newpassword) => {
+const updatePassword = async (username, new_password) => {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newpassword, salt);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
     const query = knex(USER_TABLE).where({username}).update({password: hashedPassword});
     result = await query;
     return result;
@@ -118,6 +117,13 @@ const updatePrivacy = async (username, new_privacy) => {
     return result;
 };
 
+// Update Admin
+const updateAdmin = async (username, new_admin) => {
+    const query = knex(USER_TABLE).where({username}).update({adminTag: new_admin});
+    const result = await query;
+    return result;
+};
+
 // Update Picture
 const updatePicture = async (username, new_picture) => {
     const query = knex(USER_TABLE).where({username}).update({imagePath: new_picture});
@@ -132,7 +138,7 @@ const updateBackground = async (username, new_background) => {
     return result;
 };
 
-// Delete
+// Delete (DELETE)
 
 // Delete User With Username
 const deleteUserName = async (username) => {
@@ -153,6 +159,7 @@ module.exports = {
     updateLocation,
     updateRegistration,
     updatePrivacy,
+    updateAdmin,
     updatePicture,
     updateBackground,
     deleteUserName
