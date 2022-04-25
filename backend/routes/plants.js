@@ -18,7 +18,7 @@ module.exports = function routes(app, logger) {
                 return res.status(201).json(result[0]); } 
             else { return res.status(400).json(result); }
         } catch (err) {
-            res.status(400).json({ message: 'Duplicate Entry' });
+            return res.status(400).json({ message: 'Duplicate Entry' });
         }
     });
 
@@ -29,9 +29,9 @@ module.exports = function routes(app, logger) {
         try {
             const result = await Plant.getAllPlants();
             if (result.length === 0) { return res.status(401).json({ message: 'No Plants Exist' }); }
-            res.status(200).json(result[0]);
+            return res.status(200).json(result[0]);
         } catch (err) {
-            res.status(401).json({ message: 'Could Not Query Plants'});
+            return res.status(401).json({ message: 'Could Not Query Plants'});
         }
     });
 
@@ -41,9 +41,9 @@ module.exports = function routes(app, logger) {
             const body = req.body;
             const result = await Plant.findPlantByName(body.name);
             if (result.length === 0) { return res.status(401).json({ message: 'No Plants With Name Exist' }); }
-            res.status(200).json(result[0]);
+            return res.status(200).json(result[0]);
         } catch (err) {
-            res.status(401).json({ message: 'Could Not Query Plants With Name'});
+            return res.status(401).json({ message: 'Could Not Query Plants With Name'});
         }
     });
 
@@ -53,9 +53,9 @@ module.exports = function routes(app, logger) {
             const body = req.body;
             const result = await Plant.findPlantByCategory(body.category);
             if (result.length === 0) { return res.status(401).json({ message: 'No Plants With Category Exist' }); }
-            res.status(200).json(result[0]);
+            return res.status(200).json(result[0]);
         } catch (err) {
-            res.status(401).json({ message: 'Could Not Query Plants With Category'});
+            return res.status(401).json({ message: 'Could Not Query Plants With Category'});
         }
     });
 
@@ -65,9 +65,9 @@ module.exports = function routes(app, logger) {
             const body = req.body;
             const result = await Plant.findPlantByClimate(body.climate);
             if (result.length === 0) { return res.status(401).json({ message: 'No Plants With Climate Exist' }); }
-            res.status(200).json(result[0]);
+            return res.status(200).json(result[0]);
         } catch (err) {
-            res.status(401).json({ message: 'Could Not Query Plants With Climate'});
+            return res.status(401).json({ message: 'Could Not Query Plants With Climate'});
         }
     });
 
@@ -175,7 +175,7 @@ module.exports = function routes(app, logger) {
             result = await Plant.deletePlant(body.name);
             return res.status(204).json({ message: 'Successfully Deleted Plant' });
         } catch (err) {
-            res.status(401).json({ message: 'Could Not Delete Plant' });
+            return res.status(401).json({ message: 'Could Not Delete Plant' });
         }
     });
 

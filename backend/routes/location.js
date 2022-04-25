@@ -1,36 +1,39 @@
 const express = require('express');
-const pool = require('../db');
 
-const locationController = require('../controllers/location');
-const location = require('../models/location');
+const Location = require('../models/location');
 
 const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth');
 
 module.exports = function routes(app, logger){
 
+  // Create (POSTS)
 
-    app.post('/newLocation', authenticateJWT, async (req, res) => {
-        const body = req.body;
-        try {
-            const result = await locationController.createNewLocation(body.cityName, body.tempLow, body.tempHigh, body.lastUpdate, body.weatherType, body.nearestStore);
-            return res.status(200).json(result); 
-            } catch (err) {
-                console.log("ERROR HERE IDIOT: " + err);
-              return res.status(401).json({ message: "Failed to make a new location." });
-            }
-        
-    });
+  // Create New Location: Cityname, tempLow, tempHigh, lastUpdate, ImagePath (Picture), Water, Sunlight, Soil
+  app.post('/location/newlocation', authenticateJWT, async (req, res) => {
+    try {
+      const body = req.body;
+      result = await Plant.createNewPlant(body.name, body.description, body.category, body.climate, body.picture, body.water, body.sunlight, body.soil);
+      if (result.success) {
+        result = await Plant.findPlantByName(body.name);
+        return res.status(201).json(result[0]); } 
+      else { return res.status(400).json(result); }
+    } catch (err) {
+      return res.status(400).json({ message: 'Duplicate Entry' });
+    }
+  });
 
 
-    app.get('/allLocations', authenticateJWT, async (req, res) => {
-        try {
-            console.log("ERROR 1");
-            const result = await locationController.getAllLocations();
-            res.status(200).json(result);
-          } catch (err) {
-            res.status(401).json({ message: 'Could Not Get All Locations'});
-          }
-        });
+  // Requests (GETS)
+
+  // Get All Locations
+  app.get('/alllocations', authenticateJWT, async (req, res) => {
+    try {
+      const result = await Location.getAllLocations();
+      res.status(200).json(result);
+    } catch (err) {
+      return res.status(401).json({ message: 'Could Not Get All Locations'});
+    }
+  });
 
 
     app.get('/locationByCityName', authenticateJWT, async (req, res, next) => {
