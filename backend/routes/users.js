@@ -50,7 +50,7 @@ module.exports = function routes(app, logger) {
     try {
       const user = req.user;
       const result = await User.findByUserName(user.username);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       return res.status(200).json(result[0]);
     } catch (err) {
       return res.status(401).json({ message: 'Bad Token' });
@@ -61,7 +61,7 @@ module.exports = function routes(app, logger) {
   app.get('/users/allusers', authenticateJWT, async (req, res) => {
     try {
       const result = await User.getUsers();
-      if (result.length === 0) { res.status(401).json({ message: 'No Users Exist' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'No Users Exist' }); }
       res.status(200).json(result[0]);
     } catch (err) {
       res.status(401).json({ message: 'Could Not Query Users' });
@@ -72,7 +72,7 @@ module.exports = function routes(app, logger) {
    app.get('/users/publicusers', authenticateJWT, async (req, res) => {
     try {
       const result = await User.getUsersPublic();
-      if (result.length === 0) { res.status(401).json({ message: 'No Public Users Exist' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'No Public Users Exist' }); }
       res.status(200).json(result[0]);
     } catch (err) {
       res.status(401).json({ message: 'Could Not Query Public Users' });
@@ -83,7 +83,7 @@ module.exports = function routes(app, logger) {
   app.get('/users/registeredusers', authenticateJWT, async (req, res) => {
     try {
       const result = await User.getUsersRegistered();
-      if (result.length === 0) { res.status(401).json({ message: 'No Registered Users Exist' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'No Registered Users Exist' }); }
       res.status(200).json(result[0]);
     } catch (err) {
       res.status(401).json({ message: 'Could Not Query Registered Users' });
@@ -95,21 +95,21 @@ module.exports = function routes(app, logger) {
     try {
       const body = req.body;
       result = await User.findByUserName(body.username);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       res.status(200).json(result[0]);
     } catch (err) {
       res.status(401).json({ message: 'Could Not Find User' });
     }
   });
 
-  // User Updates
+  // Updates (PUTS)
 
   // Update Password
   app.put('/users/updatepassword', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
       result = await User.updatePassword(body.username, body.password);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
       return res.status(200).json(result[0]); 
     } catch (err) {
@@ -122,7 +122,7 @@ module.exports = function routes(app, logger) {
     try {
       const body = req.body;
       result = await User.updateBirthday(body.username, body.birthday);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
       return res.status(200).json(result[0]);
     } catch (err) {
@@ -135,7 +135,7 @@ module.exports = function routes(app, logger) {
     try {
       const body = req.body;
       result = await User.updateLocation(body.username, body.location);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
       return res.status(200).json(result[0]);
     } catch (err) {
@@ -148,7 +148,7 @@ module.exports = function routes(app, logger) {
     try {
       const body = req.body;
       result = await User.updateRegistration(body.username, body.registration);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
       return res.status(200).json(result[0]);
     } catch (err) {
@@ -161,7 +161,7 @@ module.exports = function routes(app, logger) {
     try {
       const body = req.body;
       result = await User.updatePrivacy(body.username, body.privacy);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
       return res.status(200).json(result[0]);
     } catch (err) {
@@ -174,7 +174,7 @@ module.exports = function routes(app, logger) {
     try {
       const body = req.body;
       result = await User.updateAdmin(body.username, body.admin);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
       return res.status(200).json(result[0]);
     } catch (err) {
@@ -187,7 +187,7 @@ module.exports = function routes(app, logger) {
     try {
       const body = req.body;
       result = await User.updatePicture(body.username, body.picture);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
       return res.status(200).json(result[0]);
     } catch (err) {
@@ -200,7 +200,7 @@ module.exports = function routes(app, logger) {
     try {
       const body = req.body;
       result = await User.updateBackground(body.username, body.background);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
       return res.status(200).json(result[0]);
     } catch (err) {
@@ -208,14 +208,14 @@ module.exports = function routes(app, logger) {
     }
   });
 
-  // Delete
+  // Delete (DELETE)
 
   // Delete User
   app.delete('/users/deleteuser', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
       result = await User.findByUserName(body.username);
-      if (result.length === 0) { res.status(401).json({ message: 'Could Not Find User' }); }
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.deleteUserName(body.username);
       return res.status(204).json({ message: 'Successfully Deleted User' });
     } catch (err) {

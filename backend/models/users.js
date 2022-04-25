@@ -78,7 +78,7 @@ const findByUserName = async (username) => {
     return result;
 };
 
-// Updates
+// Updates (PUT)
 
 // Update Password
 const updatePassword = async (username, newpassword) => {
@@ -138,7 +138,7 @@ const updateBackground = async (username, new_background) => {
     return result;
 };
 
-// Delete
+// Delete (DELETE)
 
 // Delete User With Username
 const deleteUserName = async (username) => {

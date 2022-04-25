@@ -43,7 +43,7 @@ app.get('/health', (req, res) => {
 // Calls Routes (App.Use)
 usersRoutes(app, logger);
 plantsRoutes(app, logger);
-ownedPlantRoutes(app, logger);
+// ownedPlantRoutes(app, logger);
 
 // Connecting Express To Listen To Config Port
 app.listen(config.port, config.host, (e) => {
