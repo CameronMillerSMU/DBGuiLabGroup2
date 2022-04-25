@@ -100,7 +100,7 @@ app.put('/updateLocationTemps', authenticateJWT, async (req, res) => {
   app.delete('/deleteLocation', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
-      result = await User.findLocationByName(body.cityName);
+      result = await location.findLocationByName(body.cityName);
       if (Object.keys(result).length == 0) {
         return res.status(401).json({ message: 'Location Does Not Exist' }); }
       result = await locationController.deleteLocation(body.cityName);
