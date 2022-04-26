@@ -56,4 +56,23 @@ export class ApiCalls {
         })
     }
     
+    getUsers() {
+        return new Promise((resolve,reject) => {
+            axios.get(`${apiEndpoint}/`, {})
+            .then(response => {
+                console.log('Response: ');
+                console.log(response);
+                sessionStorage.setIem('token', response.data.accessToken);
+                resolve(response);
+            })
+            .catch(error => {
+                console.log('Not Connected :(');
+                console.log(error);
+                reject(error);
+            })
+            .finally(() => {
+                console.log("I'm in");
+            })
+        })
+    }
 }
