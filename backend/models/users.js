@@ -7,7 +7,7 @@ const USER_TABLE = 'flora.users';
 
 // Create User, Do Checks
 const createNewUser = async (username, password) => {
-    
+    console.log("A");
     // Need Username
     if (!username) {
         return {
@@ -23,11 +23,11 @@ const createNewUser = async (username, password) => {
             message: 'Password Required'
         }
     }
-
+    console.log("B");
     // Hash Password with Bcrypt
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
+    console.log("C");
     const query = knex(USER_TABLE).insert({username, password: hashedPassword, registerTag: false, privateTag: false});
     result = await query;
     result['success'] = true;
@@ -44,8 +44,7 @@ const authenticateUser = async (username, password) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (validPassword) {
         delete user.password;
-        return user;
-    }
+        return user; }
     return null;
 };
 
@@ -79,12 +78,12 @@ const findByUserName = async (username) => {
     return result;
 };
 
-// Updates
+// Updates (PUT)
 
 // Update Password
-const updatePassword = async (username, newpassword) => {
+const updatePassword = async (username, new_password) => {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newpassword, salt);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
     const query = knex(USER_TABLE).where({username}).update({password: hashedPassword});
     result = await query;
     return result;
@@ -139,7 +138,7 @@ const updateBackground = async (username, new_background) => {
     return result;
 };
 
-// Delete
+// Delete (DELETE)
 
 // Delete User With Username
 const deleteUserName = async (username) => {
