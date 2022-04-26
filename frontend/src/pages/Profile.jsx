@@ -15,14 +15,31 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { PlantPost } from './PlantPost';
 
+import { useEffect, useState } from 'react';
+
+import { PlantPost } from './PlantPost';
 import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
 import { ApiCalls } from '../common/ApiCalls';
+import { User } from '../common/User';
+
 
 const theme = createTheme();
 
 export const Profile = (props) => {
+
+  const testuser = new User(username = "test", 
+    password, 
+    birthDate, 
+    location, 
+    adminTag, 
+    registeredTag, 
+    privateTag, 
+    backgroundPic, 
+    favoritePlants, 
+    ownedPlants)
+
+    const [bgpic, setBgpic] = React.useState(null);
 
   
     const api = new ApiCalls;
@@ -52,7 +69,7 @@ export const Profile = (props) => {
                 color="text.primary"
                 gutterBottom
               >
-                {user.username}
+                {testuser.username}
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
                 Something short and leading about the collection below—its contents,
@@ -65,7 +82,12 @@ export const Profile = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained">Change Background Pic</Button>
+                <label htmlFor="contained-button-file">
+  <Input accept="image/*" id="contained-button-file" multiple type="file" value={(x)=> setBgpic(x)}/>
+  <Button variant="contained" component="span">
+    Upload
+  </Button>
+</label>
                 <Button variant="outlined">Change Location</Button>
               </Stack>
             </Container>
@@ -76,12 +98,12 @@ export const Profile = (props) => {
           <Container sx={{ py: 8 }} maxWidth="md">
             {/* End hero unit */}
             <Grid container spacing={4}>
-              {cards.map((card) => (
+              {/*cards.map((card) => (
                 <Grid item key={card} xs={12} sm={6} md={4}>
 
             <PlantPost posts={user.plantPosts} id={card}/>
             </Grid>
-              ))}
+              ))*/}
             </Grid>
           </Container>
         </main>

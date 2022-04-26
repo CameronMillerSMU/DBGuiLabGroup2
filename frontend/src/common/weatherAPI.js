@@ -1,6 +1,7 @@
 import React from 'react';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Display } from './weatherDisplay';
+import { useEffect, useState } from 'react';
 
 
 const API_KEY = "d388cdb64706c8b7a2b2bf7f041b42dd"
@@ -27,6 +28,8 @@ export class WeatherAPI extends React.Component {
                     isLoading: false }))
             .catch(error => this.setState( {error, isLoading : true }));
     }
+
+
     render() {
 
         if(this.state.isLoading) {

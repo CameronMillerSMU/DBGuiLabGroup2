@@ -6,6 +6,8 @@ import CardContent from "@material-ui/core/CardContent";
 import TextField from "@material-ui/core/TextField";
 //import bgImg from "../../public/logo512.png";
 import { WeatherAPI } from "../common/weatherAPI";
+import { useEffect, useState } from 'react';
+import { Button } from "@material-ui/core";
 
 const style = makeStyles((theme) => ({
   root: {
@@ -25,6 +27,7 @@ export const Weather = (props) => {
   const [city, setCity] = React.useState(null);
 
   return (
+    
     <Grid className={classes.root} alignItems="center" container justify>
       <Card className={classes.cardcss}>
         <CardContent>
@@ -35,7 +38,9 @@ export const Weather = (props) => {
               setCity(e.target.value);
             }}
           />
-          <WeatherAPI city={city} />
+          
+          { //!!city && <WeatherAPI city={city} />
+          }
         </CardContent>
       </Card>
     </Grid>
