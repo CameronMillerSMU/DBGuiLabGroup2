@@ -28,7 +28,7 @@ export const SignUp = (props) => {
     const data = new FormData(event.currentTarget);
     ApiCall.register(data.get('username'), data.get('password')).then(res => {
       if (res.status <= 201) {
-        navigate('/');
+        navigate('/home');
       }
     }).catch(err => {
       alert("User is already associated with this website");

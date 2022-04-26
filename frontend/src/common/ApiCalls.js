@@ -23,6 +23,7 @@ export class ApiCalls {
             axios.post(`${apiEndpoint}/users/register`, {username: username, password: password})
             .then(response => {
                 console.log('Connected!!!');
+                sessionStorage.setItem('token', response.data);
                 resolve(response);
             })
             .catch(error => {
@@ -38,11 +39,12 @@ export class ApiCalls {
 
     login(username,password) {
         return new Promise((resolve,reject) => {
+            debugger
             axios.post(`${apiEndpoint}/users/login`, {username: username, password: password})
             .then(response => {
                 console.log('Response: ');
                 console.log(response);
-                sessionStorage.setIem('token', response.data.accessToken);
+                sessionStorage.setItem('token', response.data);
                 resolve(response);
             })
             .catch(error => {
@@ -62,7 +64,7 @@ export class ApiCalls {
             .then(response => {
                 console.log('Response: ');
                 console.log(response);
-                sessionStorage.setIem('token', response.data.accessToken);
+                sessionStorage.setItem('token', response.data);
                 resolve(response);
             })
             .catch(error => {
