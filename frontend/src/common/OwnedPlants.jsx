@@ -15,11 +15,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import { ResponsiveAppBar } from '../common/Header';
 import { PlantCard } from '../common/PlantCard';
-import { SettingsApplicationsTwoTone } from '@mui/icons-material';
-import Plant from '../common/Plant';
+import { Banner } from '../common/Banner';
 
 function Copyright() {
   return (
@@ -115,6 +112,6 @@ export const OwnedPlants = ({ plantsList }) => {
         </main>
         
       </ThemeProvider>;
-
+    
   //}
 }
