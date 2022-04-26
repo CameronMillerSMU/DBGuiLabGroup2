@@ -7,7 +7,7 @@ import { Password, SettingsOverscanOutlined } from '@mui/icons-material';
 import { User } from '../common/User';
 import { Navigate } from 'react-router-dom';
 import { apiEndpoint, apiConfig } from '../common/ApiConfig';
-import { addUser, ApiCalls } from '../common/ApiCalls';
+import { ApiCalls } from '../common/ApiCalls';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Banner } from '../common/Banner';
