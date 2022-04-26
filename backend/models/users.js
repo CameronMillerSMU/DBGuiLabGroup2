@@ -6,8 +6,8 @@ const USER_TABLE = 'flora.users';
 // Create (POST)
 
 // Create User, Do Checks
-const createNewUser = async (username, password) => {
-    console.log("A");
+const createNewUser = async (username, password, birthday, location, registration, privacy, admin, picture, background) => {
+   
     // Need Username
     if (!username) {
         return {
@@ -23,12 +23,12 @@ const createNewUser = async (username, password) => {
             message: 'Password Required'
         }
     }
-    console.log("B");
+    
     // Hash Password with Bcrypt
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    console.log("C");
-    const query = knex(USER_TABLE).insert({username, password: hashedPassword, registerTag: false, privateTag: false});
+
+    const query = knex(USER_TABLE).insert({username, password: hashedPassword, birthday: birthday, location: location, registerTag: registration, privateTag: privacy, adminTag: admin, imagePath: picture, backgroundPath: background});
     result = await query;
     result['success'] = true;
     return result;
@@ -53,6 +53,13 @@ const authenticateUser = async (username, password) => {
 // Find All Users 
 const getUsers = async () => {
     const query = knex(USER_TABLE);
+    const result = await query;
+    return result;
+};
+
+// Find All Admins
+const getAdmins = async () => {
+    const query = knex(USER_TABLE).where({adminTag: 1});
     const result = await query;
     return result;
 };
@@ -151,6 +158,7 @@ module.exports = {
     createNewUser,
     authenticateUser,
     getUsers,
+    getAdmins,
     getUsersPublic,
     getUsersRegistered,
     findByUserName,
