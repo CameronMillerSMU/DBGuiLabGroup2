@@ -7,7 +7,7 @@ const USER_TABLE = 'flora.users';
 
 // Create User, Do Checks
 const createNewUser = async (username, password, birthday, location, registration, privacy, admin, picture, background) => {
-   
+    
     // Need Username
     if (!username) {
         return {
@@ -23,7 +23,7 @@ const createNewUser = async (username, password, birthday, location, registratio
             message: 'Password Required'
         }
     }
-    
+
     // Hash Password with Bcrypt
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
