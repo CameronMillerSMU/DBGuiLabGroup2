@@ -30,7 +30,7 @@ export const Home = (props) => {
     <div>
       <ThemeProvider theme={theme}>
         <ResponsiveAppBar />
-        
+
         <main>
           <Box
             sx={{
@@ -64,7 +64,6 @@ export const Home = (props) => {
             </Container>
           </Box>
           <Container sx={{ py: 8 }} maxWidth="md">
-            {/* End hero unit */}
             <Grid container spacing={4}>
               {cards.map((card) => (
                 <Grid item key={card} xs={12} sm={6} md={4}>
@@ -75,7 +74,7 @@ export const Home = (props) => {
                       <Typography gutterBottom variant="h5" component="h2">
                         User Name
                       </Typography>
-                      
+
                     </CardContent>
                     <CardMedia
                       component="img"
@@ -87,10 +86,9 @@ export const Home = (props) => {
                       alt="random"
                     />
                     <Typography padding="5%">
-                      This is where the users biography will go
+                      This is where the users backgrounds will go
                     </Typography>
                     <Button variant="contained" size="medium" align="center">View User</Button>
-                    {/* <Button variant="outlined" size="medium" float="right">Favorite</Button> */}
                   </Card>
                 </Grid>
               ))}
