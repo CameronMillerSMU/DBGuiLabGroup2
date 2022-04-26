@@ -19,7 +19,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 
 import { PlantPost } from './PlantPost';
-import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
+import { Banner } from '../common/Banner';
 import { ApiCalls } from '../common/ApiCalls';
 import { User } from '../common/User';
 
@@ -28,16 +28,7 @@ const theme = createTheme();
 
 export const Profile = (props) => {
 
-  const testuser = new User(username = "test", 
-    password, 
-    birthDate, 
-    location, 
-    adminTag, 
-    registeredTag, 
-    privateTag, 
-    backgroundPic, 
-    favoritePlants, 
-    ownedPlants)
+  const testuser = new User();
 
     const [bgpic, setBgpic] = React.useState(null);
 
@@ -50,7 +41,7 @@ export const Profile = (props) => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <ResponsiveAppBar />
+        <Banner />
         
         <main>
           {/* Hero unit */}
@@ -82,12 +73,7 @@ export const Profile = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                <label htmlFor="contained-button-file">
-  <Input accept="image/*" id="contained-button-file" multiple type="file" value={(x)=> setBgpic(x)}/>
-  <Button variant="contained" component="span">
-    Upload
-  </Button>
-</label>
+                
                 <Button variant="outlined">Change Location</Button>
               </Stack>
             </Container>

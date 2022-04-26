@@ -6,7 +6,10 @@ import axios from 'axios';
 import Album from './pages/Home';
 import { Home } from './pages/Home';
 import { Login } from './pages';
-import { SignUp }from './pages/SignUp';
+import { SignUp } from './pages/SignUp';
+import { PlantPage } from './pages/PlantPage';
+import { Profile } from './pages/Profile';
+import { Weather } from './pages/Weather';
 
 // React functional component
 function App () {
