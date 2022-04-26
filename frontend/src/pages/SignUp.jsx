@@ -11,7 +11,6 @@ import { apiEndpoint, apiConfig } from '../common/ApiConfig';
 import { addUser, ApiCalls } from '../common/ApiCalls';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
 import { Banner } from '../common/Banner';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
