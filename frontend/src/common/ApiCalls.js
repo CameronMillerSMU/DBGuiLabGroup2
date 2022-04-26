@@ -60,15 +60,14 @@ export class ApiCalls {
     
     getUsers() {
         return new Promise((resolve,reject) => {
-            axios.get(`${apiEndpoint}/`, {})
+            axios.get(`${apiEndpoint}/users/allusers`)
             .then(response => {
                 console.log('Response: ');
                 console.log(response);
-                sessionStorage.setItem('token', response.data);
                 resolve(response);
             })
             .catch(error => {
-                console.log('Not Connected :(');
+                console.log('Cannot get users');
                 console.log(error);
                 reject(error);
             })
