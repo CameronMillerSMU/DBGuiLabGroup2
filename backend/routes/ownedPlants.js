@@ -7,7 +7,7 @@ const ownedPlant = require('../models/ownedPlants');
 const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth');
 
 module.exports = function routes(app, logger){
-    app.get('/allOwned', authenticateJWT, async (req, res) => {
+    app.get('/ownedplants/allowned', authenticateJWT, async (req, res) => {
         try {
             console.log("ERROR 1");
             const result = await ownedPlant.getAllOwnedPlants();
@@ -17,10 +17,10 @@ module.exports = function routes(app, logger){
           }
         })
 
-    app.post('/newOwned', authenticateJWT, async (req, res) => {
+    app.post('/ownedplants/newowned', authenticateJWT, async (req, res) => {
         const body = req.body;
         try {
-            const result = await ownedPlantController.createNewOwnedPlant(body.owner, body.name, body.privateTag, body.insideTag);
+            const result = await ownedPlant.createNewOwnedPlant(body.owner, body.name, body.privateTag, body.insideTag);
             return res.status(200).json(result); 
             } catch (err) {
                 console.log("ERROR HERE IDIOT: " + err);
@@ -29,13 +29,13 @@ module.exports = function routes(app, logger){
         
     })
 
-    app.get('/byOwner', authenticateJWT, async (req, res, next) => {
+    app.get('/ownedplants/byowner', authenticateJWT, async (req, res, next) => {
         try {
-            var stadio = req.query.owner;
-            if (req.query.owner == undefined){
+            var stadio = req.body.owner;
+            if (req.body.owner == undefined){
                 stadio = null;
             }
-            const result = await ownedPlantController.findOwnedPlantsByOwner(stadio);
+            const result = await ownedPlant.findOwnedPlantsByOwner(stadio);
             console.log("HERE RESULT: " + result);
             res.status(200).json(result);
             
@@ -46,13 +46,13 @@ module.exports = function routes(app, logger){
 
 })
 
-app.get('/byName', authenticateJWT, async (req, res, next) => {
+app.get('/ownedplants/byname', authenticateJWT, async (req, res, next) => {
     try {
-        var stadio = req.query.name;
-        if (req.query.name == undefined){
+        var stadio = req.body.name;
+        if (req.body.name == undefined){
             stadio = null;
         }
-        const result = await ownedPlantController.findOwnedPlantsByName(stadio);
+        const result = await ownedPlant.findOwnedPlantsByName(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -64,14 +64,14 @@ app.get('/byName', authenticateJWT, async (req, res, next) => {
 })
 
 
-app.get('/byId', authenticateJWT, async (req, res, next) => {
+app.get('/ownedplants/byid', authenticateJWT, async (req, res, next) => {
     try {
-        var stadio = req.query.id;
-        if (req.query.id == undefined){
+        var stadio = req.body.id;
+        if (req.body.id == undefined){
             stadio = null;
         }
         else{
-        const result = await ownedPlantController.findOwnedPlantsById(stadio);
+        const result = await ownedPlant.findOwnedPlantsById(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);}
         
@@ -82,10 +82,10 @@ app.get('/byId', authenticateJWT, async (req, res, next) => {
 
 })
 
-app.get('/publicOwned', authenticateJWT, async (req, res) => {
+app.get('/ownedplants/publicowned', authenticateJWT, async (req, res) => {
     try {
         
-        result = await ownedPlantController.getAllOwnedPlantsExcludePrivate();
+        result = await ownedPlant.getAllOwnedPlantsExcludePrivate();
         if (result.success) {
           return res.status(201).json(result); } 
         else { return res.status(400).json(result); }
@@ -95,13 +95,13 @@ app.get('/publicOwned', authenticateJWT, async (req, res) => {
     
 })
 
-app.get('/byOwnerPublic', authenticateJWT, async (req, res, next) => {
+app.get('/ownedplants/byownerpublic', authenticateJWT, async (req, res, next) => {
     try {
-        var stadio = req.query.owner;
-        if (req.query.owner == undefined){
+        var stadio = req.body.owner;
+        if (req.body.owner == undefined){
             stadio = null;
         }
-        const result = await ownedPlantController.findOwnedPlantsByOwnerExcludePrivate(stadio);
+        const result = await ownedPlant.findOwnedPlantsByOwnerExcludePrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -112,13 +112,13 @@ app.get('/byOwnerPublic', authenticateJWT, async (req, res, next) => {
 
 })
 
-app.get('/byNamePublic', authenticateJWT, async (req, res, next) => {
+app.get('/ownedplants/bynamepublic', authenticateJWT, async (req, res, next) => {
     try {
-        var stadio = req.query.name;
-        if (req.query.name == undefined){
+        var stadio = req.body.name;
+        if (req.body.name == undefined){
             stadio = null;
         }
-        const result = await ownedPlantController.findOwnedPlantsByNameExceptPrivate(stadio);
+        const result = await ownedPlant.findOwnedPlantsByNameExceptPrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -129,14 +129,14 @@ app.get('/byNamePublic', authenticateJWT, async (req, res, next) => {
 
 })
 
-app.get('/byIdPublic', authenticateJWT, async (req, res, next) => {
+app.get('/ownedplants/byidpublic', authenticateJWT, async (req, res, next) => {
     try {
-        var stadio = req.query.id;
-        if (req.query.id == undefined){
+        var stadio = req.body.id;
+        if (req.body.id == undefined){
             stadio = null;
         }
         else{
-        const result = await ownedPlantController.findOwnedPlantsByIdExcludingPrivate(stadio);
+        const result = await ownedPlant.findOwnedPlantsByIdExcludingPrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);}
         

@@ -57,7 +57,7 @@ module.exports = function routes(app, logger) {
   });
 
   // Get All Users
-  app.get('/users/allusers', authenticateJWT, async (req, res) => {
+  app.get('/users/allusers', async (req, res) => {
     try {
       const result = await User.getUsers();
       if (result.length === 0) { return res.status(401).json({ message: 'No Users Exist' }); }
