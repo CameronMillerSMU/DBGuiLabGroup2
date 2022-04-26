@@ -7,6 +7,9 @@ import Album from './pages/Home';
 import { Home } from './pages/Home';
 import { Login } from './pages';
 import { SignUp } from './pages/SignUp';
+import { PlantPage } from './pages/PlantPage';
+import { Profile } from './pages/Profile';
+import { Weather } from './pages/Weather';
 
 // React functional component
 function App() {
@@ -26,9 +29,12 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login setToken={setToken} />} />
-          <Route path="/register" element={<SignUp setToken={setToken} />} />
-          <Route path="/home" element={<Home token={token} />} />
+          <Route path="/" element={<Login setToken={setToken}/>} />
+          <Route path="/register" element={<SignUp setToken={setToken}/>} />
+          <Route path="/home" element={<Home token={token}/>} />
+          <Route path="/plants" element={<PlantPage token={token}/>} />
+          <Route path="/profile" element={<Profile token={token}/>} />
+          <Route path="/weather" element={<Weather token={token}/>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -17,7 +17,7 @@ import { User } from '../common/User';
 import { apiEndpoint, apiConfig } from '../common/ApiConfig';
 import { ApiCalls } from '../common/ApiCalls';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
+import { Banner } from '../common/Banner';
 
 const theme = createTheme();
 
@@ -54,7 +54,6 @@ export const Login = () => {
   };
 
   return <>
-    <ResponsiveAppBar />
     <div className="w-75 mx-auto">
       <div className="border mb-2 mt-5">
         <h1 className="text-white bg-primary p-3 mb-0">Login</h1>

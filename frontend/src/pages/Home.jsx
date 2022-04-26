@@ -18,7 +18,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
 import { getUsers } from '../common/ApiCalls'
 
-import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
+import { Banner } from '../common/Banner';
 
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -29,8 +29,8 @@ export const Home = (props) => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <ResponsiveAppBar />
-
+        <Banner />
+        
         <main>
           <Box
             sx={{
@@ -99,3 +99,4 @@ export const Home = (props) => {
     </div>
   );
 }
+
