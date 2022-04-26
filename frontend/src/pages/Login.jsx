@@ -17,7 +17,6 @@ import { User } from '../common/User';
 import { apiEndpoint, apiConfig } from '../common/ApiConfig';
 import { ApiCalls } from '../common/ApiCalls';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Banner } from '../common/Banner';
 
 const theme = createTheme();
 
