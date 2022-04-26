@@ -10,7 +10,7 @@ import { apiEndpoint, apiConfig } from '../common/ApiConfig';
 import { addUser, ApiCalls } from '../common/ApiCalls';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
+import { Banner } from '../common/Banner';
 
 export const SignUp = (props) => {
 
@@ -37,7 +37,7 @@ export const SignUp = (props) => {
 
 
   return <>
-    <ResponsiveAppBar />
+    <Banner />
     <div className="w-75 mx-auto">
       <div className="border mb-2 mt-5">
         <h1 className="text-white bg-primary p-3 mb-0">Sign Up</h1>
