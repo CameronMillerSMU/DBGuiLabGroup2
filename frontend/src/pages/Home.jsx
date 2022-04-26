@@ -1,6 +1,7 @@
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
+import YardIcon from '@mui/icons-material/Yard';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -14,21 +15,11 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Navigate } from 'react-router-dom';
+import { getUsers } from '../common/ApiCalls'
 
-import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
+import { Banner } from '../common/Banner';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -38,10 +29,9 @@ export const Home = (props) => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <ResponsiveAppBar />
+        <Banner />
         
         <main>
-          {/* Hero unit */}
           <Box
             sx={{
               bgcolor: 'background.paper',
@@ -57,12 +47,10 @@ export const Home = (props) => {
                 color="text.primary"
                 gutterBottom
               >
-                Home layout
+                Flora Home Page
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                Something short and leading about the collection below—its contents,
-                the creator, etc. Make it short and sweet, but not too short so folks
-                don&apos;t simply skip over it entirely.
+                Welcome to the home page! Here you can view your plants, add more to your collection and view other users on Flora.
               </Typography>
               <Stack
                 sx={{ pt: 4 }}
@@ -70,8 +58,8 @@ export const Home = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained">Main call to action</Button>
-                <Button variant="outlined">Secondary action</Button>
+                <Button variant="contained">View your plants</Button>
+                <Button variant="outlined">Add plants to your collection</Button>
               </Stack>
             </Container>
           </Box>
@@ -83,51 +71,34 @@ export const Home = (props) => {
                   <Card
                     sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                   >
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        User Name
+                      </Typography>
+                      
+                    </CardContent>
                     <CardMedia
                       component="img"
                       sx={{
                         // 16:9
-                        pt: '56.25%',
+                        // pt: '56.25%',
                       }}
                       image="https://source.unsplash.com/random"
                       alt="random"
                     />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Heading
-                      </Typography>
-                      <Typography>
-                        This is a media card. You can use this section to describe the
-                        content.
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small">View</Button>
-                      <Button size="small">Edit</Button>
-                    </CardActions>
+                    <Typography padding="5%">
+                      This is where the users biography will go
+                    </Typography>
+                    <Button variant="contained" size="medium" align="center">View User</Button>
+                    {/* <Button variant="outlined" size="medium" float="right">Favorite</Button> */}
                   </Card>
                 </Grid>
               ))}
             </Grid>
           </Container>
         </main>
-      {/* Footer */}
-      <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
-        </Typography>
-        <Copyright />
-      </Box>
-        {/* End footer */}
       </ThemeProvider>
     </div>
   );
 }
+

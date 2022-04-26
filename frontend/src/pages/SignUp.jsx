@@ -14,6 +14,7 @@ import Box from '@mui/material/Box';
 import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
 import { Banner } from '../common/Banner';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Banner } from '../common/Banner';
 
 export const SignUp = (props) => {
   const theme = createTheme();
