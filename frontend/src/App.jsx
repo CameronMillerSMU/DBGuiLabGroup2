@@ -4,8 +4,7 @@ import { Routes } from 'react-router';
 import './App.css';
 import axios from 'axios';
 import Album from './pages/Home';
-import OwnedPlants from './common/OwnedPlants';
-import Home from './pages/Home';
+import { Home } from './pages/Home';
 import { Login } from './pages';
 import { SignUp }from './pages/SignUp';
 
@@ -29,6 +28,7 @@ function App () {
         <Routes>
           <Route path="/" element={<Login setToken={setToken}/>} />
           <Route path="/register" element={<SignUp setToken={setToken}/>} />
+          <Route path="/home" element={<Home token={token}/>} />
         </Routes>
       </BrowserRouter>
     </div>
