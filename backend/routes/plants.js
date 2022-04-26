@@ -15,7 +15,7 @@ module.exports = function routes(app, logger) {
             result = await Plant.createNewPlant(body.name, body.description, body.category, body.climate, body.picture, body.water, body.sunlight, body.soil);
             if (result.success) {
                 result = await Plant.findPlantByName(body.name);
-                return res.status(201).json(result[0]); } 
+                return res.status(201).json(result); } 
             else { return res.status(400).json(result); }
         } catch (err) {
             return res.status(400).json({ message: 'Duplicate Entry' });
@@ -29,7 +29,7 @@ module.exports = function routes(app, logger) {
         try {
             const result = await Plant.getAllPlants();
             if (result.length === 0) { return res.status(401).json({ message: 'No Plants Exist' }); }
-            return res.status(200).json(result[0]);
+            return res.status(200).json(result);
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Query Plants'});
         }
@@ -41,7 +41,7 @@ module.exports = function routes(app, logger) {
             const body = req.body;
             const result = await Plant.findPlantByName(body.name);
             if (result.length === 0) { return res.status(401).json({ message: 'No Plants With Name Exist' }); }
-            return res.status(200).json(result[0]);
+            return res.status(200).json(result);
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Query Plants With Name'});
         }
@@ -53,7 +53,7 @@ module.exports = function routes(app, logger) {
             const body = req.body;
             const result = await Plant.findPlantByCategory(body.category);
             if (result.length === 0) { return res.status(401).json({ message: 'No Plants With Category Exist' }); }
-            return res.status(200).json(result[0]);
+            return res.status(200).json(result);
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Query Plants With Category'});
         }
@@ -65,7 +65,7 @@ module.exports = function routes(app, logger) {
             const body = req.body;
             const result = await Plant.findPlantByClimate(body.climate);
             if (result.length === 0) { return res.status(401).json({ message: 'No Plants With Climate Exist' }); }
-            return res.status(200).json(result[0]);
+            return res.status(200).json(result);
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Query Plants With Climate'});
         }
@@ -80,7 +80,7 @@ module.exports = function routes(app, logger) {
             result = await Plant.updateDescription(body.name, body.description);
             if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Plant' }); }
             result = await Plant.findPlantByName(body.name);
-            return res.status(200).json(result[0]); 
+            return res.status(200).json(result); 
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Update Description' });
         }
@@ -93,7 +93,7 @@ module.exports = function routes(app, logger) {
             result = await Plant.updateCategory(body.name, body.category);
             if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Plant' }); }
             result = await Plant.findPlantByName(body.name);
-            return res.status(200).json(result[0]); 
+            return res.status(200).json(result); 
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Update Category' });
         }
@@ -106,7 +106,7 @@ module.exports = function routes(app, logger) {
             result = await Plant.updateClimate(body.name, body.climate);
             if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Plant' }); }
             result = await Plant.findPlantByName(body.name);
-            return res.status(200).json(result[0]); 
+            return res.status(200).json(result); 
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Update Climate' });
         }
@@ -119,7 +119,7 @@ module.exports = function routes(app, logger) {
             result = await Plant.updatePicture(body.name, body.picture);
             if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Plant' }); }
             result = await Plant.findPlantByName(body.name);
-            return res.status(200).json(result[0]); 
+            return res.status(200).json(result); 
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Update Picture' });
         }
@@ -132,7 +132,7 @@ module.exports = function routes(app, logger) {
             result = await Plant.updateWater(body.name, body.water);
             if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Plant' }); }
             result = await Plant.findPlantByName(body.name);
-            return res.status(200).json(result[0]); 
+            return res.status(200).json(result); 
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Update Water Levels' });
         }
@@ -145,7 +145,7 @@ module.exports = function routes(app, logger) {
             result = await Plant.updateSunlight(body.name, body.sunlight);
             if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Plant' }); }
             result = await Plant.findPlantByName(body.name);
-            return res.status(200).json(result[0]); 
+            return res.status(200).json(result); 
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Update Sunlight Levels' });
         }
@@ -158,7 +158,7 @@ module.exports = function routes(app, logger) {
             result = await Plant.updateSoil(body.name, body.soil);
             if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Plant' }); }
             result = await Plant.findPlantByName(body.name);
-            return res.status(200).json(result[0]); 
+            return res.status(200).json(result); 
         } catch (err) {
             return res.status(401).json({ message: 'Could Not Update Optimal Soil' });
         }
