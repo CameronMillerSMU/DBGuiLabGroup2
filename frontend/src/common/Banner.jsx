@@ -12,10 +12,9 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import YardIcon from '@mui/icons-material/Yard';
-import { Link, useNavigate } from 'react-router-dom'
 
-const pages = ['Home', 'Plants', 'Profile'];
-const settings = ['Logout'];
+const pages = ['Products', 'Pricing', 'Blog'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export const Banner = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -36,24 +35,18 @@ export const Banner = () => {
     setAnchorElUser(null);
   };
 
-  const navigate = useNavigate();
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-            onClick={ <Link to="/" class="btn btn-danger me-3">Cancel</Link> }
           >
-            Flora&nbsp;  
+             Flora&nbsp;  
             <YardIcon fontSize='large' margin-left='25%' />
-           
-
-            
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -85,39 +78,31 @@ export const Banner = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <MenuItem onClick={ navigate("/home") }>
-                  <Typography textAlign="center">Home</Typography>
-              </MenuItem>
-              <MenuItem onClick={ navigate("/plants") }>
-                  <Typography textAlign="center">Plants</Typography>
-              </MenuItem>
-              <MenuItem onClick={ navigate("/profile") }>
-                  <Typography textAlign="center">Profile</Typography>
-              </MenuItem>
-              
+              {pages.map((page) => (
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page}</Typography>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            Flora&nbsp;
-            <YardIcon fontSize='large' margin-left='25%' />
+            LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }} >
-
-            <MenuItem onClick={handleCloseNavMenu}>
-              <Typography textAlign="center">Home</Typography>
-            </MenuItem>
-            <MenuItem onClick={handleCloseNavMenu}>
-              <Typography textAlign="center">Plants</Typography>
-            </MenuItem>
-            <MenuItem onClick={handleCloseNavMenu}>
-              <Typography textAlign="center">Profile</Typography>
-            </MenuItem>
-          
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            {pages.map((page) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {page}
+              </Button>
+            ))}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -154,4 +139,3 @@ export const Banner = () => {
     </AppBar>
   );
 };
-export default Banner;
