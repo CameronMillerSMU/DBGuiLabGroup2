@@ -12,6 +12,7 @@ const plantsRoutes = require('./routes/plants');
 // const ownedPlantRoutes = require('./routes/ownedPlants');
 const locationRoutes = require('./routes/location');
 // const commentRoutes = require('./routes/comment');
+//const likeRoutes = require('./routes/like');
 
 // Middleware Require
 const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
