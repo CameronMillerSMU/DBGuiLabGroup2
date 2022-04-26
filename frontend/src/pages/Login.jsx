@@ -12,112 +12,87 @@ import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
-import { useDebugValue } from 'react';
+import { useState, useDebugValue } from 'react';
 import { User } from '../common/User';
+import { apiEndpoint, apiConfig } from '../common/ApiConfig';
 import { ApiCalls } from '../common/ApiCalls';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
 
 const theme = createTheme();
 
-export const Login = (props) => {
-  const api = new ApiCalls();
+export const Login = () => {
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [value, setValue] = React.useState('User');
+  const changeEvent = (e) => {
+    setValue(e.target.value);
+  };
+  const ApiCall = new ApiCalls();
+  const navigate = useNavigate();
 
-  const [validated, setValidated] = useState(false);
-
-
-  const handleSubmit = (e) => {
-    const form = e.currentTarget;
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    if(form.checkValidity() === false) {
-      e.stopPropagation();
-      setValidated(true);
-    }
-    else {
-      let newUser = new User(username, password);
-      api.login(newUser).then(res => {
-        props.setToken(res.data.data.jwt);
-        localStorage.setItem('token', res.data.data.jwt);
-        Navigate("/home"); //takes to homepage once logged in
-      }).catch(err =>{
-        console.log(err);
-        alert(err);
-      })
+    const data = new FormData(e.currentTarget);
+    ApiCall.login(data.get('username'), data.get('password')).then(result => {
+      if (result.status <= 201) {
+        ApiCall.getToken().then(response => {
+          console.log('Result: ');
+          console.log(response);
+          sessionStorage.setItem('username', response.data.username);
+          sessionStorage.setItem('password', response.data.password);
+        })
+          .catch(error1 => {
+            console.log('Error: ')
+            console.log(error1);
+          });
+        navigate('/home');
+      }
 
-    }
-
+    }).catch(error2 => {
+      alert("Username or Password incorrect");
+    });
   };
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LocalFloristIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+  return <>
+    <div className="w-75 mx-auto">
+      <div className="border mb-2 mt-5">
+        <h1 className="text-white bg-primary p-3 mb-0">Login</h1>
+        <Box component="form" noValidate onSubmit={handleSignUp} className="bg-white py-2 mt-0">
+          <div className="mb-5 ms-3 col-md-4" controlId="username">
             <TextField
-              margin="normal"
+              placeholder="Enter Your Username"
+              name="username"
               required
-              fullWidth
               id="username"
               label="username"
-              name="username"
-              autoComplete="username"
-              autoFocus
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="/home" variant="body2">
-                  Continue without logging in
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+            </TextField>
+          </div>
+          <div className="mb-2 ms-3 col-md-4" controlId="password">
+            <TextField
+              placeholder="Enter Your Password"
+              name="password"
+              required
+              id="password"
+              label="password"
+            ></TextField>
+          </div>
+          <Button
+            type="submit"
+            variant="outlined"
+          >
+            Submit</Button>
+          <p>Need an account?</p>
+          <Button
+            onClick={() => navigate("/register")}
+            variant="outlined"
+          >Sign Up</Button>
+          <Button
+            onClick={() => navigate("/home")}
+            variant="outlined"
+          >Cancel</Button>
         </Box>
-        
-      </Container>
-    </ThemeProvider>
-  );
-
-  
+      </div>
+    </div>
+  </>;
 }
