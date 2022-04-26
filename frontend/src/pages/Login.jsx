@@ -54,7 +54,6 @@ export const Login = () => {
   };
 
   return <>
-    <ResponsiveAppBar />
     <div className="w-75 mx-auto">
       <div className="border mb-2 mt-5">
         <h1 className="text-white bg-primary p-3 mb-0">Login</h1>
