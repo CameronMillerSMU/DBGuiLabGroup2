@@ -29,6 +29,9 @@ function App () {
           <Route path="/" element={<Login setToken={setToken}/>} />
           <Route path="/register" element={<SignUp setToken={setToken}/>} />
           <Route path="/home" element={<Home token={token}/>} />
+          <Route path="/plants" element={<PlantPage token={token}/>} />
+          <Route path="/profile" element={<Profile token={token}/>} />
+          <Route path="/weather" element={<Weather token={token}/>} />
         </Routes>
       </BrowserRouter>
     </div>

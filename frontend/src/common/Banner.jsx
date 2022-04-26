@@ -53,7 +53,7 @@ export const Banner = () => {
 
 
 
-          
+
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -118,15 +118,32 @@ export const Banner = () => {
             <YardIcon fontSize='large' margin-left='25%' />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                href='/home'
               >
-                {page}
+                Home
               </Button>
-            ))}
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                href='/plants'
+              >
+                Plants
+              </Button>
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                href='/weather'
+              >
+                Weather
+              </Button>
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                href='/profile'
+              >
+                Profile
+              </Button>
+            
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
