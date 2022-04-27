@@ -94,3 +94,5 @@ CREATE TABLE flora.comment (
     FOREIGN KEY (postId) REFERENCES plantPost(postId),
     FOREIGN KEY (poster) REFERENCES users(username)
 );
+
+DROP DATABASE flora;
