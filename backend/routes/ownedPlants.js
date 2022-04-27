@@ -24,6 +24,17 @@ module.exports = function routes(app, logger) {
 
     // Requests (GETS)
 
+    // Get All Owned Plants 
+    app.get('/ownedplants/allownedplants', authenticateJWT, async (req, res) => {
+        try {
+            const result = await OwnedPlant.getAllOwnedPlants();
+            if (result.length === 0) { return res.status(401).json({ message: 'No Owned Plants Exist' }); }
+            return res.status(200).json(result);
+        } catch (err) {
+            return res.status(401).json({ message: 'Could Not Query Owned Plants' });
+        }
+    });
+
     // Get Owned Plants By Id
     app.get('/ownedplants/byid/:id?', authenticateJWT, async (req, res) => {
         try {
