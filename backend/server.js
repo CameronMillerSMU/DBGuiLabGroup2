@@ -48,7 +48,7 @@ app.get('/health', (req, res) => {
 usersRoutes(app, logger);
 plantsRoutes(app, logger);
 ownedPlantRoutes(app, logger);
-// locationRoutes(app, logger);
+locationRoutes(app, logger);
 // commentRoutes(app, logger);
 //likeRoutes(app, logger);
 //wishRoutes(app, logger);
