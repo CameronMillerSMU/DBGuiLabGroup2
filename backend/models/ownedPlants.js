@@ -32,6 +32,13 @@ const createNewOwnedPlant = async (owner, name, privateTag, watered, insideTag, 
 
 // Requests (GET)
 
+// Get All Owned Plants
+const getAllOwnedPlants = async () => {
+    const query = knex(PLANT_TABLE);
+    const result = await query;
+    return result;
+};
+
 // Find Owned Plants By Id
 const findOwnedPlantById = async (id) => {
     const query = knex(PLANT_TABLE).where({id});
@@ -129,6 +136,7 @@ const deleteOwnedPlant = async (id) => {
 
 module.exports = {
     createNewOwnedPlant,
+    getAllOwnedPlants,
     findOwnedPlantsByOwner,
     findOwnedPlantByName,
     findOwnedPlantById,
