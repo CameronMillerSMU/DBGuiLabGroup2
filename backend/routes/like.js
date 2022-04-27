@@ -13,7 +13,6 @@ const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth'
     findLikesOnComment,
     findLikesOnPost,
     findLikesByUser,
-    deleteLike,
     deleteLikesOnComment,
     deleteLikesOnPost
 */
@@ -110,9 +109,19 @@ app.get('./likes', authenticateJWT, async (req, res) =>  {
 })
 
 app.delete('./', authenticateJWT, async (req, res) => {
+    try {
+        const body = req.body;
+        result = await location.findLikesOnComment(body.commentId);
+        if (Object.keys(result).length == 0) {
+          return res.status(400).json({ message: 'You haven\'t liked this comment.' }); }
+        result = await likes.deleteLikesOnComment(body.commentId);
+        return res.status(204).json(result);
+      } catch (err) {
+        return res.status(400).json({ message: 'Could Not Delete Like on Comment' });
+      }
+    })
 
 
-})
 
 
 };
