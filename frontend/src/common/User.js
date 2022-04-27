@@ -1,4 +1,3 @@
-//------------------DONE-------------------
 export class User {
     constructor(username, password, birthDate, location, adminTag, registeredTag, privateTag, backgroundPic, favoritePlants, ownedPlants) {
         //base variables
@@ -14,5 +13,7 @@ export class User {
         //wishlist
         this.favoritePlants = favoritePlants;
         this.ownedPlants = ownedPlants;
+
+        
     }
 }

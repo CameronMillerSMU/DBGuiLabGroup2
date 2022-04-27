@@ -15,10 +15,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { PlantPost } from './PlantPost';
 
-import { ResponsiveAppBar } from '../common/ResponsiveAppBar';
+import { useEffect, useState } from 'react';
+
+import { PlantPost } from './PlantPost';
+import { Banner } from '../common/Banner';
 import { ApiCalls } from '../common/ApiCalls';
+import { User } from '../common/User';
+
 
 const theme = createTheme();
 
@@ -40,7 +44,7 @@ export const Profile = (props) => {
   return (
     <div>
       <ThemeProvider theme={theme}>
-        <ResponsiveAppBar />
+        <Banner />
         
         <main>
           {/* Hero unit */}
@@ -59,7 +63,7 @@ export const Profile = (props) => {
                 color="text.primary"
                 gutterBottom
               >
-                {user.username}
+                {testuser.username}
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
                 Something short and leading about the collection below—its contents,
@@ -72,7 +76,7 @@ export const Profile = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained">Change Background Pic</Button>
+                
                 <Button variant="outlined">Change Location</Button>
               </Stack>
             </Container>
@@ -83,12 +87,12 @@ export const Profile = (props) => {
           <Container sx={{ py: 8 }} maxWidth="md">
             {/* End hero unit */}
             <Grid container spacing={4}>
-              {cards.map((card) => (
+              {/*cards.map((card) => (
                 <Grid item key={card} xs={12} sm={6} md={4}>
 
             <PlantPost posts={user.plantPosts} id={card}/>
             </Grid>
-              ))}
+              ))*/}
             </Grid>
           </Container>
         </main>
