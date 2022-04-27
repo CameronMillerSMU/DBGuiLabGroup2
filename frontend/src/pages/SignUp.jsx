@@ -23,8 +23,7 @@ export const SignUp = (props) => {
     SettingsOverscanOutlined(event.target.value);
   };
   const ApiCall = new ApiCalls();
-  [users, setUsers] = useState([]);
-
+  
   const handleSignUp = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -37,23 +36,7 @@ export const SignUp = (props) => {
     });
   };
 
-  const getUser = (i, userList) => {
-    var userTemp = users;
-    let currentUser = userList[i];
-    userTemp[i] = currentUser;
-    setUsers(userTemp);
-  };
-
-  const loadUsers = () => {
-    ApiCall.getUsers().then(res => {
-      for(var i in res.data) {
-        getUser(i, res.data);
-      }
-      console.log(res.data);
-    }).catch(err => {
-      console.log(err);
-    });
-  };
+  
   
 
   return <>

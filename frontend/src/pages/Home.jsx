@@ -27,8 +27,27 @@ const ApiCall = new ApiCalls();
 const theme = createTheme();
 
 export const Home = (props) => {
+
+  [users, setUsers] = useState([]);
+  const getUser = (i, userList) => {
+    var userTemp = users;
+    let currentUser = userList[i];
+    userTemp[i] = currentUser;
+    setUsers(userTemp);
+  };
+
+  const loadUsers = () => {
+    ApiCall.getUsers().then(res => {
+      for (var i in res.data) {
+        getUser(i, res.data);
+      }
+      console.log(res.data);
+    }).catch(err => {
+      console.log(err);
+    });
+  };
   const navigate = useNavigate();
-  const cards = [1,2,3,4,5,6,7,8,9];//ApiCall.getUsers();
+  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];//ApiCall.getUsers();
   return (
     <div>
       <ThemeProvider theme={theme}>
