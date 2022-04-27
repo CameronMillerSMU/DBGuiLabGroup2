@@ -60,13 +60,14 @@ export const SignUp = (props) => {
                   label="username" >
                 </TextField>
               </Grid>
-              <Grid item xs={12} controlId="password"> 
+              <Grid item xs={12} controlId="password">
                 <TextField
                   placeholder="Enter Your Password"
                   name="password"
                   required
                   id="password"
                   label="password"
+                  type="password"
                 ></TextField>
               </Grid>
             </Grid>

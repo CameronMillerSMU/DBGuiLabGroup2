@@ -82,6 +82,7 @@ export const Login = () => {
                   required
                   id="password"
                   label="password"
+                  type="password"
                 ></TextField>
               </Grid>
             </Grid>
