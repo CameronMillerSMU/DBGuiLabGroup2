@@ -17,7 +17,6 @@ import { User } from '../common/User';
 import { apiEndpoint, apiConfig } from '../common/ApiConfig';
 import { ApiCalls } from '../common/ApiCalls';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Banner } from '../common/Banner';
 
 const theme = createTheme();
 
@@ -54,45 +53,59 @@ export const Login = () => {
   };
 
   return <>
-    <div className="w-75 mx-auto">
-      <div className="border mb-2 mt-5">
-        <h1 className="text-white bg-primary p-3 mb-0">Login</h1>
-        <Box component="form" noValidate onSubmit={handleSignUp} className="bg-white py-2 mt-0">
-          <div className="mb-5 ms-3 col-md-4" controlId="username">
-            <TextField
-              placeholder="Enter Your Username"
-              name="username"
-              required
-              id="username"
-              label="username"
+    <ThemeProvider theme={theme}>
+      <div className="w-75 mx-auto">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+          <h1 className="text-white bg-primary p-3 mb-0">Login</h1>
+          <Box component="form" noValidate onSubmit={handleSignUp} className="bg-white py-2 mt-0">
+            <Grid container spacing={2} >
+              <Grid item xs={12} controlId="username">
+                <TextField
+                  placeholder="Enter Your Username"
+                  name="username"
+                  required
+                  id="username"
+                  label="username"
+                >
+                </TextField>
+              </Grid>
+              <Grid item xs={12} controlId="password">
+                <TextField
+                  placeholder="Enter Your Password"
+                  name="password"
+                  required
+                  id="password"
+                  label="password"
+                  type="password"
+                ></TextField>
+              </Grid>
+            </Grid>
+            <Button item sx={{ mt: 3, }}
+              type="submit"
+              variant="outlined"
             >
-            </TextField>
-          </div>
-          <div className="mb-2 ms-3 col-md-4" controlId="password">
-            <TextField
-              placeholder="Enter Your Password"
-              name="password"
-              required
-              id="password"
-              label="password"
-            ></TextField>
-          </div>
-          <Button
-            type="submit"
-            variant="outlined"
-          >
-            Submit</Button>
-          <p>Need an account?</p>
-          <Button
-            onClick={() => navigate("/register")}
-            variant="outlined"
-          >Sign Up</Button>
-          <Button
-            onClick={() => navigate("/home")}
-            variant="outlined"
-          >Cancel</Button>
+              Submit</Button>
+            <p>Need an account?</p>
+            <Button
+              sx={{
+                marginRight: 2
+              }}
+              onClick={() => navigate("/register")}
+              variant="outlined"
+            >Sign Up</Button>
+            <Button
+              onClick={() => navigate("/home")}
+              variant="outlined"
+            >Cancel</Button>
+          </Box>
         </Box>
       </div>
-    </div>
+    </ThemeProvider>
   </>;
 }
