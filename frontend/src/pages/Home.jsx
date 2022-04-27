@@ -18,7 +18,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
 import { ApiCalls } from '../common/ApiCalls';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import { useState } from 'react';
 import { Banner } from '../common/Banner';
 
 const ApiCall = new ApiCalls();
@@ -27,8 +27,8 @@ const ApiCall = new ApiCalls();
 const theme = createTheme();
 
 export const Home = (props) => {
+  const [users, setUsers] = useState([]);
 
-  [users, setUsers] = useState([]);
   const getUser = (i, userList) => {
     var userTemp = users;
     let currentUser = userList[i];
@@ -38,16 +38,22 @@ export const Home = (props) => {
 
   const loadUsers = () => {
     ApiCall.getUsers().then(res => {
-      for (var i in res.data) {
-        getUser(i, res.data);
+      let allUsers = res.data;
+      for (var i in allUsers) {
+        getUser(i, allUsers);
       }
       console.log(res.data);
     }).catch(err => {
       console.log(err);
     });
   };
+
+  React.useEffect(() => {
+    loadUsers();
+  }, []);
+
   const navigate = useNavigate();
-  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];//ApiCall.getUsers();
+  const cards = ApiCall.getUsers();//ApiCall.getUsers();
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -93,16 +99,15 @@ export const Home = (props) => {
           </Box>
           <Container sx={{ py: 8 }} maxWidth="md">
             <Grid container spacing={4}>
-              {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
+              {cards.map((index) => (
+                <Grid item key={index} xs={12} sm={6} md={4}>
                   <Card
                     sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
                   >
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography gutterBottom variant="h5" component="h2">
-                        User Name
+                        {users[index].username}
                       </Typography>
-
                     </CardContent>
                     <CardMedia
                       component="img"
@@ -114,7 +119,7 @@ export const Home = (props) => {
                       alt="random"
                     />
                     <Typography padding="5%">
-                      This is where the users backgrounds will go
+                      {users[index].backgroundPath}
                     </Typography>
                     <Button variant="contained" size="medium" align="center">View User</Button>
                   </Card>
