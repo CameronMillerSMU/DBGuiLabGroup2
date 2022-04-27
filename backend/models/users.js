@@ -6,7 +6,7 @@ const USER_TABLE = 'flora.users';
 // Create (POST)
 
 // Create User, Do Checks
-const createNewUser = async (username, password) => {
+const createNewUser = async (username, password, birthday, location, registration, privacy, admin, picture, background) => {
     
     // Need Username
     if (!username) {
@@ -28,7 +28,7 @@ const createNewUser = async (username, password) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const query = knex(USER_TABLE).insert({username, password: hashedPassword, registerTag: false, privateTag: false, adminTag: false});
+    const query = knex(USER_TABLE).insert({username, password: hashedPassword, birthday: birthday, location: location, registerTag: registration, privateTag: privacy, adminTag: admin, imagePath: picture, backgroundPath: background});
     result = await query;
     result['success'] = true;
     return result;
@@ -57,6 +57,13 @@ const getUsers = async () => {
     return result;
 };
 
+// Find All Admins
+const getAdmins = async () => {
+    const query = knex(USER_TABLE).where({adminTag: 1});
+    const result = await query;
+    return result;
+};
+
 // Find All Public Users 
 const getUsersPublic = async () => {
     const query = knex(USER_TABLE).where({privateTag: 0});
@@ -78,12 +85,12 @@ const findByUserName = async (username) => {
     return result;
 };
 
-// Updates
+// Updates (PUT)
 
 // Update Password
-const updatePassword = async (username, newpassword) => {
+const updatePassword = async (username, new_password) => {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(newpassword, salt);
+    const hashedPassword = await bcrypt.hash(new_password, salt);
     const query = knex(USER_TABLE).where({username}).update({password: hashedPassword});
     result = await query;
     return result;
@@ -138,7 +145,7 @@ const updateBackground = async (username, new_background) => {
     return result;
 };
 
-// Delete
+// Delete (DELETE)
 
 // Delete User With Username
 const deleteUserName = async (username) => {
@@ -151,6 +158,7 @@ module.exports = {
     createNewUser,
     authenticateUser,
     getUsers,
+    getAdmins,
     getUsersPublic,
     getUsersRegistered,
     findByUserName,

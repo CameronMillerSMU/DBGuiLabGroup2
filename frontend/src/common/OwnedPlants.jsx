@@ -15,12 +15,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { PlantCard } from '../common/PlantCard';
+import { Banner } from '../common/Banner';
 
-import { ResponsiveAppBar } from './ResponsiveAppBar';
-import { PlantCard } from './PlantCard';
-import { SettingsApplicationsTwoTone } from '@mui/icons-material';
-import Plant from './Plant';
-
+/*
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -33,20 +31,21 @@ function Copyright() {
     </Typography>
   );
 }
+*/
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
-export const OwnedPlants = ({ plantsList }) => {
-  //if(plantsList.length === 0) {
+export const OwnedPlants = ({plantsList}) => {
+  // if(plantsList.length === 0) {
   //  return <p>
   //    No plants owned.
   //  </p>;
-  //}
-  //else {
-    return
-      <ThemeProvider theme={theme}>
+  // }
+  // else {
+    return <>
+    <ThemeProvider theme={theme}>
         <CssBaseline />
         <AppBar position="relative">
           <Toolbar>
@@ -96,25 +95,31 @@ export const OwnedPlants = ({ plantsList }) => {
           <Container sx={{ py: 8 }} maxWidth="md">
             {/* End hero unit */}
             <Grid container spacing={4}>
-              {cards.map((card) => (
+            { !!plantsList && plantsList.map((plant, index) =>
+                    <PlantCard key={index} value={ [plant.name, plant.plantPhoto] }/>
+                  )}
+
+              {/*cards.map((card) => (
                 <Grid item key={card} xs={12} sm={6} md={4}>
 
 
-                  { plantsList && plantsList.map((plant, index) =>
-                    <PlantCard value={ [plant.name, plant.plantPhoto] }/>
+                  { !!plantsList && plantsList.map((plant, index) =>
+                    <PlantCard key={index} value={ [plant.name, plant.plantPhoto] }/>
                   )}
                   
 
 
                 </Grid>
-              ))}
+              ))*/
+            }
             </Grid>
           </Container>
 
 
         </main>
         
-      </ThemeProvider>;
-
+      </ThemeProvider>
+      </>;
+    
   //}
 }

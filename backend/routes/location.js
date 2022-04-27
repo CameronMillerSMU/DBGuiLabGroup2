@@ -1,117 +1,118 @@
 const express = require('express');
-const pool = require('../db');
 
-const locationController = require('../controllers/location');
-const location = require('../models/location');
+const Location = require('../models/location');
 
 const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth');
 
 module.exports = function routes(app, logger){
 
+  // Create (POSTS)
 
-    app.post('/newLocation', authenticateJWT, async (req, res) => {
-        const body = req.body;
-        try {
-            const result = await locationController.createNewLocation(body.cityName, body.tempLow, body.tempHigh, body.lastUpdate, body.weatherType, body.nearestStore);
-            return res.status(200).json(result); 
-            } catch (err) {
-                console.log("ERROR HERE IDIOT: " + err);
-              return res.status(401).json({ message: "Failed to make a new location." });
-            }
-        
-    });
-
-
-    app.get('/allLocations', authenticateJWT, async (req, res) => {
-        try {
-            console.log("ERROR 1");
-            const result = await locationController.getAllLocations();
-            res.status(200).json(result);
-          } catch (err) {
-            res.status(401).json({ message: 'Could Not Get All Locations'});
-          }
-        });
-
-
-    app.get('/locationByCityName', authenticateJWT, async (req, res, next) => {
-        try {
-            var stadio = req.query.owner;
-            if (req.query.owner == undefined){
-                stadio = null;
-            }
-            const result = await locationController.findLocationByName(stadio);
-            console.log("HERE RESULT: " + result);
-            res.status(200).json(result);
-            
-        } catch (err) {
-            console.error("Failed to get this location: ", err);
-            res.sendStatus(500).json({ message: err.toString() });
-        }
-
-});
-
-app.get('/locationByWeather', authenticateJWT, async (req, res, next) => {
-    try {
-        var stadio = req.query.owner;
-        if (req.query.owner == undefined){
-            stadio = null;
-        }
-        const result = await locationController.findLocationByWeather(stadio);
-        console.log("HERE RESULT: " + result);
-        res.status(200).json(result);
-        
-    } catch (err) {
-        console.error("Failed to get this location: ", err);
-        res.sendStatus(500).json({ message: err.toString() });
-    }
-
-});
-
-app.put('/updateLocationTemps', authenticateJWT, async (req, res) => {
+  // Create New Location: Cityname, tempLow, tempHigh, ImagePath (Picture), Water, Sunlight, Soil
+  app.post('/location/newlocation', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
-      result = await locationController.updateLocationTemps(body.cityName, body.tempLow, body.tempHigh);
-      return res.status(200).json(result);
+      result = await Location.createNewLocation(body.city, body.low, body.high, body.weathertype, body.neareststore);
+      if (result.success) {
+        result = await Location.findLocationByName(body.city);
+        return res.status(201).json(result); } 
+      else { return res.status(400).json(result); }
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update temperatures' });
+      return res.status(400).json({ message: 'Duplicate Entry' });
     }
   });
 
-  app.put('/updateLocationWeather', authenticateJWT, async (req, res) => {
+  // Requests (GETS)
+
+  // Get All Locations
+  app.get('/location/alllocations', authenticateJWT, async (req, res) => {
     try {
-      const body = req.body;
-      result = await locationController.updateLocationWeather(body.cityName, body.weatherType);
+      const result = await Location.getAllLocations();
+      if (result.length === 0) { return res.status(401).json({ message: 'No Locations Exist' }); }
       return res.status(200).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update weather' });
+      return res.status(401).json({ message: 'Could Not Query Locations' });
     }
   });
 
-  app.put('/updateLocationStore', authenticateJWT, async (req, res) => {
+  // Get Location With Name
+  app.get('/location/locationbyname', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
-      result = await locationController.updateLocationStore(body.cityName, body.nearestStore);
+      const result = await Location.findLocationByName(body.city);
+      if (result.length === 0) { return res.status(401).json({ message: 'No Locations With Name Exist' }); }
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(401).json({ message: 'Could Not Query Location With Name' });
+    }
+  });
+
+  // Get Location With Weather
+  app.get('/location/locationbyweather', authenticateJWT, async (req, res) => {
+    try {
+      const body = req.body;
+      const result = await Location.findLocationByWeather(body.weathertype);
+      if (result.length === 0) { return res.status(401).json({ message: 'No Locations With Weather Exist' }); }
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(401).json({ message: 'Could Not Query Location With Weather' });
+    } 
+  });
+
+  // Updates (PUT) (Each Update Latest Update)
+
+  // Update Temperature
+  app.put('/location/updatetemperature', authenticateJWT, async (req, res) => {
+    try {
+      const body = req.body;
+      result = await Location.updateLocationTemps(body.city, body.low, body.high);
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Location' }); }
+      result = await Location.findLocationByName(body.city);
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(401).json({ message: 'Could Not Update Temperatures' });
+    }
+  });
+
+  // Update Weather
+  app.put('/location/updateweather', authenticateJWT, async (req, res) => {
+    try {
+      const body = req.body;
+      result = await Location.updateLocationWeather(body.city, body.weather);
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Location' }); }
+      result = await Location.findLocationByName(body.city);
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.status(401).json({ message: 'Could Not Update Weather' });
+    }
+  });
+
+  // Update Nearest Store
+  app.put('/location/updatestore', authenticateJWT, async (req, res) => {
+    try {
+      const body = req.body;
+      result = await Location.updateLocationStore(body.city, body.neareststore);
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Location' }); }
+      result = await Location.findLocationByName(body.city);
       return res.status(200).json(result);
     } catch (err) {
       return res.status(401).json({ message: 'Could Not Update store' });
     }
   });
 
-  app.delete('/deleteLocation', authenticateJWT, async (req, res) => {
+  // Delete (DELETE)
+
+  // Delete Location
+  app.delete('/location/deletelocation', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
-      result = await location.findLocationByName(body.cityName);
-      if (Object.keys(result).length == 0) {
-        return res.status(401).json({ message: 'Location Does Not Exist' }); }
-      result = await locationController.deleteLocation(body.cityName);
-      return res.status(204).json(result);
+      result = await Location.findLocationByName(body.city);
+      if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Location' }); }
+      result = await Location.deleteLocation(body.city);
+      return res.status(204).json({ message: 'Successfully Deleted Plant' });
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Delete location' });
+      return res.status(401).json({ message: 'Could Not Delete Location' });
     }
   });
-
-
-
-
 
 }

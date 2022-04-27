@@ -11,11 +11,33 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
+import YardIcon from '@mui/icons-material/Yard';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { selectUnstyledClasses } from '@mui/base';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-export const ResponsiveAppBar = () => {
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#757ce8',
+      main: '#3f50b5',
+      dark: '#002884',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
+  },
+});
+
+
+export const Banner = (props) => {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -35,8 +57,8 @@ export const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static" sx={{ color: 'white', backgroundColor: '#43a047' }}> {/* This is logo*/}
+      <Container maxWidth="x1" >
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -44,8 +66,12 @@ export const ResponsiveAppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            LOGO
+            Flora&nbsp;
+            <YardIcon fontSize='large' margin-left='25%' />
           </Typography>
+
+
+
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -76,37 +102,92 @@ export const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              
+            <MenuItem>
+              <Typography textAlign="center"></Typography>
+                <Button
+                  href="/home"
+                  sx={{ color: 'black' }}
+                >
+                  Home
+                </Button>
+                <Button
+                  href="/plants"
+                  sx={{ color: 'black' }}
+                >
+                  Plants
+                </Button>
+                <Button
+                  href="/weather"
+                  sx={{ color: 'black' }}
+                >
+                  Weather
+                </Button>
+                <Button
+                  href="/profile"
+                  sx={{ color: 'black' }}
+                >
+                  Profile
+                </Button>
+            </MenuItem>
+            
             </Menu>
           </Box>
+
+
+
+
+
+
+
+
+
+
+            
+
+
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            Flora&nbsp;
+            <YardIcon fontSize='large' margin-left='25%' />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
+            
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                href='/home'
               >
-                {page}
+                Home
               </Button>
-            ))}
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                href='/plants'
+              >
+                Plants
+              </Button>
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                href='/weather'
+              >
+                Weather
+              </Button>
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                href='/profile'
+              >
+                Profile
+              </Button>
+            
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="plant1.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -124,17 +205,33 @@ export const ResponsiveAppBar = () => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+              href='/home' //log out user and redirect home
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+             
+             <MenuItem onClick={handleCloseUserMenu}>
+                  <Button
+                    href="/home"
+                    sx={{ color: 'black' }}
+                  >
+                    Logout
+                  </Button>
+              </MenuItem> 
+            
             </Menu>
           </Box>
         </Toolbar>
       </Container>
     </AppBar>
   );
+
+
+
+
+
+
+
+
+
+
+
 };
-export default ResponsiveAppBar;
