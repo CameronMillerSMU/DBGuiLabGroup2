@@ -13,11 +13,30 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import YardIcon from '@mui/icons-material/Yard';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { selectUnstyledClasses } from '@mui/base';
 
-const pages = ['Home', 'Plants', 'Login'];
-const settings = ['Profile', 'Logout'];
 
-export const Banner = () => {
+import { createTheme } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      light: '#757ce8',
+      main: '#3f50b5',
+      dark: '#002884',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
+  },
+});
+
+
+export const Banner = (props) => {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -30,7 +49,7 @@ export const Banner = () => {
   };
 
   const handleCloseNavMenu = () => {
-    setAnchorElNav(Navigate('/'));
+    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -38,8 +57,8 @@ export const Banner = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static" sx={{ color: 'white', backgroundColor: '#43a047' }}> {/* This is logo*/}
+      <Container maxWidth="x1" >
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -87,9 +106,28 @@ export const Banner = () => {
             <MenuItem>
               <Typography textAlign="center"></Typography>
                 <Button
-                  href="/register"
+                  href="/home"
+                  sx={{ color: 'black' }}
                 >
-                  Home!
+                  Home
+                </Button>
+                <Button
+                  href="/plants"
+                  sx={{ color: 'black' }}
+                >
+                  Plants
+                </Button>
+                <Button
+                  href="/weather"
+                  sx={{ color: 'black' }}
+                >
+                  Weather
+                </Button>
+                <Button
+                  href="/profile"
+                  sx={{ color: 'black' }}
+                >
+                  Profile
                 </Button>
             </MenuItem>
             
@@ -105,7 +143,7 @@ export const Banner = () => {
 
 
 
-
+            
 
 
           <Typography
@@ -149,7 +187,7 @@ export const Banner = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src="plant1.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
@@ -167,8 +205,18 @@ export const Banner = () => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
+              href='/home' //log out user and redirect home
             >
-              
+             
+             <MenuItem onClick={handleCloseUserMenu}>
+                  <Button
+                    href="/home"
+                    sx={{ color: 'black' }}
+                  >
+                    Logout
+                  </Button>
+              </MenuItem> 
+            
             </Menu>
           </Box>
         </Toolbar>

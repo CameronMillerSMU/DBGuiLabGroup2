@@ -13,10 +13,10 @@ module.exports = function routes(app, logger){
         const body = req.body;
         try {
             const result = await commentController.createNewCommentRoot(body.postId, body.commentAuthor, body.post);
-            return res.status(200).json(result); 
+            return res.status(201).json(result); 
             } catch (err) {
                 console.log("ERROR HERE IDIOT: " + err);
-              return res.status(401).json({ message: "Failed to make a new root comment." });
+              return res.status(400).json({ message: "Failed to make a new root comment." });
             }
         
     });
@@ -25,10 +25,10 @@ module.exports = function routes(app, logger){
         const body = req.body;
         try {
             const result = await commentController.createNewCommentReply(body.postId, body.commentAuthor, body.post, body.replyTo);
-            return res.status(200).json(result); 
+            return res.status(201).json(result); 
             } catch (err) {
                 console.log("ERROR HERE IDIOT: " + err);
-              return res.status(401).json({ message: "Failed to make a new reply comment." });
+              return res.status(400).json({ message: "Failed to make a new reply comment." });
             }
         
     });
@@ -50,7 +50,7 @@ module.exports = function routes(app, logger){
                 const result = await commentController.getAllCommentsExcludePrivate();
                 res.status(200).json(result);
               } catch (err) {
-                res.status(401).json({ message: 'Could Not Get All comments'});
+                res.status(400).json({ message: 'Could Not Get All comments'});
               }
             });
 
@@ -67,7 +67,7 @@ module.exports = function routes(app, logger){
             
         } catch (err) {
             console.error("Failed to get post comments: ", err);
-            res.sendStatus(500).json({ message: err.toString() });
+            res.sendStatus(400).json({ message: err.toString() });
         }
 
 });
@@ -84,7 +84,7 @@ app.get('/commentsByPostPrivacy', authenticateJWT, async (req, res, next) => {
         
     } catch (err) {
         console.error("Failed to get post comments: ", err);
-        res.sendStatus(500).json({ message: err.toString() });
+        res.sendStatus(400).json({ message: err.toString() });
     }
 
 });
@@ -101,7 +101,7 @@ app.get('/commentsByAuthor', authenticateJWT, async (req, res, next) => {
         
     } catch (err) {
         console.error("Failed to get comments by author: ", err);
-        res.sendStatus(500).json({ message: err.toString() });
+        res.sendStatus(400).json({ message: err.toString() });
     }
 
 });
@@ -118,7 +118,7 @@ app.get('/commentsByAuthorPrivacy', authenticateJWT, async (req, res, next) => {
         
     } catch (err) {
         console.error("Failed to get comments by author: ", err);
-        res.sendStatus(500).json({ message: err.toString() });
+        res.sendStatus(400).json({ message: err.toString() });
     }
 
 });
@@ -135,7 +135,7 @@ app.get('/commentsOnPost', authenticateJWT, async (req, res, next) => {
         
     } catch (err) {
         console.error("Failed to get root comments: ", err);
-        res.sendStatus(500).json({ message: err.toString() });
+        res.sendStatus(400).json({ message: err.toString() });
     }
 
 });
@@ -152,7 +152,7 @@ app.get('/commentsOnPostPrivacy', authenticateJWT, async (req, res, next) => {
         
     } catch (err) {
         console.error("Failed to get root comments: ", err);
-        res.sendStatus(500).json({ message: err.toString() });
+        res.sendStatus(400).json({ message: err.toString() });
     }
 
 });
@@ -169,7 +169,7 @@ app.get('/commentsOnComment', authenticateJWT, async (req, res, next) => {
         
     } catch (err) {
         console.error("Failed to get comment replies: ", err);
-        res.sendStatus(500).json({ message: err.toString() });
+        res.sendStatus(400).json({ message: err.toString() });
     }
 
 });
@@ -186,7 +186,7 @@ app.get('/commentsOnCommentPrivacy', authenticateJWT, async (req, res, next) => 
         
     } catch (err) {
         console.error("Failed to get comment replies: ", err);
-        res.sendStatus(500).json({ message: err.toString() });
+        res.sendStatus(400).json({ message: err.toString() });
     }
 
 });
@@ -195,9 +195,9 @@ app.put('/updateCommentPost', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
       result = await commentController.updateCommentPost(body.commentId, body.new_post);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update post' });
+      return res.status(400).json({ message: 'Could Not Update post' });
     }
   });
 
@@ -205,9 +205,9 @@ app.put('/updateCommentPost', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
       result = await commentController.updateCommentPrivacy(body.commentId, body.privacy);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update privacy' });
+      return res.status(400).json({ message: 'Could Not Update privacy' });
     }
   });
 
