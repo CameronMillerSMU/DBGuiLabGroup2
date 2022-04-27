@@ -3,6 +3,8 @@ import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import Box from "@material-ui/core/Box";
 
+//code reference: https://anothertechs.com/programming/react/weather-app-using-react/
+
 export const Display = ({ weatherReport }) =>{
   var lon = weatherReport.coord.lon;
   var lat = weatherReport.coord.lat;

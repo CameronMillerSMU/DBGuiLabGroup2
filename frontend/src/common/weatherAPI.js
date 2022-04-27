@@ -4,6 +4,8 @@ import { Display } from './weatherDisplay';
 import { useEffect, useState } from 'react';
 
 
+//code reference: https://anothertechs.com/programming/react/weather-app-using-react/
+
 const API_KEY = "d388cdb64706c8b7a2b2bf7f041b42dd"
 const UNITS = "Metric"
 const LANG = "en"
