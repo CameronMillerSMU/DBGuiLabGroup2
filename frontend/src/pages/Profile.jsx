@@ -22,6 +22,7 @@ import { PlantPost } from './PlantPost';
 import { Banner } from '../common/Banner';
 import { ApiCalls } from '../common/ApiCalls';
 import { User } from '../common/User';
+import { Plant } from '../common/Plant';
 
 
 const theme = createTheme();
@@ -36,10 +37,18 @@ export const Profile = (props) => {
   
     const api = new ApiCalls();
     //const {user} = api.session(props.token);
-    api.getToken(props);
+    //api.getToken(props);
 
     //hardcoded plant num, need to change it later
     const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    const plant1 = new Plant(1, "Cactus", "Plant Description1", "plant category1", "plant climate1", "plant1.jpg");
+    const plant2 = new Plant(2, "Tree", "Plant Description2", "plant category2", "plant climate2", "plant2.jpg");
+    const plant3 = new Plant(3, "Flower", "Plant Description3", "plant category3", "plant climate3", "plant3.jpg");
+
+    const tempUser = new User();
+    tempUser.username = "John";
+    tempUser.ownedPlants = [plant1, plant2, plant3];
 
   return (
     <div>
