@@ -14,7 +14,7 @@ const locationRoutes = require('./routes/location');
 const forumRoutes = require('./routes/forum');
 // const commentRoutes = require('./routes/comment');
 const likeRoutes = require('./routes/like');
-//const wishRoutes = require('./routes/wishTicket');
+const wishRoutes = require('./routes/wishTicket');
 
 // Middleware Require
 const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
@@ -53,7 +53,7 @@ locationRoutes(app, logger);
 forumRoutes(app, logger);
 // commentRoutes(app, logger);
 likeRoutes(app, logger);
-//wishRoutes(app, logger);
+wishRoutes(app, logger);
 
 // Connecting Express To Listen To Config Port
 app.listen(config.port, config.host, (e) => {
