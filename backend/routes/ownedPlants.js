@@ -25,7 +25,7 @@ module.exports = function routes(app, logger) {
     // Requests (GETS)
 
     // Get Owned Plants By Id
-    app.get('/ownedplants/:id?', authenticateJWT, async (req, res) => {
+    app.get('/ownedplants/byid/:id?', authenticateJWT, async (req, res) => {
         try {
             const params = req.params;
             const result = await OwnedPlant.findOwnedPlantById(params.id);
@@ -52,11 +52,11 @@ module.exports = function routes(app, logger) {
     app.get('/ownedplants/byname', authenticateJWT, async (req, res) => {
         try {
             const body = req.body;
-            const result = await OwnedPlant.findOwnedPlantsByName(body.owner, body.name);
+            const result = await OwnedPlant.findOwnedPlantByName(body.owner, body.name);
             if (result.length === 0) { return res.status(401).json({ message: 'Owner Does Not Own Any Plants With Name' }); }
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({ message: 'Could Not Get All Owned Plants With Name' });
+            return res.status(401).json({ message: 'Could Not Get Owned Plants With Name' });
         }
     });
 
