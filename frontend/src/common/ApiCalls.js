@@ -78,7 +78,7 @@ export class ApiCalls {
     }
     getLocations() {
         return new Promise((resolve, reject) => {
-            axios.get(`${apiEndpoint}/location/alllocations`, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } })
+            axios.get(`${apiEndpoint}/location/alllocations`)
                 .then(response => {
                     console.log('Response: ');
                     console.log(response);

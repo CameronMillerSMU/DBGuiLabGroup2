@@ -19,15 +19,10 @@ import ListItemText from '@mui/material/ListItemText';
 import { Banner } from '../common/Banner';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export const SignUp = (props) => {
+export const SignUp = () => {
   const theme = createTheme();
   const navigate = useNavigate();
-  const location = useLocation();
   const context = useContext(AppContext);
-  const [value, setValue] = React.useState('');
-  const userChange = (event) => {
-    SettingsOverscanOutlined(event.target.value);
-  };
   const ApiCall = new ApiCalls();
 
   const handleSignUp = async (event) => {
@@ -39,31 +34,11 @@ export const SignUp = (props) => {
       }
     }).catch(err => {
       alert("User is already associated with this website");
-    }).finally(() => {
-      ApiCall.getToken().then(response => {
-        console.log('Result: ');
-        console.log(response);
-        sessionStorage.setItem('username', response.data.username);
-        sessionStorage.setItem('password', response.data.password);
-      }).catch(error1 => {
-        console.log('Error: ')
-        console.log(error1);
-      });
     });
   };
 
-  const handleRegion = async (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    ApiCall.setLocation(data.get('location')).then(res => {
-    }).catch(err => {
-      alert("Location is not correct");
-    }).finally(() => {
-      console.log(context.user.location);
-    });
-  };
-
-  const locations = ApiCall.getLocations();
+  const [loc, setLoc] = React.useState("");
+  const cities = ApiCall.getLocations().data;
 
 
   return <>
@@ -107,20 +82,20 @@ export const SignUp = (props) => {
                   type="date"
                 ></TextField>
               </Grid>
-              <Grid item xs={12} controlId="location">
+              <Grid item xs={12} controlId="loc">
                 <FormControl fullWidth>
                   <InputLabel id="required-select-label">Location</InputLabel>
                   <Select
                     required
-                    labelId="location"
-                    id="location"
-                    value={location}
-                    label="location"
+                    labelId="loc"
+                    id="loc"
+                    loc={loc}
+                    label="loc"
                   // onChange={handleRegion}
                   >
-                    {locations.map((location) => (
-                      <MenuItem key={location} value={location}>
-                        <ListItemText primary={location} />
+                    {cities.map((city) => (
+                      <MenuItem key={city.cityName} loc={city.cityName}>
+                        <ListItemText primary={city.cityName} />
                       </MenuItem>
                     ))}
                   </Select>
