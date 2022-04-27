@@ -12,7 +12,7 @@ const plantsRoutes = require('./routes/plants');
 const ownedPlantRoutes = require('./routes/ownedPlants');
 const locationRoutes = require('./routes/location');
 // const commentRoutes = require('./routes/comment');
-//const likeRoutes = require('./routes/like');
+const likeRoutes = require('./routes/like');
 //const wishRoutes = require('./routes/wishTicket');
 
 // Middleware Require
@@ -50,7 +50,7 @@ plantsRoutes(app, logger);
 ownedPlantRoutes(app, logger);
 // locationRoutes(app, logger);
 // commentRoutes(app, logger);
-//likeRoutes(app, logger);
+likeRoutes(app, logger);
 //wishRoutes(app, logger);
 
 // Connecting Express To Listen To Config Port

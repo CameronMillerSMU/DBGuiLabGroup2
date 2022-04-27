@@ -31,7 +31,7 @@ module.exports = function routes(app, logger){
       const result = await Location.getAllLocations();
       res.status(200).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Get All Locations'});
+      return res.status(400).json({ message: 'Could Not Get All Locations'});
     }
   });
 
@@ -48,7 +48,7 @@ module.exports = function routes(app, logger){
             
         } catch (err) {
             console.error("Failed to get this location: ", err);
-            res.sendStatus(500).json({ message: err.toString() });
+            res.sendStatus(400).json({ message: err.toString() });
         }
 
 });
@@ -65,7 +65,7 @@ app.get('/locationByWeather', authenticateJWT, async (req, res, next) => {
         
     } catch (err) {
         console.error("Failed to get this location: ", err);
-        res.sendStatus(500).json({ message: err.toString() });
+        res.sendStatus(400).json({ message: err.toString() });
     }
 
 });
@@ -74,9 +74,9 @@ app.put('/updateLocationTemps', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
       result = await locationController.updateLocationTemps(body.cityName, body.tempLow, body.tempHigh);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update temperatures' });
+      return res.status(400).json({ message: 'Could Not Update temperatures' });
     }
   });
 
@@ -84,9 +84,9 @@ app.put('/updateLocationTemps', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
       result = await locationController.updateLocationWeather(body.cityName, body.weatherType);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update weather' });
+      return res.status(400).json({ message: 'Could Not Update weather' });
     }
   });
 
@@ -94,9 +94,9 @@ app.put('/updateLocationTemps', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
       result = await locationController.updateLocationStore(body.cityName, body.nearestStore);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update store' });
+      return res.status(400).json({ message: 'Could Not Update store' });
     }
   });
 
@@ -105,11 +105,11 @@ app.put('/updateLocationTemps', authenticateJWT, async (req, res) => {
       const body = req.body;
       result = await location.findLocationByName(body.cityName);
       if (Object.keys(result).length == 0) {
-        return res.status(401).json({ message: 'Location Does Not Exist' }); }
+        return res.status(400).json({ message: 'Location Does Not Exist' }); }
       result = await locationController.deleteLocation(body.cityName);
       return res.status(204).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Delete location' });
+      return res.status(400).json({ message: 'Could Not Delete location' });
     }
   });
 

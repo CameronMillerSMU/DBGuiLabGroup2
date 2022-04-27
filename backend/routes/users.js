@@ -121,9 +121,9 @@ module.exports = function routes(app, logger) {
       result = await User.updatePassword(body.username, body.password);
       if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
-      return res.status(200).json(result); 
+      return res.status(202).json(result); 
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update Password' });
+      return res.status(400).json({ message: 'Could Not Update Password' });
     }
   });
 
@@ -134,9 +134,9 @@ module.exports = function routes(app, logger) {
       result = await User.updateBirthday(body.username, body.birthday);
       if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update Birthday' });
+      return res.status(400).json({ message: 'Could Not Update Birthday' });
     }
   });
 
@@ -147,9 +147,9 @@ module.exports = function routes(app, logger) {
       result = await User.updateLocation(body.username, body.location);
       if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update Location (Location May Not Exist)' });
+      return res.status(400).json({ message: 'Could Not Update Location (Location May Not Exist)' });
     }
   });
 
@@ -160,9 +160,9 @@ module.exports = function routes(app, logger) {
       result = await User.updateRegistration(body.username, body.registration);
       if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Register User' });
+      return res.status(400).json({ message: 'Could Not Register User' });
     }
   });
 
@@ -173,9 +173,9 @@ module.exports = function routes(app, logger) {
       result = await User.updatePrivacy(body.username, body.privacy);
       if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update Privacy Tag' });
+      return res.status(400).json({ message: 'Could Not Update Privacy Tag' });
     }
   });
 
@@ -186,9 +186,9 @@ module.exports = function routes(app, logger) {
       result = await User.updateAdmin(body.username, body.admin);
       if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update Admin Tag' });
+      return res.status(400).json({ message: 'Could Not Update Admin Tag' });
     }
   });
 
@@ -199,9 +199,9 @@ module.exports = function routes(app, logger) {
       result = await User.updatePicture(body.username, body.picture);
       if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update Picture' });
+      return res.status(400).json({ message: 'Could Not Update Picture' });
     }
   });
 
@@ -212,9 +212,9 @@ module.exports = function routes(app, logger) {
       result = await User.updateBackground(body.username, body.background);
       if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find User' }); }
       result = await User.findByUserName(body.username);
-      return res.status(200).json(result);
+      return res.status(202).json(result);
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Update Background' });
+      return res.status(400).json({ message: 'Could Not Update Background' });
     }
   });
 
@@ -229,7 +229,7 @@ module.exports = function routes(app, logger) {
       result = await User.deleteUserName(body.username);
       return res.status(204).json({ message: 'Successfully Deleted User' });
     } catch (err) {
-      return res.status(401).json({ message: 'Could Not Delete User' });
+      return res.status(400).json({ message: 'Could Not Delete User' });
     }
   });
 
