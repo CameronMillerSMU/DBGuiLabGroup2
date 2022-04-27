@@ -8,7 +8,7 @@ import { User } from '../common/User';
 import Grid from '@mui/material/Grid';
 import { Navigate } from 'react-router-dom';
 import { apiEndpoint, apiConfig } from '../common/ApiConfig';
-import { addUser, ApiCalls } from '../common/ApiCalls';
+import { ApiCalls } from '../common/ApiCalls';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Banner } from '../common/Banner';
@@ -30,7 +30,7 @@ export const SignUp = (props) => {
     const data = new FormData(event.currentTarget);
     ApiCall.register(data.get('username'), data.get('password')).then(res => {
       if (res.status <= 201) {
-        navigate('/');
+        navigate('/home');
       }
     }).catch(err => {
       alert("User is already associated with this website");

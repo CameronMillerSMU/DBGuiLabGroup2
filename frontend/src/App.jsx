@@ -12,11 +12,11 @@ import { Profile } from './pages/Profile';
 import { Weather } from './pages/Weather';
 
 // React functional component
-function App () {
+function App() {
 
   const [token, setToken] = useState();
   const [updateToken, setUpdateToken] = useState();
-  
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
