@@ -5,27 +5,27 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
 
-export const PlantCard = ({ plantName, plantPhoto }) => {
+export const PlantCard = ({plant}) => {
+
+    //const plant = {props}
+    //console.log(`${plant.name}`);
     
-    return <div>
-        <Card
+    return <Grid item xs={4}>
+    <Card
         sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
         >
             <CardMedia
                 component="img"
-                sx={{
-                  // 16:9
-                  pt: '56.25%',
-                }}
-                image={ plantPhoto }
+                
+                image={ plant.plantPhoto }
                 alt="plantPhoto"
             />
                 <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2" value={ plantName }></Typography>
+                    <Typography gutterBottom variant="h5" component="h2">{ plant.name }</Typography>
                     <Typography>
-                      This is a media card. You can use this section to describe the
-                      content.
+                      {plant.plantDesc}
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -33,6 +33,7 @@ export const PlantCard = ({ plantName, plantPhoto }) => {
                     <Button size="small">Edit</Button>
                 </CardActions>
         </Card>
-    </div>;
+        </Grid>
+    ;
     
 }
