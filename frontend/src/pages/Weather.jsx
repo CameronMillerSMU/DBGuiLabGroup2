@@ -42,7 +42,7 @@ export const Weather = (props) => {
             }}
           />
           
-          { //!!city && <WeatherAPI city={city} />
+          { !!city && <WeatherAPI city={city} />
           }
         </CardContent>
       </Card>

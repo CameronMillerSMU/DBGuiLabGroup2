@@ -16,21 +16,24 @@ import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
-import { getUsers } from '../common/ApiCalls'
+import { ApiCalls } from '../common/ApiCalls';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Banner } from '../common/Banner';
 
+const ApiCall = new ApiCalls();
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const theme = createTheme();
 
 export const Home = (props) => {
+  const navigate = useNavigate();
+  const cards = [1,2,3,4,5,6,7,8,9];//ApiCall.getUsers();
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Banner />
-        
+
         <main>
           <Box
             sx={{
@@ -58,13 +61,18 @@ export const Home = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained">View your plants</Button>
-                <Button variant="outlined">Add plants to your collection</Button>
+                <Button variant="contained"
+                  onClick={() => navigate("/PlantPage")}>
+                  View your plants
+                </Button>
+                <Button variant="outlined"
+                  onClick={() => navigate("/PlantPage")}>
+                  Add plants to your collection
+                </Button>
               </Stack>
             </Container>
           </Box>
           <Container sx={{ py: 8 }} maxWidth="md">
-            {/* End hero unit */}
             <Grid container spacing={4}>
               {cards.map((card) => (
                 <Grid item key={card} xs={12} sm={6} md={4}>
@@ -75,7 +83,7 @@ export const Home = (props) => {
                       <Typography gutterBottom variant="h5" component="h2">
                         User Name
                       </Typography>
-                      
+
                     </CardContent>
                     <CardMedia
                       component="img"
@@ -87,10 +95,9 @@ export const Home = (props) => {
                       alt="random"
                     />
                     <Typography padding="5%">
-                      This is where the users biography will go
+                      This is where the users backgrounds will go
                     </Typography>
                     <Button variant="contained" size="medium" align="center">View User</Button>
-                    {/* <Button variant="outlined" size="medium" float="right">Favorite</Button> */}
                   </Card>
                 </Grid>
               ))}
