@@ -1,7 +1,6 @@
 const express = require('express');
 const pool = require('../db');
 
-const commentController = require('../controllers/comment');
 const comment = require('../models/comment');
 
 const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth');
@@ -12,7 +11,7 @@ module.exports = function routes(app, logger){
     app.post('/newCommentRoot', authenticateJWT, async (req, res) => {
         const body = req.body;
         try {
-            const result = await commentController.createNewCommentRoot(body.postId, body.commentAuthor, body.post);
+            const result = await comment.createNewCommentRoot(body.postId, body.commentAuthor, body.post);
             return res.status(201).json(result); 
             } catch (err) {
                 console.log("ERROR HERE IDIOT: " + err);
@@ -24,7 +23,7 @@ module.exports = function routes(app, logger){
     app.post('/newCommentReply', authenticateJWT, async (req, res) => {
         const body = req.body;
         try {
-            const result = await commentController.createNewCommentReply(body.postId, body.commentAuthor, body.post, body.replyTo);
+            const result = await comment.createNewCommentReply(body.postId, body.commentAuthor, body.post, body.replyTo);
             return res.status(201).json(result); 
             } catch (err) {
                 console.log("ERROR HERE IDIOT: " + err);
@@ -37,7 +36,7 @@ module.exports = function routes(app, logger){
     app.get('/allComments', authenticateJWT, async (req, res) => {
         try {
             console.log("ERROR 1");
-            const result = await commentController.getAllComments();
+            const result = await comment.getAllComments();
             res.status(200).json(result);
           } catch (err) {
             res.status(401).json({ message: 'Could Not Get All comments'});
@@ -47,7 +46,7 @@ module.exports = function routes(app, logger){
         app.get('/allCommentsPrivacy', authenticateJWT, async (req, res) => {
             try {
                 console.log("ERROR 1");
-                const result = await commentController.getAllCommentsExcludePrivate();
+                const result = await comment.getAllCommentsExcludePrivate();
                 res.status(200).json(result);
               } catch (err) {
                 res.status(400).json({ message: 'Could Not Get All comments'});
@@ -61,7 +60,7 @@ module.exports = function routes(app, logger){
             if (req.query.owner == undefined){
                 stadio = null;
             }
-            const result = await commentController.findcommentsByPostId(stadio);
+            const result = await comment.findcommentsByPostId(stadio);
             console.log("HERE RESULT: " + result);
             res.status(200).json(result);
             
@@ -78,7 +77,7 @@ app.get('/commentsByPostPrivacy', authenticateJWT, async (req, res, next) => {
         if (req.query.owner == undefined){
             stadio = null;
         }
-        const result = await commentController.findcommentsByPostIdExcludePrivate(stadio);
+        const result = await comment.findcommentsByPostIdExcludePrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -95,7 +94,7 @@ app.get('/commentsByAuthor', authenticateJWT, async (req, res, next) => {
         if (req.query.owner == undefined){
             stadio = null;
         }
-        const result = await commentController.findcommentsByAuthor(stadio);
+        const result = await comment.findcommentsByAuthor(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -112,7 +111,7 @@ app.get('/commentsByAuthorPrivacy', authenticateJWT, async (req, res, next) => {
         if (req.query.owner == undefined){
             stadio = null;
         }
-        const result = await commentController.findcommentsByAuthorExcludePrivate(stadio);
+        const result = await comment.findcommentsByAuthorExcludePrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -129,7 +128,7 @@ app.get('/commentsOnPost', authenticateJWT, async (req, res, next) => {
         if (req.query.owner == undefined){
             stadio = null;
         }
-        const result = await commentController.findcommentsOnPost(stadio);
+        const result = await comment.findcommentsOnPost(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -146,7 +145,7 @@ app.get('/commentsOnPostPrivacy', authenticateJWT, async (req, res, next) => {
         if (req.query.owner == undefined){
             stadio = null;
         }
-        const result = await commentController.findcommentsOnPostExcludePrivate(stadio);
+        const result = await comment.findcommentsOnPostExcludePrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -163,7 +162,7 @@ app.get('/commentsOnComment', authenticateJWT, async (req, res, next) => {
         if (req.query.owner == undefined){
             stadio = null;
         }
-        const result = await commentController.findcommentsOnComment(stadio);
+        const result = await comment.findcommentsOnComment(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -180,7 +179,7 @@ app.get('/commentsOnCommentPrivacy', authenticateJWT, async (req, res, next) => 
         if (req.query.owner == undefined){
             stadio = null;
         }
-        const result = await commentController.findcommentsOnCommentExcludePrivate(stadio);
+        const result = await comment.findcommentsOnCommentExcludePrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -194,7 +193,7 @@ app.get('/commentsOnCommentPrivacy', authenticateJWT, async (req, res, next) => 
 app.put('/updateCommentPost', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
-      result = await commentController.updateCommentPost(body.commentId, body.new_post);
+      result = await comment.updateCommentPost(body.commentId, body.new_post);
       return res.status(202).json(result);
     } catch (err) {
       return res.status(400).json({ message: 'Could Not Update post' });
@@ -204,7 +203,7 @@ app.put('/updateCommentPost', authenticateJWT, async (req, res) => {
   app.put('/updateCommentPrivacy', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
-      result = await commentController.updateCommentPrivacy(body.commentId, body.privacy);
+      result = await comment.updateCommentPrivacy(body.commentId, body.privacy);
       return res.status(202).json(result);
     } catch (err) {
       return res.status(400).json({ message: 'Could Not Update privacy' });
@@ -214,7 +213,7 @@ app.put('/updateCommentPost', authenticateJWT, async (req, res) => {
   app.delete('/deleteComment', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
-      result = await commentController.deleteComment(body.commentId);
+      result = await comment.deleteComment(body.commentId);
       return res.status(204).json(result);
     } catch (err) {
       return res.status(401).json({ message: 'Could Not Delete comment' });
@@ -224,7 +223,7 @@ app.put('/updateCommentPost', authenticateJWT, async (req, res) => {
   app.delete('/deleteAuthorsComments', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
-      result = await commentController.deleteCommentsByAuthor(body.commentAuthor);
+      result = await comment.deleteCommentsByAuthor(body.commentAuthor);
       return res.status(204).json(result);
     } catch (err) {
       return res.status(401).json({ message: 'Could Not Delete authors comments' });
@@ -234,7 +233,7 @@ app.put('/updateCommentPost', authenticateJWT, async (req, res) => {
   app.delete('/deletePostComments', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
-      result = await commentController.deleteCommentsOnPost(body.postId);
+      result = await comment.deleteCommentsOnPost(body.postId);
       return res.status(204).json(result);
     } catch (err) {
       return res.status(401).json({ message: 'Could Not Delete post comments' });
