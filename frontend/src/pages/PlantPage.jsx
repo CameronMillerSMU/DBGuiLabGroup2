@@ -1,6 +1,8 @@
 
 
-export const PlantPage = () => {
 
-    
+export const PlantPage = (props) =>{
+
+    return <></>
+
 }
