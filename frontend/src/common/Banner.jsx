@@ -36,12 +36,15 @@ const theme = createTheme({
 });
 
 
-export const Banner = (props) => {
+export const Banner = () => {
   {/* Need to do: if not signed in show sign in button if signed in show log out button */}
 
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const token = sessionStorage.getItem('token');
+  
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -57,6 +60,27 @@ export const Banner = (props) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  var loginButton;
+  if (token !== null) {
+    loginButton = 
+    <Button
+      //href="/home"
+      onClick={sessionStorage.clear()}
+      sx={{ color: 'black' }}
+    >
+      Logout
+    </Button>
+  }
+  else {
+    loginButton = 
+    <Button
+      href="/"
+      sx={{ color: 'black' }}
+    >
+      Login
+    </Button>
+  }
 
   return (
     <AppBar position="static" sx={{ color: 'white', backgroundColor: '#43a047' }}> {/* This is logo*/}
@@ -209,15 +233,11 @@ export const Banner = (props) => {
               onClose={handleCloseUserMenu}
               href='/home' //log out user and redirect home
             >
-             
-             <MenuItem onClick={handleCloseUserMenu}>
-                  <Button
-                    href="/home"
-                    sx={{ color: 'black' }}
-                  >
-                    Logout
-                  </Button>
+              <MenuItem onClick={handleCloseUserMenu}>
+                {loginButton}
+
               </MenuItem> 
+
             
             </Menu>
           </Box>

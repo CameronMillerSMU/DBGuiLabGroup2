@@ -13,6 +13,5 @@ export * from './Recommendation';
 export * from './Reply';
 export * from './TextField';
 export * from './User';
-export * from './Wishlist';
 export * from './weatherAPI';
 export * from './weatherDisplay';
