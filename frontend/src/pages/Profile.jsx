@@ -24,9 +24,16 @@ const theme = createTheme();
 
 export const Profile = (props) => {
 
+  const testuser = new User();
   
-    const api = new ApiCalls;
-    const {user} = api.session(props.token);
+
+    const [bgpic, setBgpic] = React.useState(null);
+
+  
+    const api = new ApiCalls();
+    //const {user} = api.session(props.token);
+    api.getToken(props);
+
     //hardcoded plant num, need to change it later
     const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
