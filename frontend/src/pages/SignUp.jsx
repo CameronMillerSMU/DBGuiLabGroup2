@@ -11,6 +11,11 @@ import { apiEndpoint, apiConfig } from '../common/ApiConfig';
 import { ApiCalls } from '../common/ApiCalls';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import ListItemText from '@mui/material/ListItemText';
 import { Banner } from '../common/Banner';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -28,14 +33,37 @@ export const SignUp = (props) => {
   const handleSignUp = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    ApiCall.register(data.get('username'), data.get('password')).then(res => {
+    ApiCall.register(data.get('username'), data.get('password'), data.get('birthday'), data.get('location')).then(res => {
       if (res.status <= 201) {
         navigate('/home');
       }
     }).catch(err => {
       alert("User is already associated with this website");
+    }).finally(() => {
+      ApiCall.getToken().then(response => {
+        console.log('Result: ');
+        console.log(response);
+        sessionStorage.setItem('username', response.data.username);
+        sessionStorage.setItem('password', response.data.password);
+      }).catch(error1 => {
+        console.log('Error: ')
+        console.log(error1);
+      });
     });
   };
+
+  const handleRegion = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    ApiCall.setLocation(data.get('location')).then(res => {
+    }).catch(err => {
+      alert("Location is not correct");
+    }).finally(() => {
+      console.log(context.user.location);
+    });
+  };
+
+  const locations = ApiCall.getLocations();
 
 
   return <>
@@ -69,6 +97,34 @@ export const SignUp = (props) => {
                   label="password"
                   type="password"
                 ></TextField>
+              </Grid>
+              <Grid item xs={12} controlId="birthday">
+                <TextField
+                  placeholder="Enter Your Birthday"
+                  name="birthday"
+                  required
+                  id="birthday"
+                  type="date"
+                ></TextField>
+              </Grid>
+              <Grid item xs={12} controlId="location">
+                <FormControl fullWidth>
+                  <InputLabel id="required-select-label">Location</InputLabel>
+                  <Select
+                    required
+                    labelId="location"
+                    id="location"
+                    value={location}
+                    label="location"
+                  // onChange={handleRegion}
+                  >
+                    {locations.map((location) => (
+                      <MenuItem key={location} value={location}>
+                        <ListItemText primary={location} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
             <Button item sx={{ mt: 3, }}
