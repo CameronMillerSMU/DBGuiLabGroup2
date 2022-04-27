@@ -37,6 +37,8 @@ const theme = createTheme({
 
 
 export const Banner = (props) => {
+  {/* Need to do: if not signed in show sign in button if signed in show log out button */}
+
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
