@@ -17,8 +17,56 @@ const theme = createTheme({
 });
 
 
-export const PlantPage = (props) =>{
+export const PlantPage = (props) => {
+  const ApiCall = new ApiCalls();
 
-    return <></>
 
+
+  
+  const currentUser = ApiCall.getUser(sessionStorage.getItem("currentUser"));
+
+
+
+  const [plant, setPlant] = React.useState([]);
+  React.useEffect(() => {
+    ApiCall.getPlant(plantName).then(res => {
+  return <>
+    <ThemeProvider theme={theme}>
+      <Container maxWidth="lg">
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <Typography variant="h4" component="h1" gutterBottom>
+              Plant Page
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" component="h2" gutterBottom>
+              Plant Name: {props.plant.name}
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="h6" component="h2" gutterBottom>
+              Plant Description: {props.plant.description}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" component="h2" gutterBottom>
+              Plant Category: {props.plant.type}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" component="h2" gutterBottom>
+              Plant Climate: {props.plant.image}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="h6" component="h2" gutterBottom>
+              Plant Image: {props.plant.location}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Container>
+    </ThemeProvider>
+  </>
 }

@@ -62,9 +62,12 @@ export const Profile = (props) => {
   const plant2 = new Plant(2, "Tree", "Plant Description2", "plant category2", "plant climate2", "plant2.jpg");
   const plant3 = new Plant(3, "Flower", "Plant Description3", "plant category3", "plant climate3", "plant3.jpg");
 
-  const tempUser = new User();
-  tempUser.username = sessionStorage.getItem("currentUser");
-  tempUser.ownedPlants = [plant1, plant2, plant3];
+  const currentUser = ApiCall.getUser(sessionStorage.getItem("currentUser"));
+  console.log("CurrentUser: " + currentUser);
+  console.log("CurrentUserName: " + currentUser.username);
+  const ownedPlants = [plant1, plant2, plant3];
+
+  //ApiCall.getPlantsByOwner(currentUser.username);
 
   return (
     <div>
@@ -111,7 +114,7 @@ export const Profile = (props) => {
 
           <Container sx={{ py: 8 }} maxWidth="md">
             <Grid container spacing={2}>
-              {!!tempUser.ownedPlants && tempUser.ownedPlants.map((plant, index) =>
+              {ownedPlants.map((plant, index) =>
                 <PlantCard key={index} plant={plant} />
               )}
             </Grid>
