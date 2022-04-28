@@ -113,6 +113,29 @@ export class ApiCalls {
                 })
         })
     }
+
+    getPlantByName(name) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${apiEndpoint}/plants/plantbyname`, { name: name }, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` }  })
+                .then(response => {
+                    console.log('Response: ');
+                    console.log(response);
+                    resolve(response);
+                })
+                .catch(error => {
+                    console.log('Cannot get plants');
+                    console.log(error);
+                    reject(error);
+                })
+                .finally(() => {
+                    console.log("I'm in");
+                })
+        })
+    }
+
+
+
+
     getLocations() {
         return new Promise((resolve, reject) => {
             axios.get(`${apiEndpoint}/location/alllocations`)
