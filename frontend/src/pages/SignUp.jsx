@@ -3,7 +3,7 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import { AppContext } from "../AppContext";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Password, SettingsOverscanOutlined } from '@mui/icons-material';
+import { Password, SettingsBackupRestoreSharp, SettingsOverscanOutlined } from '@mui/icons-material';
 import { User } from '../common/User';
 import Grid from '@mui/material/Grid';
 import { Navigate } from 'react-router-dom';
@@ -20,13 +20,29 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import { FormControlLabel } from '@mui/material';
 
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
+
+
 export const SignUp = (props) => {
   const theme = createTheme();
   const navigate = useNavigate();
   const context = useContext(AppContext);
   const ApiCall = new ApiCalls();
-
-
 
   const [location, setLocation] = React.useState("");
   const handleLocation = (e) => {
@@ -52,6 +68,8 @@ export const SignUp = (props) => {
     });
   };
 
+  
+  
 
 
   const [cities, setCities] = React.useState([]);
@@ -64,7 +82,7 @@ export const SignUp = (props) => {
 
   const [isPrivate, setIsPrivate] = React.useState(false);
 
-
+  
   return <>
     <ThemeProvider theme={theme}>
       <div className="w-75 mx-auto">
@@ -154,7 +172,7 @@ export const SignUp = (props) => {
             <Button
               onClick={() => navigate("/")}
               variant="outlined"
-            >Cancel
+            >Cancel (go home)
             </Button>
           </Box>
         </Box>
