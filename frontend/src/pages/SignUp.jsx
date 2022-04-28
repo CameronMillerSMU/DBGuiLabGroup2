@@ -37,13 +37,12 @@ const theme = createTheme({
   },
 });
 
+
 export const SignUp = () => {
   const theme = createTheme();
   const navigate = useNavigate();
   const context = useContext(AppContext);
   const ApiCall = new ApiCalls();
-
-
 
   const [location, setLocation] = React.useState("");
   const handleLocation = (e) => {
@@ -170,7 +169,7 @@ export const SignUp = () => {
             <Button
               onClick={() => navigate("/")}
               variant="outlined"
-            >Cancel
+            >Cancel (go home)
             </Button>
           </Box>
         </Box>

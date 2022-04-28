@@ -15,16 +15,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import { useEffect, useState } from 'react';
-
-import { PlantPost } from './PlantPost';
-import { Banner } from '../common/Banner';
-import { ApiCalls } from '../common/ApiCalls';
-import { User } from '../common/User';
-import { Plant } from '../common/Plant';
-import { OwnedPlants } from '../common/OwnedPlants';
-import { PlantCard } from '../common/PlantCard';
+import { PlantPost } from '../pages/PlantPost';
+import { Banner } from './Banner';
+import { ApiCalls } from './ApiCalls';
+import { User } from './User';
+import { Plant } from './Plant';
+import { OwnedPlants } from './OwnedPlants';
+import { PlantCard } from './PlantCard';
 
 
 const theme = createTheme({
@@ -65,7 +63,7 @@ export const Profile = (props) => {
   const plant3 = new Plant(3, "Flower", "Plant Description3", "plant category3", "plant climate3", "plant3.jpg");
 
   const tempUser = new User();
-  tempUser.username = "John";
+  tempUser.username = sessionStorage.getItem("currentUser");
   tempUser.ownedPlants = [plant1, plant2, plant3];
 
   return (

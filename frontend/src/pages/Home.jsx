@@ -20,8 +20,7 @@ import { ApiCalls } from '../common/ApiCalls';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Banner } from '../common/Banner';
-
-const ApiCall = new ApiCalls();
+import { Profile } from '../common';
 
 
 const theme = createTheme({
@@ -42,30 +41,20 @@ const theme = createTheme({
 });
 
 export const Home = (props) => {
-  const [users, setUsers] = useState([]);
-
-  const getUser = (i, userList) => {
-    var userTemp = users;
-    let currentUser = userList[i];
-    userTemp[i] = currentUser;
-    setUsers(userTemp);
-  };
-
-  const loadUsers = () => {
-    ApiCall.getUsers().then(res => {
-      let allUsers = res.data;
-      for (var i in allUsers) {
-        getUser(i, allUsers);
-      }
-      console.log(res.data);
-    }).catch(err => {
-      console.log(err);
-    });
-  };
-
+  const ApiCall = new ApiCalls();
+  const [users, setUsers] = React.useState([]);
   React.useEffect(() => {
-    loadUsers();
+    ApiCall.getUsers().then(res => {
+      const users = res.data;
+      setUsers(users);
+    });
   }, []);
+  
+  const handleViewProfile = (user) => {
+    console.log(user.username);
+    sessionStorage.setItem('currentUser', user.username);
+    navigate('/profile');
+  };
 
   const navigate = useNavigate();
   const cards = ApiCall.getUsers();//ApiCall.getUsers();
@@ -84,7 +73,6 @@ export const Home = (props) => {
           >
             <Container maxWidth="sm">
               <Typography
-                component="h1"
                 variant="h2"
                 align="center"
                 color="text.primary"
@@ -104,31 +92,31 @@ export const Home = (props) => {
               </Stack>
             </Container>
           </Box>
+          <Typography variant="h3" align="center" color="text.primary" paragraph>Current Users</Typography>
           <Container sx={{ py: 8 }} maxWidth="md">
             <Grid container spacing={4}>
-              {cards.map((index) => (
-                <Grid item key={index} xs={12} sm={6} md={4}>
-                  <Card
-                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                  >
+              {users.map((user) => (
+                <Grid item key={user.username} xs={12} sm={6} md={4}>
+                  <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography gutterBottom variant="h5" component="h2">
-                        {users[index].username}
+                        {user.username}
                       </Typography>
                     </CardContent>
                     <CardMedia
                       component="img"
-                      sx={{
-                        // 16:9
-                        // pt: '56.25%',
-                      }}
                       image="https://source.unsplash.com/random"
                       alt="random"
                     />
                     <Typography padding="5%">
-                      {users[index].backgroundPath}
+                      Location: {user.location}
                     </Typography>
-                    <Button variant="contained" size="medium" align="center">View User</Button>
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      align="center"
+                      onClick={() => handleViewProfile(user)}
+                    >View User</Button>
                   </Card>
                 </Grid>
               ))}
@@ -136,7 +124,7 @@ export const Home = (props) => {
           </Container>
         </main>
       </ThemeProvider>
-    </div>
+    </div >
   );
 }
 

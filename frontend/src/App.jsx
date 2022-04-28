@@ -8,7 +8,7 @@ import { Home } from './pages/Home';
 import { Login } from './pages';
 import { SignUp } from './pages/SignUp';
 import { PlantPage } from './pages/PlantPage';
-import { Profile } from './pages/Profile';
+import { Profile } from './common/Profile';
 import { Weather } from './pages/Weather';
 import { Banner } from './common/Banner';
 
