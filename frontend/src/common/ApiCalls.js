@@ -44,7 +44,7 @@ export class ApiCalls {
                     console.log('Response: ');
                     console.log(response);
                     sessionStorage.setItem('token', response.data);
-                    sessionStorage.setItem('username', username); //what does this return
+                    sessionStorage.setItem('username', username); 
                     sessionStorage.setItem('password', password);
 
                     resolve(response);
