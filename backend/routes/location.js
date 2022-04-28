@@ -25,7 +25,7 @@ module.exports = function routes(app, logger){
   // Requests (GETS)
 
   // Get All Locations
-  app.get('/location/alllocations', authenticateJWT, async (req, res) => {
+  app.get('/location/alllocations', async (req, res) => {
     try {
       const result = await Location.getAllLocations();
       if (result.length === 0) { return res.status(401).json({ message: 'No Locations Exist' }); }

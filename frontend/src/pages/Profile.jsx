@@ -22,27 +22,57 @@ import { PlantPost } from './PlantPost';
 import { Banner } from '../common/Banner';
 import { ApiCalls } from '../common/ApiCalls';
 import { User } from '../common/User';
+import { Plant } from '../common/Plant';
+import { OwnedPlants } from '../common/OwnedPlants';
+import { PlantCard } from '../common/PlantCard';
 
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
 
 export const Profile = (props) => {
 
   const testuser = new User();
 
-    const [bgpic, setBgpic] = React.useState(null);
 
-  
-    const api = new ApiCalls;
-    const {user} = api.session(props.token);
-    //hardcoded plant num, need to change it later
-    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [bgpic, setBgpic] = React.useState(null);
+
+
+  const api = new ApiCalls();
+  //const {user} = api.session(props.token);
+  //api.getToken(props);
+
+  //hardcoded plant num, need to change it later
+  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  //<PlantPost posts={user.plantPosts} id={card}/>
+
+  const plant1 = new Plant(1, "Cactus", "Plant Description1", "plant category1", "plant climate1", "/plant1.jpg");
+  const plant2 = new Plant(2, "Tree", "Plant Description2", "plant category2", "plant climate2", "plant2.jpg");
+  const plant3 = new Plant(3, "Flower", "Plant Description3", "plant category3", "plant climate3", "plant3.jpg");
+
+  const tempUser = new User();
+  tempUser.username = "John";
+  tempUser.ownedPlants = [plant1, plant2, plant3];
 
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Banner />
-        
+
         <main>
           {/* Hero unit */}
           <Box
@@ -60,7 +90,7 @@ export const Profile = (props) => {
                 color="text.primary"
                 gutterBottom
               >
-                {testuser.username}
+                {tempUser.username}
               </Typography>
               <Typography variant="h5" align="center" color="text.secondary" paragraph>
                 Something short and leading about the collection below—its contents,
@@ -73,7 +103,7 @@ export const Profile = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                
+
                 <Button variant="outlined">Change Location</Button>
               </Stack>
             </Container>
@@ -82,18 +112,14 @@ export const Profile = (props) => {
 
 
           <Container sx={{ py: 8 }} maxWidth="md">
-            {/* End hero unit */}
-            <Grid container spacing={4}>
-              {/*cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-
-            <PlantPost posts={user.plantPosts} id={card}/>
-            </Grid>
-              ))*/}
+            <Grid container spacing={2}>
+              {!!tempUser.ownedPlants && tempUser.ownedPlants.map((plant, index) =>
+                <PlantCard key={index} plant={plant} />
+              )}
             </Grid>
           </Container>
         </main>
-      {/* Footer */}
+        {/* 
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
           Footer
@@ -106,8 +132,10 @@ export const Profile = (props) => {
         >
           Something here to give the footer a purpose!
         </Typography>
+      Footer 
       
-      </Box>
+      </Box>*/
+        }
         {/* End footer */}
       </ThemeProvider>
     </div>

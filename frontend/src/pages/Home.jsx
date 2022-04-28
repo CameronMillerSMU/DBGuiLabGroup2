@@ -24,7 +24,22 @@ import { Banner } from '../common/Banner';
 const ApiCall = new ApiCalls();
 
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
 
 export const Home = (props) => {
   const [users, setUsers] = useState([]);
@@ -55,7 +70,7 @@ export const Home = (props) => {
   const navigate = useNavigate();
   const cards = ApiCall.getUsers();//ApiCall.getUsers();
   return (
-    <div>
+    <div >
       <ThemeProvider theme={theme}>
         <Banner />
 
@@ -86,14 +101,6 @@ export const Home = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained"
-                  onClick={() => navigate("/PlantPage")}>
-                  View your plants
-                </Button>
-                <Button variant="outlined"
-                  onClick={() => navigate("/PlantPage")}>
-                  Add plants to your collection
-                </Button>
               </Stack>
             </Container>
           </Box>

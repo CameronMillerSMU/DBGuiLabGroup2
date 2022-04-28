@@ -9,7 +9,23 @@ import { WeatherAPI } from "../common/weatherAPI";
 import { useEffect, useState } from 'react';
 import { Button } from "@material-ui/core";
 import { Banner } from '../common/Banner';
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
 const style = makeStyles((theme) => ({
   root: {
     marginTop: 50,

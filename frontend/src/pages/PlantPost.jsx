@@ -45,46 +45,46 @@ export const PlantPost = (props) => {
   const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const handleReply = (reply) => {
-    if(!plantposts.userId)Navigate("/"); //takes to login if not logged in
+    if (!plantposts.userId) Navigate("/login"); //takes to login if not logged in
 
 
   }
 
-    return <>
-                <Card
-                  sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
-                  <CardMedia
-                    component="img"
-                    sx={{
-                      // 16:9
-                      pt: '56.25%',
-                    }}
-                    image={plantposts[id].plantImg}
-                    alt="random"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                    {plantposts[id].plantPostHeader}
-                    </Typography>
-                    <Typography>
-                    {plantposts[id].plantPostContent}
-                    </Typography>
-                  </CardContent>
+  return <>
+    <Card
+      sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+    >
+      <CardMedia
+        component="img"
+        sx={{
+          // 16:9
+          pt: '56.25%',
+        }}
+        image={plantposts[id].plantImg}
+        alt="random"
+      />
+      <CardContent sx={{ flexGrow: 1 }}>
+        <Typography gutterBottom variant="h5" component="h2">
+          {plantposts[id].plantPostHeader}
+        </Typography>
+        <Typography>
+          {plantposts[id].plantPostContent}
+        </Typography>
+      </CardContent>
 
-                  {/*
+      {/*
                   incoming feature: map every replies
                   */}
 
-                  <CardActions>
-                    <Button size="small">Delete</Button> 
-                    <Button size="small">Edit</Button> 
-                    <TextField id="outlined-basic" label="Reply" variant="outlined" value={(x)=> setReply(x)} />
-                    <Button size="small" onClick={handleReply(reply)}>Reply</Button>
-                  </CardActions>
-                </Card>
-                
-    </>
+      <CardActions>
+        <Button size="small">Delete</Button>
+        <Button size="small">Edit</Button>
+        <TextField id="outlined-basic" label="Reply" variant="outlined" value={(x) => setReply(x)} />
+        <Button size="small" onClick={handleReply(reply)}>Reply</Button>
+      </CardActions>
+    </Card>
+
+  </>
 
 
 
