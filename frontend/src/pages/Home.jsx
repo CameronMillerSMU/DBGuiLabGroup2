@@ -18,19 +18,33 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
 import { ApiCalls } from '../common/ApiCalls';
 import { useNavigate, useLocation } from 'react-router-dom';
-
 import { Banner } from '../common/Banner';
 
 const ApiCall = new ApiCalls();
 
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
 
 export const Home = (props) => {
   const navigate = useNavigate();
   const cards = [1,2,3,4,5,6,7,8,9];//ApiCall.getUsers();
   return (
-    <div>
+    <div >
       <ThemeProvider theme={theme}>
         <Banner />
 
@@ -61,14 +75,6 @@ export const Home = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained"
-                  onClick={() => navigate("/PlantPage")}>
-                  View your plants
-                </Button>
-                <Button variant="outlined"
-                  onClick={() => navigate("/PlantPage")}>
-                  Add plants to your collection
-                </Button>
               </Stack>
             </Container>
           </Box>

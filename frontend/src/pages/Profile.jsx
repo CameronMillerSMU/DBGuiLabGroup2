@@ -27,37 +27,52 @@ import { OwnedPlants } from '../common/OwnedPlants';
 import { PlantCard } from '../common/PlantCard';
 
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
 
 export const Profile = (props) => {
 
   const testuser = new User();
-  
 
-    const [bgpic, setBgpic] = React.useState(null);
 
-  
-    const api = new ApiCalls();
-    //const {user} = api.session(props.token);
-    //api.getToken(props);
+  const [bgpic, setBgpic] = React.useState(null);
 
-    //hardcoded plant num, need to change it later
-    const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    //<PlantPost posts={user.plantPosts} id={card}/>
 
-    const plant1 = new Plant(1, "Cactus", "Plant Description1", "plant category1", "plant climate1", "/plant1.jpg");
-    const plant2 = new Plant(2, "Tree", "Plant Description2", "plant category2", "plant climate2", "plant2.jpg");
-    const plant3 = new Plant(3, "Flower", "Plant Description3", "plant category3", "plant climate3", "plant3.jpg");
+  const api = new ApiCalls();
+  //const {user} = api.session(props.token);
+  //api.getToken(props);
 
-    const tempUser = new User();
-    tempUser.username = "John";
-    tempUser.ownedPlants = [plant1, plant2, plant3];
+  //hardcoded plant num, need to change it later
+  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  //<PlantPost posts={user.plantPosts} id={card}/>
+
+  const plant1 = new Plant(1, "Cactus", "Plant Description1", "plant category1", "plant climate1", "/plant1.jpg");
+  const plant2 = new Plant(2, "Tree", "Plant Description2", "plant category2", "plant climate2", "plant2.jpg");
+  const plant3 = new Plant(3, "Flower", "Plant Description3", "plant category3", "plant climate3", "plant3.jpg");
+
+  const tempUser = new User();
+  tempUser.username = "John";
+  tempUser.ownedPlants = [plant1, plant2, plant3];
 
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Banner />
-        
+
         <main>
           {/* Hero unit */}
           <Box
@@ -88,23 +103,23 @@ export const Profile = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                
+
                 <Button variant="outlined">Change Location</Button>
               </Stack>
             </Container>
           </Box>
 
-          
+
 
           <Container sx={{ py: 8 }} maxWidth="md">
-          <Grid container spacing={2}>
-              { !!tempUser.ownedPlants && tempUser.ownedPlants.map((plant, index) =>
-                    <PlantCard key={index} plant={plant}/>
-                  )}
-          </Grid>
+            <Grid container spacing={2}>
+              {!!tempUser.ownedPlants && tempUser.ownedPlants.map((plant, index) =>
+                <PlantCard key={index} plant={plant} />
+              )}
+            </Grid>
           </Container>
         </main>
-      {/* 
+        {/* 
       <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
           Footer
@@ -120,7 +135,7 @@ export const Profile = (props) => {
       Footer 
       
       </Box>*/
-      }
+        }
         {/* End footer */}
       </ThemeProvider>
     </div>

@@ -20,6 +20,23 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Checkbox from '@mui/material/Checkbox';
 import { FormControlLabel } from '@mui/material';
 
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
+
 export const SignUp = () => {
   const theme = createTheme();
   const navigate = useNavigate();
@@ -61,7 +78,7 @@ export const SignUp = () => {
 
   const [isPrivate, setIsPrivate] = React.useState(false);
 
-
+  
   return <>
     <ThemeProvider theme={theme}>
       <div className="w-75 mx-auto">
