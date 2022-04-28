@@ -102,7 +102,7 @@ export const Display = ({ weatherReport, pic }) =>{
   };
 
   return <>
-  <Banner />
+  
   <Card style={styles.root} >
     
     <CardHeader title={`${city}, ${country}`} style = {styles.text}/>

@@ -73,10 +73,12 @@ export const Weather = (props) => {
   //<Grid  alignItems="center" container spacing={5} >
   //<Paper style={style}>
   return <>
+  
     <Grid  >
+    <Banner />
       
     {!(weather&&pic) && <Card >
-      <Banner />
+      
         <CardContent>
           <TextField
             autoFocus
