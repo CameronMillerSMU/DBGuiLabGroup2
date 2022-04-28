@@ -18,19 +18,48 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
 import { ApiCalls } from '../common/ApiCalls';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import { useState } from 'react';
 import { Banner } from '../common/Banner';
+import { Profile } from '../common';
 
-const ApiCall = new ApiCalls();
 
-
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
 
 export const Home = (props) => {
+  const ApiCall = new ApiCalls();
+  const [users, setUsers] = React.useState([]);
+  React.useEffect(() => {
+    ApiCall.getUsers().then(res => {
+      const users = res.data;
+      setUsers(users);
+    });
+  }, []);
+  
+  const handleViewProfile = (user) => {
+    console.log(user.username);
+    sessionStorage.setItem("currentUser", user.username);
+    navigate('/profile');
+  };
+
   const navigate = useNavigate();
-  const cards = [1,2,3,4,5,6,7,8,9];//ApiCall.getUsers();
+  const cards = ApiCall.getUsers();//ApiCall.getUsers();
   return (
-    <div>
+    <div >
       <ThemeProvider theme={theme}>
         <Banner />
 
@@ -44,7 +73,6 @@ export const Home = (props) => {
           >
             <Container maxWidth="sm">
               <Typography
-                component="h1"
                 variant="h2"
                 align="center"
                 color="text.primary"
@@ -61,43 +89,34 @@ export const Home = (props) => {
                 spacing={2}
                 justifyContent="center"
               >
-                <Button variant="contained"
-                  onClick={() => navigate("/PlantPage")}>
-                  View your plants
-                </Button>
-                <Button variant="outlined"
-                  onClick={() => navigate("/PlantPage")}>
-                  Add plants to your collection
-                </Button>
               </Stack>
             </Container>
           </Box>
+          <Typography variant="h3" align="center" color="text.primary" paragraph>Current Users</Typography>
           <Container sx={{ py: 8 }} maxWidth="md">
             <Grid container spacing={4}>
-              {cards.map((card) => (
-                <Grid item key={card} xs={12} sm={6} md={4}>
-                  <Card
-                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                  >
+              {users.map((user) => (
+                <Grid item key={user.username} xs={12} sm={6} md={4}>
+                  <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography gutterBottom variant="h5" component="h2">
-                        User Name
+                        {user.username}
                       </Typography>
-
                     </CardContent>
                     <CardMedia
                       component="img"
-                      sx={{
-                        // 16:9
-                        // pt: '56.25%',
-                      }}
                       image="https://source.unsplash.com/random"
                       alt="random"
                     />
                     <Typography padding="5%">
-                      This is where the users backgrounds will go
+                      Location: {user.location}
                     </Typography>
-                    <Button variant="contained" size="medium" align="center">View User</Button>
+                    <Button
+                      variant="contained"
+                      size="medium"
+                      align="center"
+                      onClick={() => handleViewProfile(user)}
+                    >View User</Button>
                   </Card>
                 </Grid>
               ))}
@@ -105,7 +124,7 @@ export const Home = (props) => {
           </Container>
         </main>
       </ThemeProvider>
-    </div>
+    </div >
   );
 }
 

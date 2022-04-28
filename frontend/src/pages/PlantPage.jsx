@@ -24,8 +24,23 @@ import { Profile } from '../common';
 import { Plant } from '../common/Plant';
 
 
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
 
-export const PlantPage = (props) =>{
 
 export const PlantPage = (props) => {
   const ApiCall = new ApiCalls();

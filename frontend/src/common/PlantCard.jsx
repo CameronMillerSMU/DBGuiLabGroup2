@@ -24,13 +24,13 @@ export const PlantCard = ({ plant }) => {
         navigate('/plantPage');
     };
     return <Grid item xs={4}>
-    <Card
-        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+        <Card
+            sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
         >
             <CardMedia
                 component="img"
-                
-                image={ plant.plantPhoto }
+
+                image={plant.plantPhoto}
                 alt="plantPhoto"
             />
             <CardContent sx={{ flexGrow: 1 }}>
@@ -46,7 +46,7 @@ export const PlantCard = ({ plant }) => {
                 </Button>
             </CardActions>
         </Card>
-        </Grid>
-    ;
-    
+    </Grid>
+        ;
+
 }
