@@ -43,16 +43,8 @@ const theme = createTheme({
 });
 
 export const Profile = (props) => {
-
-  const testuser = new User();
-
-
   const [bgpic, setBgpic] = React.useState(null);
-
-
-  const api = new ApiCalls();
-  //const {user} = api.session(props.token);
-  //api.getToken(props);
+  const ApiCall = new ApiCalls();
 
   //hardcoded plant num, need to change it later
   const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -62,9 +54,17 @@ export const Profile = (props) => {
   const plant2 = new Plant(2, "Tree", "Plant Description2", "plant category2", "plant climate2", "plant2.jpg");
   const plant3 = new Plant(3, "Flower", "Plant Description3", "plant category3", "plant climate3", "plant3.jpg");
 
-  const tempUser = new User();
-  tempUser.username = sessionStorage.getItem("currentUser");
-  tempUser.ownedPlants = [plant1, plant2, plant3];
+  const currentUser = ApiCall.getUser(sessionStorage.getItem("currentUser"));
+  console.log("CurrentUser: " + currentUser);
+  console.log("CurrentUserName: " + currentUser.username);
+
+  const [ownedPlants, setPlants] = React.useState([]);
+  React.useEffect(() => {
+    ApiCall.getPlantsByOwner(sessionStorage.getItem("currentUser")).then(res => {
+      const ownedPlants = res.data;
+      setPlants(ownedPlants);
+    });
+  }, []);
 
   return (
     <div>
@@ -88,32 +88,18 @@ export const Profile = (props) => {
                 color="text.primary"
                 gutterBottom
               >
-                {tempUser.username}
+                {sessionStorage.getItem("currentUser")}
               </Typography>
-              <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                Something short and leading about the collection below—its contents,
-                the creator, etc. Make it short and sweet, but not too short so folks
-                don&apos;t simply skip over it entirely.
+              <Typography variant="h3" align="center" color="text.secondary" paragraph>
+                Your Plants
               </Typography>
-              <Stack
-                sx={{ pt: 4 }}
-                direction="row"
-                spacing={2}
-                justifyContent="center"
-              >
-
-                <Button variant="outlined">Change Location</Button>
-              </Stack>
             </Container>
           </Box>
-
-
-
           <Container sx={{ py: 8 }} maxWidth="md">
             <Grid container spacing={2}>
-              {!!tempUser.ownedPlants && tempUser.ownedPlants.map((plant, index) =>
+              {/* {!!ownedPlants && ownedPlants.map((plant, index) =>
                 <PlantCard key={index} plant={plant} />
-              )}
+              )} */}
             </Grid>
           </Container>
         </main>

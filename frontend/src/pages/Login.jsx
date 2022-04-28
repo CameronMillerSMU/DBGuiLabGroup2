@@ -50,7 +50,7 @@ export const Login = (props) => {
     ApiCall.login(data.get('username'), data.get('password')).then(result => {
       if (result.status <= 201) {
         ApiCall.getToken().then(response => {
-          console.log('Result: ');
+          console.log('Login Result: ');
           console.log(response);
           sessionStorage.setItem('username', response.data.username);
           sessionStorage.setItem('password', response.data.password);
