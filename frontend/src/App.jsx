@@ -34,7 +34,7 @@ function App() {
           <Route path="/signup" element={<SignUp setToken={setToken}/>} />
           <Route path="/login" element={<Login setToken={setToken}/>} />
           <Route exact path="/" element={<Home token={token}/>} />
-          <Route path="/plants" element={<PlantPage token={token}/>} />
+          <Route path="/plantPage" element={<PlantPage token={token}/>} />
           <Route path="/profile" element={<Profile token={token}/>} />
           <Route path="/weather" element={<Weather token={token}/>} />
         </Routes>

@@ -1,4 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ApiCalls } from '../common/ApiCalls';
+import * as React from 'react'; 
 const theme = createTheme({
   typography: {
     fontFamily: [
