@@ -101,7 +101,7 @@ module.exports = function routes(app, logger) {
   });
 
   // Find Specified User
-  app.get('/users/specificuser', authenticateJWT, async (req, res) => {
+  app.get('/users/specificuser', async (req, res) => {
     try {
       const body = req.body;
       result = await User.findByUserName(body.username);

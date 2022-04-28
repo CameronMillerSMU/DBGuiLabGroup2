@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,10 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import YardIcon from '@mui/icons-material/Yard';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { selectUnstyledClasses } from '@mui/base';
-
-
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -32,6 +30,20 @@ const theme = createTheme({
       dark: '#ba000d',
       contrastText: '#000',
     },
+  },
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
   },
 });
 
@@ -56,6 +68,29 @@ export const Banner = (props) => {
     setAnchorElUser(null);
   };
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  
+  const onLogout = () => {
+    console.log("logged out");
+    //sessionStorage.setItem('token', "undefined");
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('password');
+    setIsLoggedIn(false);
+    navigate('/'); //will take home but logged out
+  }
+
+  useEffect(() => {
+    const temp = sessionStorage.getItem('token');
+    if(temp !== "undefined" || temp !== null) {
+      setIsLoggedIn(true);
+    }
+  }, [sessionStorage.getItem('token')]);
+  
+
+
+
   return (
     <AppBar position="static" sx={{ color: 'white', backgroundColor: '#43a047' }}> {/* This is logo*/}
       <Container maxWidth="x1" >
@@ -68,6 +103,7 @@ export const Banner = (props) => {
           >
             Flora&nbsp;
             <YardIcon fontSize='large' margin-left='25%' />
+
           </Typography>
 
 
@@ -106,7 +142,7 @@ export const Banner = (props) => {
             <MenuItem>
               <Typography textAlign="center"></Typography>
                 <Button
-                  href="/home"
+                  href="/"
                   sx={{ color: 'black' }}
                 >
                   Home
@@ -159,7 +195,7 @@ export const Banner = (props) => {
             
               <Button
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                href='/home'
+                href='/'
               >
                 Home
               </Button>
@@ -184,6 +220,7 @@ export const Banner = (props) => {
             
           </Box>
 
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -205,17 +242,18 @@ export const Banner = (props) => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-              href='/home' //log out user and redirect home
             >
              
              <MenuItem onClick={handleCloseUserMenu}>
-                  <Button
-                    href="/home"
-                    sx={{ color: 'black' }}
-                  >
-                    Logout
-                  </Button>
+                
+                {!isLoggedIn && <Link to="/login">Sign up</Link>}
+                
+
+                
               </MenuItem> 
+              <MenuItem onClick={handleCloseUserMenu}>
+                {isLoggedIn && <button type="button" id="logoutbutton" onClick={onLogout}>Log out</button>}
+              </MenuItem>
             
             </Menu>
           </Box>

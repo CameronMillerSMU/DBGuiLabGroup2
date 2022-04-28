@@ -18,9 +18,24 @@ import { apiEndpoint, apiConfig } from '../common/ApiConfig';
 import { ApiCalls } from '../common/ApiCalls';
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const theme = createTheme();
+const theme = createTheme({
+  typography: {
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+  },
+});
 
-export const Login = () => {
+export const Login = (props) => {
 
   const [value, setValue] = React.useState('User');
   const changeEvent = (e) => {
@@ -34,17 +49,7 @@ export const Login = () => {
     const data = new FormData(e.currentTarget);
     ApiCall.login(data.get('username'), data.get('password')).then(result => {
       if (result.status <= 201) {
-        ApiCall.getToken().then(response => {
-          console.log('Result: ');
-          console.log(response);
-          sessionStorage.setItem('username', response.data.username);
-          sessionStorage.setItem('password', response.data.password);
-        })
-          .catch(error1 => {
-            console.log('Error: ')
-            console.log(error1);
-          });
-        navigate('/home');
+        navigate('/');
       }
 
     }).catch(error2 => {
@@ -96,11 +101,11 @@ export const Login = () => {
               sx={{
                 marginRight: 2
               }}
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/signup")}
               variant="outlined"
             >Sign Up</Button>
             <Button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
               variant="outlined"
             >Cancel</Button>
           </Box>

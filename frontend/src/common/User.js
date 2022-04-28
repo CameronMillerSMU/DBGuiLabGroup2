@@ -1,5 +1,5 @@
 export class User {
-    constructor(username, password, birthDate, location, adminTag, registeredTag, privateTag, backgroundPic, favoritePlants, ownedPlants) {
+    constructor(username, password, birthDate, location, adminTag, registeredTag, privateTag, imagePath, backgroundPath) {
         //base variables
         this.username = username;
         this.password = password;
@@ -8,12 +8,7 @@ export class User {
         this.adminTag = adminTag;
         this.registeredTag = registeredTag;
         this.privateTag = privateTag;
-        this.backgroundPic = backgroundPic;
-
-        //wishlist
-        this.favoritePlants = favoritePlants;
-        this.ownedPlants = ownedPlants;
-
-        
+        this.imagePath = imagePath;
+        this.backgroundPath = backgroundPath;        
     }
 }
