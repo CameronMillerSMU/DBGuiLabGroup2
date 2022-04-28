@@ -23,6 +23,7 @@ import { User } from './User';
 import { Plant } from './Plant';
 import { OwnedPlants } from './OwnedPlants';
 import { PlantCard } from './PlantCard';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 const theme = createTheme({
@@ -58,14 +59,20 @@ export const Profile = (props) => {
   console.log("CurrentUser: " + currentUser);
   console.log("CurrentUserName: " + currentUser.username);
 
+  const navigate = useNavigate();
   const [ownedPlants, setPlants] = React.useState([]);
   React.useEffect(() => {
-    ApiCall.getPlantsByOwner(sessionStorage.getItem("currentUser")).then(res => {
+    ApiCall.getPlantsByOwner(sessionStorage.getItem("currentUser"),sessionStorage.getItem('token')).then(res => {
       const ownedPlants = res.data;
       setPlants(ownedPlants);
     });
   }, []);
 
+  const handleViewPlant = (plant) => {
+    console.log(plant.name);
+    sessionStorage.setItem("plantName", plant.name);
+    navigate('/plantPage');
+  };
   return (
     <div>
       <ThemeProvider theme={theme}>

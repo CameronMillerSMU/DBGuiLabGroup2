@@ -1,6 +1,28 @@
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import YardIcon from '@mui/icons-material/Yard';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import CssBaseline from '@mui/material/CssBaseline';
+import Grid from '@mui/material/Grid';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ApiCalls } from '../common/ApiCalls';
-import * as React from 'react'; 
+import { Navigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { Banner } from '../common/Banner';
+import { Profile } from '../common';
+
+
 const theme = createTheme({
   typography: {
     fontFamily: [
@@ -21,17 +43,11 @@ const theme = createTheme({
 
 export const PlantPage = (props) => {
   const ApiCall = new ApiCalls();
-
-
-
-
-  const currentUser = ApiCall.getUser(sessionStorage.getItem("currentUser"));
-
-
+  const plantName = sessionStorage.getItem("currentPlant");
 
   const [plant, setPlant] = React.useState([]);
   React.useEffect(() => {
-    ApiCall.getPlant(plantName).then(res => {
+    ApiCall.getPlantByName(plantName).then(res => {
       const plant = res.data;
       setPlant(plant);
     });
@@ -39,39 +55,24 @@ export const PlantPage = (props) => {
   return <>
     <ThemeProvider theme={theme}>
       <Container maxWidth="lg">
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Typography variant="h4" component="h1" gutterBottom>
-              Plant Page
+        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              {plant.name}
             </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Plant Name: {props.plant.name}
-            </Typography>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Plant Description: {props.plant.description}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Plant Category: {props.plant.type}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Plant Climate: {props.plant.image}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Plant Image: {props.plant.location}
-            </Typography>
-          </Grid>
-        </Grid>
+          </CardContent>
+          <CardMedia
+            component="img"
+            image={plant.plantPhoto}
+            alt="random"
+          />
+          <Typography padding="5%">
+            Description: {plant.plantDesc}
+          </Typography>
+          <Typography padding="5%">
+            Climate: {plant.plantClimate}
+          </Typography>
+        </Card>
       </Container>
     </ThemeProvider>
   </>
