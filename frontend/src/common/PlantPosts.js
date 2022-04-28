@@ -1,4 +1,4 @@
-export class PlantPost {
+export class PlantPosts {
     constructor(postId,topic, poster, title, post, privateTag){
         this.postId = postId;
         this.topic = topic;

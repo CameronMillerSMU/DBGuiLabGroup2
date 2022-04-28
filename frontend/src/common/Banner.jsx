@@ -165,6 +165,12 @@ export const Banner = (props) => {
                 >
                   Profile
                 </Button>
+                <Button
+                  href="/plantpost"
+                  sx={{ color: 'black' }}
+                >
+                  PlantPost
+                </Button>
             </MenuItem>
             
             </Menu>
@@ -216,6 +222,12 @@ export const Banner = (props) => {
                 href='/profile'
               >
                 Profile
+              </Button>
+              <Button
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                href='/plantpost'
+              >
+                PlantPost
               </Button>
             
           </Box>

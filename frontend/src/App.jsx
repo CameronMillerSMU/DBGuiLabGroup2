@@ -11,6 +11,7 @@ import { PlantPage } from './pages/PlantPage';
 import { Profile } from './common/Profile';
 import { Weather } from './pages/Weather';
 import { Banner } from './common/Banner';
+import { PlantPost } from './pages/PlantPost';
 
 // React functional component
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/login" element={<Login setToken={setToken}/>} />
           <Route exact path="/" element={<Home token={token}/>} />
           <Route path="/plantPage" element={<PlantPage token={token}/>} />
+          <Route path="/plantpost" element={<PlantPost token={token}/>} />
           <Route path="/profile" element={<Profile token={token}/>} />
           <Route path="/weather" element={<Weather token={token}/>} />
         </Routes>
