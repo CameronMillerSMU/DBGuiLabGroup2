@@ -180,8 +180,11 @@ app.put('/comment/updatecomment', authenticateJWT, async (req, res) => {
 
   app.put('/comment/like', authenticateJWT, async (req, res) => {
     try {
-      const body = req.body;
-      result = await comment.updateLikeCounter(body.commentId);
+      var stadio = req.query.commentId;
+        if (req.query.commentId == undefined){
+            stadio = commentId;
+        }
+      result = await comment.updateLikeCounter(stadio);
       return res.status(202).json(result);
     } catch (err) {
       return res.status(400).json({ message: 'Could Not Like Comment' });
@@ -190,8 +193,11 @@ app.put('/comment/updatecomment', authenticateJWT, async (req, res) => {
 
   app.put('/comment/unlike', authenticateJWT, async (req, res) => {
     try {
-      const body = req.body;
-      result = await comment.downdateLikeCounter(body.commentId);
+      var stadio = req.query.commentId;
+        if (req.query.commentId == undefined){
+            stadio = commentId;
+        }
+      result = await comment.downdateLikeCounter(stadio);
       return res.status(202).json(result);
     } catch (err) {
       return res.status(400).json({ message: 'Could Not Unlike Comment' });
@@ -200,8 +206,11 @@ app.put('/comment/updatecomment', authenticateJWT, async (req, res) => {
 
   app.delete('/comment/delete', authenticateJWT, async (req, res) => {
     try {
-      const body = req.body;
-      result = await comment.deleteComment(body.commentId);
+      var stadio = req.query.commentId;
+        if (req.query.commentId == undefined){
+            stadio = commentId;
+        }
+      result = await comment.deleteComment(body.stadio);
       return res.status(204).json(result);
     } catch (err) {
       return res.status(401).json({ message: 'Could Not Delete comment' });
