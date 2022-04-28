@@ -2,23 +2,16 @@ const knex = require('../database/knex');
 
 const COMMENT_TABLE = 'comment';
 
-const createNewCommentRoot = async (postId, commentAuthor, post) => {
+const createNewComment = async (postId, commentAuthor, post) => {
 
-    const query = knex(COMMENT_TABLE).insert({ postId, commentAuthor, post, replyTo: -1, rootTag: 1, privateTag: 0 });
-    console.log('Raw query for createNewCommentRoot:', query.toString());
+    const query = knex(COMMENT_TABLE).insert({ postId, poster:commentAuthor, post, privateTag: 0 });
+    console.log('Raw query for createNewComment:', query.toString());
     const result = await query;
 
     return result;
 };
 
-const createNewCommentReply = async (postId, commentAuthor, post, replyTo) => {
 
-    const query = knex(COMMENT_TABLE).insert({ postId, commentAuthor, post, replyTo, rootTag: 0, privateTag: 0 });
-    console.log('Raw query for createNewCommentRoot:', query.toString());
-    const result = await query;
-
-    return result;
-};
 
 const getAllComments = async () => {
     const query = knex(COMMENT_TABLE);
@@ -44,50 +37,38 @@ const findCommentsByPostIdExcludePrivate = async (postId) => {
     return result;
 };
 
-const findCommentsByAuthor = async (commentAuthor) => {
-    const query = knex(COMMENT_TABLE).where({ commentAuthor });
+const findCommentsByAuthor = async (poster) => {
+    const query = knex(COMMENT_TABLE).where({ poster });
     const result = await query;
     return result;
 };
 
-const findCommentsByAuthorExcludePrivate = async (commentAuthor) => {
-    const query = knex(COMMENT_TABLE).where({ commentAuthor, privateTag: 0 });
+const findCommentsByAuthorExcludePrivate = async (poster) => {
+    const query = knex(COMMENT_TABLE).where({ poster, privateTag: 0 });
     const result = await query;
     return result;
 };
 
 const findCommentsOnPost = async (postId) => {
-    const query = knex(COMMENT_TABLE).where({ postId, root: 1 });
+    const query = knex(COMMENT_TABLE).where({ postId });
     const result = await query;
     return result;
 };
 
 const findCommentsOnPostExcludePrivate = async (postId) => {
-    const query = knex(COMMENT_TABLE).where({ postId, root: 1, privateTag: 0 });
+    const query = knex(COMMENT_TABLE).where({ postId, privateTag: 0 });
     const result = await query;
     return result;
 };
 
-const findCommentsOnComment = async (commmentId) => {
-    const query = knex(COMMENT_TABLE).where({ commentId, root: 0 });
-    const result = await query;
-    return result;
-};
-
-const findCommentsOnCommentExcludePrivate = async (commentId) => {
-    const query = knex(COMMENT_TABLE).where({ commentId, root: 0, privateTag: 0 });
-    const result = await query;
-    return result;
-};
-
-const updateCommentPost = async (commentId, new_post) => {
-    const query = knex(COMMENT_TABLE).where({ commentId }).update({ post: new_post });
+const updateCommentPost = async (commentId, post) => {
+    const query = knex(COMMENT_TABLE).where({ commentId:commentId }).update({ post:post });
     const result = await query;
     return result;
 };
 
 const updateCommentPrivacy = async (commentId, privacy) => {
-    const query = knex(COMMENT_TABLE).where({ commentId }).update({ private: privacy });
+    const query = knex(COMMENT_TABLE).where({ commentId:commentId }).update({ privateTag: privacy });
     const result = await query;
     return result;
 };
@@ -99,7 +80,7 @@ const deleteComment = async (commentId) => {
 };
 
 const deleteCommentsByAuthor = async (commentAuthor) => {
-    const query = knex(COMMENT_TABLE).where({ commentAuthor }).del();
+    const query = knex(COMMENT_TABLE).where({ poster:commentAuthor }).del();
     const result = await query;
     return result;
 };
@@ -111,16 +92,13 @@ const deleteCommentsOnPost = async (postId) => {
 };
 
 module.exports = {
-    createNewCommentRoot,
-    createNewCommentReply,
+    createNewComment,
     findCommentsByPostId,
     findCommentsByAuthor,
     findCommentsOnPost,
-    findCommentsOnComment,
     findCommentsByPostIdExcludePrivate,
     findCommentsByAuthorExcludePrivate,
     findCommentsOnPostExcludePrivate,
-    findCommentsOnCommentExcludePrivate,
     getAllComments,
     getAllCommentsExcludePrivate,
     updateCommentPost,
