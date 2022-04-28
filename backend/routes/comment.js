@@ -29,6 +29,7 @@ module.exports = function routes(app, logger){
             const result = await comment.createNewComment(body.postId, body.commentAuthor, body.post);
             return res.status(201).json(result); 
             } catch (err) {
+              console.log("HERE IDIOT; " + err);
               return res.status(400).json({ message: "Failed to make a new comment." });
             }
         
@@ -58,9 +59,9 @@ module.exports = function routes(app, logger){
         try {
             var stadio = req.query.postId;
             if (req.query.owner == undefined){
-                stadio = null;
+                stadio = req.body.postId;
             }
-            const result = await comment.findcommentsByPostId(stadio);
+            const result = await comment.findCommentsByPostId(stadio);
             console.log("HERE RESULT: " + result);
             res.status(200).json(result);
             
@@ -75,9 +76,9 @@ app.get('/comment/publicbyid', authenticateJWT, async (req, res, next) => {
     try {
         var stadio = req.query.postId;
         if (req.query.owner == undefined){
-            stadio = null;
+            stadio = req.body.postId;
         }
-        const result = await comment.findcommentsByPostIdExcludePrivate(stadio);
+        const result = await comment.findCommentsByPostIdExcludePrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -88,13 +89,13 @@ app.get('/comment/publicbyid', authenticateJWT, async (req, res, next) => {
 
 });
 
-app.get('comment/byauthor', authenticateJWT, async (req, res, next) => {
+app.get('/comment/byauthor', authenticateJWT, async (req, res, next) => {
     try {
         var stadio = req.query.commentAuthor;
         if (req.query.commentAuthor == undefined){
-            stadio = null;
+            stadio = req.body.commentAuthor;
         }
-        const result = await comment.findcommentsByAuthor(stadio);
+        const result = await comment.findCommentsByAuthor(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -109,9 +110,9 @@ app.get('/comment/publicbyauthor', authenticateJWT, async (req, res, next) => {
     try {
         var stadio = req.query.commentAuthor;
         if (req.query.commentAuthor == undefined){
-            stadio = null;
+            stadio = req.body.commentAuthor;
         }
-        const result = await comment.findcommentsByAuthorExcludePrivate(stadio);
+        const result = await comment.findCommentsByAuthorExcludePrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -126,9 +127,9 @@ app.get('/comment/bypost', authenticateJWT, async (req, res, next) => {
     try {
         var stadio = req.query.postId;
         if (req.query.postId == undefined){
-            stadio = null;
+            stadio = req.body.postId;
         }
-        const result = await comment.findcommentsOnPost(stadio);
+        const result = await comment.findCommentsOnPost(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -143,9 +144,9 @@ app.get('/comment/publicbypost', authenticateJWT, async (req, res, next) => {
     try {
         var stadio = req.query.postId;
         if (req.query.postId == undefined){
-            stadio = null;
+            stadio = req.body.postId;
         }
-        const result = await comment.findcommentsOnPostExcludePrivate(stadio);
+        const result = await comment.findCommentsOnPostExcludePrivate(stadio);
         console.log("HERE RESULT: " + result);
         res.status(200).json(result);
         
@@ -161,7 +162,7 @@ app.put('/comment/updatecomment', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
       result = await comment.updateCommentPost(body.commentId, body.new_post);
-      return res.status(202).json(result);
+      return res.status(201).json(result);
     } catch (err) {
       return res.status(400).json({ message: 'Could Not Update post' });
     }
@@ -177,10 +178,39 @@ app.put('/comment/updatecomment', authenticateJWT, async (req, res) => {
     }
   });
 
+  app.put('/comment/like', authenticateJWT, async (req, res) => {
+    try {
+      var stadio = req.query.commentId;
+        if (req.query.commentId == undefined){
+            stadio = req.body.commentId;
+        }
+      result = await comment.updateLikeCounter(stadio);
+      return res.status(202).json(result);
+    } catch (err) {
+      return res.status(400).json({ message: 'Could Not Like Comment' });
+    }
+  });
+
+  app.put('/comment/unlike', authenticateJWT, async (req, res) => {
+    try {
+      var stadio = req.query.commentId;
+        if (req.query.commentId == undefined){
+            stadio = req.body.commentId;
+        }
+      result = await comment.downdateLikeCounter(stadio);
+      return res.status(202).json(result);
+    } catch (err) {
+      return res.status(400).json({ message: 'Could Not Unlike Comment' });
+    }
+  });
+
   app.delete('/comment/delete', authenticateJWT, async (req, res) => {
     try {
-      const body = req.body;
-      result = await comment.deleteComment(body.commentId);
+      var stadio = req.query.commentId;
+        if (req.query.commentId == undefined){
+            stadio = commentId;
+        }
+      result = await comment.deleteComment(body.stadio);
       return res.status(204).json(result);
     } catch (err) {
       return res.status(401).json({ message: 'Could Not Delete comment' });

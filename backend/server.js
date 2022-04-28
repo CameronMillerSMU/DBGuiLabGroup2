@@ -13,7 +13,6 @@ const ownedPlantRoutes = require('./routes/ownedPlants');
 const locationRoutes = require('./routes/location');
 const forumRoutes = require('./routes/forum');
 const commentRoutes = require('./routes/comment');
-const likeRoutes = require('./routes/like');
 const wishRoutes = require('./routes/wishTicket');
 const plantPostRoutes = require('./routes/plantPost');
 
@@ -53,7 +52,6 @@ ownedPlantRoutes(app, logger);
 locationRoutes(app, logger);
 forumRoutes(app, logger);
 commentRoutes(app, logger);
-likeRoutes(app, logger);
 wishRoutes(app, logger);
 plantPostRoutes(app, logger);
 
