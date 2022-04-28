@@ -23,32 +23,41 @@ export const Weather = (props) => {
   const [city, setCity] = useState(null);
   const [weather, setWeather] = useState(null);
   const [pic, setPic] = useState(null);
-  const [style, setStyle] = useState(null);
+  //const [style, setStyle] = useState(null);
+
+
+  useEffect(() => {setCity(query)},[query])
   
 
    async function handleSubmit(event) {
-    setCity(query);
+    //setCity(query);
     //console.log( 'handle submit. City:', city, 'query: ', query);
-    /*
+
+    //const value = useMemo(() => setCity(query), [query])
+    
     const temp = await getWeatherByCity(city);
-    console.log(temp);
+    //console.log(temp);
     setWeather(temp);
     const dayNight = temp.current.is_day == 0? "Night" : "Day";
     const temppic = await getPicByWeather(`${query} ${dayNight} ${temp.current.condition.text} Sky`)
-    
-   */
-    const temppic = await getPicByWeather(`Clear Sky`)
+    //const temppic = await getPicByWeather(`Clear Sky`)
+
+
     const [picPath,picDesc] = [temppic.images_results[0].original,temppic.images_results[0].title];
-    console.log(picPath,picDesc);
+    /*
+  https://c8.alamy.com/comp/2GC3T34/london-uk-6th-august-2021-partly-cloudy-sky-over-the-city-of-london-as-rain-and-sunshine-alternate-on-an-erratic-day-credit-vuk-valcic-alamy-live-news-2GC3T34.jpg
+  London, UK. 6th August 2021. Partly cloudy sky over the City of London as  rain and sunshine alternate on an erratic day. (Credit: Vuk Valcic / Alamy  Live News Stock Photo - Alamy
+  */
+ /*
+  const [picPath,picDesc] = 
+  ['https://c8.alamy.com/comp/2GC3T34/london-uk-6th-august-2021-partly-cloudy-sky-over-the-city-of-london-as-rain-and-sunshine-alternate-on-an-erratic-day-credit-vuk-valcic-alamy-live-news-2GC3T34.jpg'
+  ,'London, UK. 6th August 2021. Partly cloudy sky over the City of London as  rain and sunshine alternate on an erratic day. (Credit: Vuk Valcic / Alamy  Live News Stock Photo - Alamy'];
+  */
+    //console.log(picPath,picDesc);
     
     
     setPic({path: picPath, name: picDesc});
-
-    if(pic)setStyle({
-      paperContainer: {
-          backgroundImage: `url(${pic.path})`
-      }
-    })
+  
   }
 
   //setWeather(getWeatherByCity(city));
@@ -58,11 +67,13 @@ export const Weather = (props) => {
   //console.log(weatherInfo);
 
 
-  return <Paper style={style}>
+  //<Grid  alignItems="center" container spacing={5} >
+  //<Paper style={style}>
+  return <Paper>
     <Banner />
-    <Grid  alignItems="center" container spacing={2}>
+    <Grid  >
       
-    {!(weather&&pic) && <Card xs={6} md={8} >
+    {!(weather&&pic) && <Card >
         <CardContent>
           <TextField
             autoFocus
@@ -73,11 +84,11 @@ export const Weather = (props) => {
               //console.log( 'textfield changed. City:', city, 'query: ', query); 
             }}
           />
-          <IconButton type="submit" sx={{ p: '10px' }} aria-label="search"
+          <IconButton type="submit" aria-label="search"
             onClick={
-              (x) => {
-              setCity(query)
-              handleSubmit(x)
+              (event) => {
+              //setCity(query)
+              handleSubmit(event)
               //console.log( 'button clicked. City:', city, 'query: ', query); 
             }
             //handleSubmit

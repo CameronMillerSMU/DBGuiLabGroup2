@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
+import CardHeader from '@mui/material/CardHeader';
 import Card from "@material-ui/core/Card";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
@@ -51,28 +52,11 @@ location:
   tz_id: "Europe/Madrid"
 */
 
-const theme = createTheme({
-  palette: {
-    background: {
-      paper: '#fff',
-    },
-    text: {
-      primary: '#173A5E',
-      secondary: '#46505A',
-    },
-    action: {
-      active: '#001E3C',
-    },
-    success: {
-      dark: '#009688',
-    },
-  },
-});
-
 export const Display = ({ weatherReport, pic }) =>{
+  const time = weatherReport.current.last_updated;
   const lon = weatherReport.location.lon;
   const lat = weatherReport.location.lat;
-  const weatherdiscription = weatherReport.current.condition;
+  const weatherdiscription = weatherReport.current.condition.text;
   const tempC = weatherReport.current.temp_c;
   const tempF = weatherReport.current.temp_f;
   const pressure = weatherReport.current.pressure_in;
@@ -95,22 +79,50 @@ export const Display = ({ weatherReport, pic }) =>{
     }
   }
 
+  /*
+  https://c8.alamy.com/comp/2GC3T34/london-uk-6th-august-2021-partly-cloudy-sky-over-the-city-of-london-as-rain-and-sunshine-alternate-on-an-erratic-day-credit-vuk-valcic-alamy-live-news-2GC3T34.jpg
+  London, UK. 6th August 2021. Partly cloudy sky over the City of London as  rain and sunshine alternate on an erratic day. (Credit: Vuk Valcic / Alamy  Live News Stock Photo - Alamy
+  */
+
   const picpath = pic.path;
   const pictitle = pic.name;
 
-  return <Card >
+  const dayNight = weatherReport.current.is_day == 0? "#FFFFFF" : "#000000";
+
+  const styles = {
+    root: {
+        backgroundImage: `url(${picpath})`,
+        color: `${dayNight}`
+       
+    }
+  };
+
+  return <Card style={styles.root} >
     
-      <CardContent>
+    <CardHeader title={`${city}, ${country}`} />
+    <CardContent>
+    <Typography >
+    Current Time: {time}
+      </Typography>
+    <Typography >
+    Current Weather: {weatherdiscription}
+      </Typography>
       <Typography >
-            {picpath}
-          </Typography>
-          <Typography>
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
-      {city},{country}
-      </CardContent>
-    </Card>;
+      Longitude: {lon}, Latitude: {lat}
+      </Typography>
+      <Typography>
+      Temp: {temp}
+      <span>&#176;</span>
+      {unit}
+      </Typography>
+      <Typography >
+      Humidity: {humidity} %
+      Pressure: {pressure} pa
+      Wind: {wind} km/h
+      </Typography>
+
+    </CardContent>
+  </Card>;
 }
 
 

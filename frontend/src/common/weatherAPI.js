@@ -28,7 +28,10 @@ const AFIX = `&tbm=isch&ijn=0`;
 
 const apiConfig = {
     headers:{
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": true,
+        "Access-Control-Allow-Methods": 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        "Access-Control-Max-Age": "86400"
         //Authorization: 'd388cdb64706c8b7a2b2bf7f041b42dd'
     }
 }
@@ -43,7 +46,7 @@ export const getWeatherByCity = (city) => new Promise((resolve, reject) => {
     //axios.get(`${PROXY_URL}${apiEndPoint}key=${API_KEY}&q=${city}`
     axios.get(`${apiEndPoint}key=${API_KEY}&q=${city}`
     //,function (req, res) {res.header("Access-Control-Allow-Origin", "*")}
-    ,apiConfig
+    //,apiConfig
     )
     .then(x => resolve(x.data))
     .catch(x => {
@@ -68,7 +71,8 @@ search_parameters: {engine: 'google', q: 'q=Clear Sky', google_domain: 'google.c
 //https://serpapi.com/search.json?q=Apple&tbm=isch&ijn=0&api_key=secret_api_key
 export const getPicByWeather = (weather) => new Promise((resolve, reject) => {
     axios.get(`${PROXY_URL}${picEndPoint}q=${weather}${AFIX}&api_key=${PIC_API_KEY}`
-    //axios.get(`${picEndPoint}q=${weather}${AFIX}&api_key=${PIC_API_KEY}`
+    //axios.get(`${picEndPoint}q=${weather}&api_key=${PIC_API_KEY}`
+    //,{headers: {'Access-Control-Allow-Origin': '*'}}
     //,function (req, res) {res.header("Access-Control-Allow-Origin", "*")}
     //,apiConfig
         )
