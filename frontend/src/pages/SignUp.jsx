@@ -48,10 +48,6 @@ export const SignUp = (props) => {
   const handleLocation = (e) => {
     setLocation(e.target.value);
   };
-  const [age, setAge] = React.useState("");
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
 
   const handleSignUp = async (event) => {
     event.preventDefault();

@@ -52,7 +52,7 @@ export const Home = (props) => {
   
   const handleViewProfile = (user) => {
     console.log(user.username);
-    sessionStorage.setItem('currentUser', user.username);
+    sessionStorage.setItem("currentUser", user.username);
     navigate('/profile');
   };
 

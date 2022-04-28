@@ -39,7 +39,6 @@ export class ApiCalls {
     }
     login(username, password) {
         return new Promise((resolve, reject) => {
-            debugger
             axios.post(`${apiEndpoint}/users/login`, { username: username, password: password })
                 .then(response => {
                     console.log('Response: ');
@@ -70,6 +69,42 @@ export class ApiCalls {
                 })
                 .catch(error => {
                     console.log('Cannot get users');
+                    console.log(error);
+                    reject(error);
+                })
+                .finally(() => {
+                    console.log("I'm in");
+                })
+        })
+    }
+    getUser(username) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${apiEndpoint}/users/specificuser`, { username: username })
+                .then(response => {
+                    console.log('Get User Response: ');
+                    console.log(response);
+                    resolve(response);
+                })
+                .catch(error => {
+                    console.log('Cannot get user');
+                    console.log(error);
+                    reject(error);
+                })
+                .finally(() => {
+                    console.log("I'm in");
+                })
+        })
+    }
+    getPlantsByOwner(username) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${apiEndpoint}/ownedplants/byowner`, { username: username }, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } })
+                .then(response => {
+                    console.log('Response: ');
+                    console.log(response);
+                    resolve(response);
+                })
+                .catch(error => {
+                    console.log('Cannot get plants');
                     console.log(error);
                     reject(error);
                 })
