@@ -75,6 +75,8 @@ export const Banner = (props) => {
     console.log("logged out");
     //sessionStorage.setItem('token', "undefined");
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('password');
     setIsLoggedIn(false);
     navigate('/'); //will take home but logged out
   }
