@@ -34,22 +34,6 @@ export const Login = (props) => {
     const data = new FormData(e.currentTarget);
     ApiCall.login(data.get('username'), data.get('password')).then(result => {
       if (result.status <= 201) {
-        ApiCall.getToken().then(response => {
-          console.log('Result: ');
-          console.log(response);
-          sessionStorage.setItem('username', response.data.username); //what does this return
-          sessionStorage.setItem('password', response.data.password);
-
-          props.setToken(result.data.data.jwt);
-          localStorage.setItem('token', result.data.data.jwt);
-          sessionStorage.setItem('token', result.data.data.jwt);
-
-          navigate("/");
-        })
-          .catch(error1 => {
-            console.log('Error: ')
-            console.log(error1);
-          });
         navigate('/');
       }
 
