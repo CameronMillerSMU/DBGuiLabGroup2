@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from "react";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,10 +12,8 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import YardIcon from '@mui/icons-material/Yard';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, Link } from 'react-router-dom';
 import { selectUnstyledClasses } from '@mui/base';
-
-
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -55,6 +53,19 @@ export const Banner = (props) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const onLogout = () => {
+    console.log("logged out");
+    localStorage.removeItem('token');
+    props.setToken(null);
+    navigate('/'); //will take home but logged out
+  }
+
+  useEffect(() => {
+    setIsLoggedIn(props.token);
+  }, [props.token]);
 
   return (
     <AppBar position="static" sx={{ color: 'white', backgroundColor: '#43a047' }}> {/* This is logo*/}
@@ -106,7 +117,7 @@ export const Banner = (props) => {
             <MenuItem>
               <Typography textAlign="center"></Typography>
                 <Button
-                  href="/home"
+                  href="/"
                   sx={{ color: 'black' }}
                 >
                   Home
@@ -159,7 +170,7 @@ export const Banner = (props) => {
             
               <Button
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                href='/home'
+                href='/'
               >
                 Home
               </Button>
@@ -205,16 +216,24 @@ export const Banner = (props) => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-              href='/home' //log out user and redirect home
+              //href='/home' //log out user and redirect home
             >
              
              <MenuItem onClick={handleCloseUserMenu}>
-                  <Button
+                  { /* <Button
                     href="/home"
                     sx={{ color: 'black' }}
                   >
                     Logout
                   </Button>
+                */}
+                {isLoggedIn && <Button type="button" id="logoutbutton"
+                onClick={onLogout}> Log out </Button>}
+                {!isLoggedIn && <Button type="button" id="loginbutton" href="/login"
+                > Sign in </Button>}
+
+
+                
               </MenuItem> 
             
             </Menu>

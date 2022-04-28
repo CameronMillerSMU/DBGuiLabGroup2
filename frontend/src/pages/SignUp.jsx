@@ -30,7 +30,7 @@ export const SignUp = (props) => {
     const data = new FormData(event.currentTarget);
     ApiCall.register(data.get('username'), data.get('password')).then(res => {
       if (res.status <= 201) {
-        navigate('/home');
+        navigate('/');
       }
     }).catch(err => {
       alert("User is already associated with this website");
@@ -81,12 +81,12 @@ export const SignUp = (props) => {
               sx={{
                 marginRight: 2
               }}
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/login")}
               variant="outlined">
               Log in
             </Button>
             <Button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
               variant="outlined"
             >Cancel</Button>
           </Box>

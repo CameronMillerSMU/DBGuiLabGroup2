@@ -20,7 +20,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
-export const Login = () => {
+export const Login = (props) => {
 
   const [value, setValue] = React.useState('User');
   const changeEvent = (e) => {
@@ -44,7 +44,7 @@ export const Login = () => {
             console.log('Error: ')
             console.log(error1);
           });
-        navigate('/home');
+        navigate('/');
       }
 
     }).catch(error2 => {
@@ -96,11 +96,11 @@ export const Login = () => {
               sx={{
                 marginRight: 2
               }}
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/signup")}
               variant="outlined"
             >Sign Up</Button>
             <Button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
               variant="outlined"
             >Cancel</Button>
           </Box>
