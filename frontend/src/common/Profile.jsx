@@ -47,39 +47,28 @@ export const Profile = (props) => {
   const [bgpic, setBgpic] = React.useState(null);
   const ApiCall = new ApiCalls();
 
-  //hardcoded plant num, need to change it later
-  const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  //<PlantPost posts={user.plantPosts} id={card}/>
+  const plant1 = new Plant(1, "Cactus", "Any of numerous succulent, spiny, usually leafless plants of the family Cactaceae, native chiefly to arid regions of the Americas, having variously colored, often showy flowers with numerous stamens and petals.", "Cacti", "Very Hot", "/plant1.jpg")
+  const plant2 = new Plant(2, "Maple Wood", "A tree is a perennial plant with an elongated stem, or trunk, usually supporting branches and leaves. In some usages, the definition of a tree may be narrower, including only woody plants with secondary growth, plants that are usable as lumber or plants above a specified height", "Tree", "Moderate", "plant2.jpg");
+  const plant3 = new Plant(3, "Fern", "Elephant ears are tropical perennial plants grown for the appeal of their large leaves rather than their flowers. Elephant ear is the common name for several species in three plant genera—Colocasia, Alocasia, and Xanthosoma. The most common one is Colocasia esculenta, also known as taro. These fast-growing plants will achieve their full size within two months and are generally planted in the spring after all danger of frost has passed", "", "Perrenial", "plant3.jpg");
 
-  const plant1 = new Plant(1, "Cactus", "Plant Description1", "plant category1", "plant climate1", "/plant1.jpg");
-  const plant2 = new Plant(2, "Tree", "Plant Description2", "plant category2", "plant climate2", "plant2.jpg");
-  const plant3 = new Plant(3, "Flower", "Plant Description3", "plant category3", "plant climate3", "plant3.jpg");
-
-  const currentUser = ApiCall.getUser(sessionStorage.getItem("currentUser"));
+  const currentUser = sessionStorage.getItem("currentUser");
   console.log("CurrentUser: " + currentUser);
-  console.log("CurrentUserName: " + currentUser.username);
 
   const navigate = useNavigate();
-  const [ownedPlants, setPlants] = React.useState([]);
-  React.useEffect(() => {
-    ApiCall.getPlantsByOwner(sessionStorage.getItem("currentUser"),sessionStorage.getItem('token')).then(res => {
-      const ownedPlants = res.data;
-      setPlants(ownedPlants);
-    });
-  }, []);
+  // const [ownedPlants, setPlants] = React.useState([]);
+  // React.useEffect(() => {
+  //   ApiCall.getPlantsByOwner(sessionStorage.getItem("currentUser"), ApiCall.getToken).then(res => {
+  //     const ownedPlants = res.data;
+  //     setPlants(ownedPlants);
+  //   });
+  // }, []);
 
-  const handleViewPlant = (plant) => {
-    console.log(plant.name);
-    sessionStorage.setItem("plantName", plant.name);
-    navigate('/plantPage');
-  };
+  const ownedPlants = [plant1, plant2, plant3];
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Banner />
-
         <main>
-          {/* Hero unit */}
           <Box
             sx={{
               bgcolor: 'background.paper',
@@ -95,39 +84,21 @@ export const Profile = (props) => {
                 color="text.primary"
                 gutterBottom
               >
-                {sessionStorage.getItem("currentUser")}
+                {sessionStorage.getItem("currentUser") == "null" ? sessionStorage.getItem("username") : sessionStorage.getItem("currentUser")}
               </Typography>
               <Typography variant="h3" align="center" color="text.secondary" paragraph>
-                Your Plants
+                Owned Plants
               </Typography>
             </Container>
           </Box>
           <Container sx={{ py: 8 }} maxWidth="md">
             <Grid container spacing={2}>
-              {/* {!!ownedPlants && ownedPlants.map((plant, index) =>
+              {!!ownedPlants && ownedPlants.map((plant, index) =>
                 <PlantCard key={index} plant={plant} />
-              )} */}
+              )}
             </Grid>
           </Container>
         </main>
-        {/* 
-      <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          align="center"
-          color="text.secondary"
-          component="p"
-        >
-          Something here to give the footer a purpose!
-        </Typography>
-      Footer 
-      
-      </Box>*/
-        }
-        {/* End footer */}
       </ThemeProvider>
     </div>
   );
