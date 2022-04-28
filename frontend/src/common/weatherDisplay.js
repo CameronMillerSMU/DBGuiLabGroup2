@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import Box from "@material-ui/core/Box";
@@ -10,15 +10,30 @@ export const Display = ({ weatherReport }) =>{
   var lat = weatherReport.coord.lat;
   var weathermain = weatherReport.weather[0].main;
   var weatherdiscription = weatherReport.weather[0].description;
-  var temp = weatherReport.main.temp;
+  var tempC = weatherReport.main.temp;
+  const tempF = (temp * 9/5) + 32;
   var pressure = weatherReport.main.pressure;
   var humidity = weatherReport.main.humidity;
   var wind = weatherReport.wind.speed;
   var country = weatherReport.sys.country;
   var city = weatherReport.name;
 
+  const [unit,setUnit] = useState(`C`);
+
+  const temp = tempC;
+
+  function handleSwitchTemp(e){
+    if(unit==`C`){
+      setUnit(`F`);
+      temp = tempF;
+    }else{
+      setUnit(`C`);
+      temp = tempC;
+    }
+  }
+
   return (
-    <div>
+    <div >
       <CardContent>
         <Box display="flex" flexDirection="row">
           <Box p={1}>
@@ -37,8 +52,9 @@ export const Display = ({ weatherReport }) =>{
             <Typography variant="h4" color="textPrimary">
               Temp: {temp}
               <span>&#176;</span>
-              {"C"}
+              {unit}
             </Typography>
+            <button onClick={handleSwitchTemp}>C/F</button>
           </Box>
         </Box>
       </CardContent>
