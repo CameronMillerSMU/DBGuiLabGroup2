@@ -73,23 +73,25 @@ const updateCommentPrivacy = async (commentId, privacy) => {
     return result;
 };
 
+const updateLikeCounter = async (commentId) => {
+    const query = knex(COMMENT_TABLE).where({ commentId }).update({likeCount: knex.raw('likeCount + 1')})
+    const result = await query;
+    return result;
+}
+
+const downdateLikeCounter = async (commentId) => {
+    const query = knex(COMMENT_TABLE).where({ commentId }).update({likeCount: knex.raw('likeCount - 1')})
+    const result = await query;
+    return result;
+}
+
 const deleteComment = async (commentId) => {
     const query = knex(COMMENT_TABLE).where({ commentId }).del();
     const result = await query;
     return result;
 };
 
-const deleteCommentsByAuthor = async (commentAuthor) => {
-    const query = knex(COMMENT_TABLE).where({ poster:commentAuthor }).del();
-    const result = await query;
-    return result;
-};
 
-const deleteCommentsOnPost = async (postId) => {
-    const query = knex(COMMENT_TABLE).where({ postId}).del();
-    const result = await query;
-    return result;
-};
 
 module.exports = {
     createNewComment,
@@ -103,7 +105,7 @@ module.exports = {
     getAllCommentsExcludePrivate,
     updateCommentPost,
     updateCommentPrivacy,
-    deleteComment,
-    deleteCommentsByAuthor,
-    deleteCommentsOnPost
+    updateLikeCounter,
+    downdateLikeCounter,
+    deleteComment
 };

@@ -178,6 +178,26 @@ app.put('/comment/updatecomment', authenticateJWT, async (req, res) => {
     }
   });
 
+  app.put('/comment/like', authenticateJWT, async (req, res) => {
+    try {
+      const body = req.body;
+      result = await comment.updateLikeCounter(body.commentId);
+      return res.status(202).json(result);
+    } catch (err) {
+      return res.status(400).json({ message: 'Could Not Like Comment' });
+    }
+  });
+
+  app.put('/comment/unlike', authenticateJWT, async (req, res) => {
+    try {
+      const body = req.body;
+      result = await comment.downdateLikeCounter(body.commentId);
+      return res.status(202).json(result);
+    } catch (err) {
+      return res.status(400).json({ message: 'Could Not Unlike Comment' });
+    }
+  });
+
   app.delete('/comment/delete', authenticateJWT, async (req, res) => {
     try {
       const body = req.body;
