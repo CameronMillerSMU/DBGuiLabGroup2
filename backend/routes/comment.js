@@ -144,7 +144,7 @@ app.get('/comment/publicbypost', authenticateJWT, async (req, res, next) => {
     try {
         var stadio = req.query.postId;
         if (req.query.postId == undefined){
-            stadio = postId;
+            stadio = req.body.postId;
         }
         const result = await comment.findCommentsOnPostExcludePrivate(stadio);
         console.log("HERE RESULT: " + result);
@@ -182,7 +182,7 @@ app.put('/comment/updatecomment', authenticateJWT, async (req, res) => {
     try {
       var stadio = req.query.commentId;
         if (req.query.commentId == undefined){
-            stadio = commentId;
+            stadio = req.body.commentId;
         }
       result = await comment.updateLikeCounter(stadio);
       return res.status(202).json(result);
@@ -195,7 +195,7 @@ app.put('/comment/updatecomment', authenticateJWT, async (req, res) => {
     try {
       var stadio = req.query.commentId;
         if (req.query.commentId == undefined){
-            stadio = commentId;
+            stadio = req.body.commentId;
         }
       result = await comment.downdateLikeCounter(stadio);
       return res.status(202).json(result);
