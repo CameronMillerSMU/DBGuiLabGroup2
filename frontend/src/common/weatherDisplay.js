@@ -88,19 +88,23 @@ export const Display = ({ weatherReport, pic }) =>{
   const pictitle = pic.name;
 
   const dayNight = weatherReport.current.is_day == 0? "#FFFFFF" : "#000000";
+  const textbg = weatherReport.current.is_day == 0? "#010101" : "textSecondary";
 
   const styles = {
     root: {
         backgroundImage: `url(${picpath})`,
-        color: `${dayNight}`
+        color: dayNight
        
+    },
+    text: {
+      bgcolor: textbg
     }
   };
 
   return <Card style={styles.root} >
     
-    <CardHeader title={`${city}, ${country}`} />
-    <CardContent>
+    <CardHeader title={`${city}, ${country}`} style = {styles.text}/>
+    <CardContent style = {styles.text}>
     <Typography >
     Current Time: {time}
       </Typography>

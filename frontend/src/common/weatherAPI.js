@@ -23,8 +23,11 @@ const apiEndPoint =  `http://api.weatherapi.com/v1/current.json?`;
 const PROXY_URL = 'https://cors-anywhere.herokuapp.com/'
 const PIC_API_KEY =`ec51b67a7d45a423c09dbb61f2c0245c60252e23aace2c7f7a1994bedcdd1156`;
 const picEndPoint =  `https://serpapi.com/search.json?`;
+const proxyURL = `http://localhost:3001/weather`;
 const AFIX = `&tbm=isch&ijn=0`;
 
+//api info for another weather pic
+const picEndPoint2 = 'https://bing-image-search1.p.rapidapi.com/images/search'
 
 const apiConfig = {
     headers:{
@@ -35,6 +38,17 @@ const apiConfig = {
         //Authorization: 'd388cdb64706c8b7a2b2bf7f041b42dd'
     }
 }
+
+const apiConfig2 = {
+    /*
+    method: 'GET',
+    url: 'https://bing-image-search1.p.rapidapi.com/images/search',
+    params: {q: 'Clear Sky'},*/
+    headers: {
+      'X-RapidAPI-Host': 'bing-image-search1.p.rapidapi.com',
+      'X-RapidAPI-Key': '269cbbbfc3mshc85eec16563ab7bp149ce2jsn81758aa79374'
+    }
+  };
 /*
 {location: {…}, current: {…}}
 current: {last_updated_epoch: 1651114800, last_updated: '2022-04-28 05:00', temp_c: 13, temp_f: 55.4, is_day: 0, …}
@@ -70,11 +84,53 @@ search_parameters: {engine: 'google', q: 'q=Clear Sky', google_domain: 'google.c
 */
 //https://serpapi.com/search.json?q=Apple&tbm=isch&ijn=0&api_key=secret_api_key
 export const getPicByWeather = (weather) => new Promise((resolve, reject) => {
-    axios.get(`${PROXY_URL}${picEndPoint}q=${weather}${AFIX}&api_key=${PIC_API_KEY}`
-    //axios.get(`${picEndPoint}q=${weather}&api_key=${PIC_API_KEY}`
+    //axios.get(`${PROXY_URL}${picEndPoint}q=${weather}${AFIX}&api_key=${PIC_API_KEY}`
+    //axios.get(`${picEndPoint}q=${weather}${AFIX}&api_key=${PIC_API_KEY}`
+    axios.get(`${proxyURL}/search.json?q=${weather}${AFIX}&api_key=${PIC_API_KEY}`
     //,{headers: {'Access-Control-Allow-Origin': '*'}}
     //,function (req, res) {res.header("Access-Control-Allow-Origin", "*")}
     //,apiConfig
+        )
+    .then(x => resolve(x.data))
+    .catch(x => {
+        alert(x);
+        reject(x);
+    });
+});
+
+/*
+{_type: 'Images', instrumentation: {…}, readLink: 'images/search?q=Clear Sky', webSearchUrl: 'https://www.bing.com/images/search?q=Clear Sky&FORM=OIIARP', queryContext: {…}, …}
+currentOffset: 0
+instrumentation: {_type: 'ResponseInstrumentation'}
+nextOffset: 42
+pivotSuggestions: (2) [{…}, {…}]
+queryContext: {originalQuery: 'Clear Sky', alterationDisplayQuery: 'clear sky', alterationOverrideQuery: '+Clear Sky', alterationMethod: 'AM_JustChangeIt', alterationType: 'CombinedAlterationsChained'}
+queryExpansions: (27) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+    0:
+    displayText: "No Clouds"
+    searchLink: "https://api.cognitive.microsoft.com/api/v7/images/search?q=Clear+Sky+No+Clouds&tq=%7b%22pq%22%3a%22Clear+Sky%22%2c%22qs%22%3a%5b%7b%22cv%22%3a%22Clear%22%2c%22pv%22%3a%22Clear%22%2c%22hps%22%3atrue%2c%22iqp%22%3afalse%7d%2c%7b%22cv%22%3a%22Sky%22%2c%22pv%22%3a%22Sky%22%2c%22hps%22%3atrue%2c%22iqp%22%3afalse%7d%2c%7b%22cv%22%3a%22No+Clouds%22%2c%22pv%22%3a%22%22%2c%22hps%22%3afalse%2c%22iqp%22%3atrue%7d%5d%7d"
+    text: "Clear Sky No Clouds"
+    thumbnail:
+    thumbnailUrl: "https://tse2.mm.bing.net/th?q=Clear+Sky+No+Clouds&pid=Api&mkt=en-US&cc=US&setlang=zh-Hans&adlt=moderate&t=1"
+    [[Prototype]]: Object
+    webSearchUrl: "https://www.bing.com/images/search?q=Clear+Sky+No+Clouds&tq=%7b%22pq%22%3a%22Clear+Sky%22%2c%22qs%22%3a%5b%7b%22cv%22%3a%22Clear%22%2c%22pv%22%3a%22Clear%22%2c%22hps%22%3atrue%2c%22iqp%22%3afalse%7d%2c%7b%22cv%22%3a%22Sky%22%2c%22pv%22%3a%22Sky%22%2c%22hps%22%3atrue%2c%22iqp%22%3afalse%7d%2c%7b%22cv%22%3a%22No+Clouds%22%2c%22pv%22%3a%22%22%2c%22hps%22%3afalse%2c%22iqp%22%3atrue%7d%5d%7d&FORM=IRPATC"
+    [[Prototype]]: Object
+
+readLink: "images/search?q=Clear Sky"
+relatedSearches: (69) [{…}, {…}, {…},]
+totalEstimatedMatches: 1000
+value: (35) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+webSearchUrl: "https://www.bing.com/images/search?q=Clear Sky&FORM=OIIARP"
+_type: "Images"
+*/
+
+export const getPicByWeather2 = (weather) => new Promise((resolve, reject) => {
+    //axios.get(`${PROXY_URL}${picEndPoint}q=${weather}${AFIX}&api_key=${PIC_API_KEY}`
+    //axios.get(`${picEndPoint}q=${weather}${AFIX}&api_key=${PIC_API_KEY}`
+    axios.get(`${picEndPoint2}?q=${weather}`
+    //,{headers: {'Access-Control-Allow-Origin': '*'}}
+    //,function (req, res) {res.header("Access-Control-Allow-Origin", "*")}
+    ,apiConfig2
         )
     .then(x => resolve(x.data))
     .catch(x => {

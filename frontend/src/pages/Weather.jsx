@@ -10,7 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import { WeatherAPI } from "../common/weatherAPI";
 import { Display } from '../common/weatherDisplay';
-import { getWeatherByCity,getPicByWeather } from "../common/weatherAPI";
+import { getWeatherByCity,getPicByWeather,getPicByWeather2 } from "../common/weatherAPI";
 import { useEffect, useState } from 'react';
 import { Button } from "@material-ui/core";
 import { Banner } from '../common/Banner';
@@ -39,11 +39,14 @@ export const Weather = (props) => {
     //console.log(temp);
     setWeather(temp);
     const dayNight = temp.current.is_day == 0? "Night" : "Day";
-    const temppic = await getPicByWeather(`${query} ${dayNight} ${temp.current.condition.text} Sky`)
+    const temppic = await getPicByWeather2(`${query} ${dayNight} ${temp.current.condition.text} Sky`)
     //const temppic = await getPicByWeather(`Clear Sky`)
 
-
-    const [picPath,picDesc] = [temppic.images_results[0].original,temppic.images_results[0].title];
+    
+    //const temppic = await getPicByWeather2(`Clear Sky`)
+    //console.log(temppic)
+    const [picPath,picDesc] = [temppic.relatedSearches[0].thumbnail.thumbnailUrl,temppic.relatedSearches[0].text];
+    //const [picPath,picDesc] = [temppic.images_results[0].original,temppic.images_results[0].title];
     /*
   https://c8.alamy.com/comp/2GC3T34/london-uk-6th-august-2021-partly-cloudy-sky-over-the-city-of-london-as-rain-and-sunshine-alternate-on-an-erratic-day-credit-vuk-valcic-alamy-live-news-2GC3T34.jpg
   London, UK. 6th August 2021. Partly cloudy sky over the City of London as  rain and sunshine alternate on an erratic day. (Credit: Vuk Valcic / Alamy  Live News Stock Photo - Alamy
@@ -69,7 +72,7 @@ export const Weather = (props) => {
 
   //<Grid  alignItems="center" container spacing={5} >
   //<Paper style={style}>
-  return <Paper>
+  return <>
     <Banner />
     <Grid  >
       
@@ -104,5 +107,5 @@ export const Weather = (props) => {
       
 
     </Grid>
-  </Paper>;
+  </>;
 }
