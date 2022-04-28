@@ -18,7 +18,8 @@ module.exports = function routes(app, logger) {
                 return res.status(201).json(result); } 
             else { return res.status(400).json(result); }
         } catch (err) {
-            return res.status(400).json({ message: 'Duplicate Entry' });
+            result = await OwnedPlant.findOwnedPlantByName(body.owner, body.name);
+            return res.status(201).json(result);
         }
     });
 

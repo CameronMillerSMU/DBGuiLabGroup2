@@ -1,108 +1,88 @@
-const wishTicket = require('../models/wishTicket');
+const WishTicket = require('../models/wishTicket');
 
 const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth');
 
-/*
-    createNewWishTicket,
-    getAllWishTickets,
-    findWishTicketsByUser,
-    findWishTicketsByPlant,
-    findWishTicketByTicketId,
-    deleteWishTicket
-*/
-
 module.exports = function routes(app, logger) {
 
-    app.post('/wishticket/newticket', authenticateJWT, async (req, res) => {
-        const body = req.body;
-        try {
-            const result = await wishTicket.createNewWishTicket(body.username, body.plant);
-            return res.status(201).json(result); 
-            } catch (err) {
-                console.log("ERROR HERE IDIOT: " + err);
-              return res.status(400).json({ message: "Failed to make a new wish ticket." });
-            }
-        
-    })
+    // Create (POSTS)
 
+    // Create New Ticket: Username, Plant (FKS)
+    app.post('/wishticket/newticket', authenticateJWT, async (req, res) => {
+        try {
+            const body = req.body;
+            result = await WishTicket.createNewWishTicket(body.username, body.plant);
+            if (result.success) {
+                result = await WishTicket.findWishTicketsByBoth(body.username, body.plant);
+                return res.status(201).json(result); } 
+            else { return res.status(400).json(result); } 
+        } catch (err) {
+            result = await WishTicket.findWishTicketsByBoth(body.username, body.plant);
+            return res.status(201).json(result);
+        }
+    });
+
+    // Requests (GETS)
+
+    // Get All Tickets
     app.get('/wishticket/alltickets', authenticateJWT, async (req, res) => {
         try {
-            const result = await wishTicket.getAllWishTickets();
-            res.status(200).json(result);
-          } catch (err) {
-            res.status(400).json({ message: 'Could Not Get All Wish Tickets'});
-          }
-        })
-
-        app.get('/wishticket/byuser', authenticateJWT, async (req, res, next) => {
-            try {
-                var stadio = req.body.user;
-                if (req.body.user == undefined){
-                    stadio = req.query.user;
-                }
-                const result = await wishTicket.findWishTicketsByUser(stadio);
-                console.log("HERE RESULT: " + result);
-                res.status(200).json(result);
-                
-            } catch (err) {
-                console.error("Failed to get this user's wishes: ", err);
-                res.sendStatus(400).json({ message: err.toString() });
-            }
-    
-    })
-
-    app.get('/wishticket/byplant', authenticateJWT, async (req, res, next) => {
-        try {
-            var stadio = req.body.plant;
-            if (req.body.plant == undefined){
-                stadio = req.query.plant;
-            }
-            const result = await wishTicket.findWishTicketsByPlant(stadio);
-            console.log("HERE RESULT: " + result);
-            res.status(200).json(result);
-            
+            const result = await WishTicket.getAllWishTickets();
+            if (result.length === 0) { return res.status(401).json({ message: 'No Tickets Exist' }); }
+            return res.status(200).json(result);
         } catch (err) {
-            console.error("Failed to get this plant's wishes: ", err);
-            res.sendStatus(400).json({ message: err.toString() });
+            return res.status(401).json({ message: 'Could Not Query Tickets' });
         }
+    });
 
-})
-
-app.get('/wishticket/byid', authenticateJWT, async (req, res, next) => {
-    try {
-        var stadio = req.body.id;
-        if (req.body.id == undefined){
-            stadio = req.query.id;
+    // Get All Tickets By Id
+    app.get('/wishticket/byid/:id?', authenticateJWT, async (req, res) => {
+        try {
+            const params = req.params;
+            const result = await WishTicket.findWishTicketByTicketId(params.id);
+            if (result.length === 0) { return res.status(401).json({ message: 'No Tickets With Id Exist' }); }
+            return res.status(200).json(result);
+        } catch (err) {
+            return res.status(401).json({ message: 'Could Not Query Tickets' });
         }
-        const result = await wishTicket.findWishTicketsByTicketId(stadio);
-        console.log("HERE RESULT: " + result);
-        res.status(200).json(result);
-        
-    } catch (err) {
-        console.error("Failed to get this id's wishes: ", err);
-        res.sendStatus(400).json({ message: err.toString() });
-    }
+    });
 
-})
-
-app.delete('/wishticket/delete', authenticateJWT, async (req, res, next) => {
-    try {
-        var stadio = req.body.id;
-        if (req.body.id == undefined){
-            stadio = req.query.id;
+    // Get All Tickets By Username
+    app.get('/wishticket/byusername', authenticateJWT, async (req, res) => {
+        try {
+            const body = req.body;
+            const result = await WishTicket.findWishTicketsByUser(body.username);
+            if (result.length === 0) { return res.status(401).json({ message: 'User Has No Tickets' }); }
+            return res.status(200).json(result);
+        } catch (err) {
+            return res.status(401).json({ message: 'Could Not Query Tickets' });
         }
-        const result = await wishTicket.deleteWishTicket(stadio);
-        console.log("HERE RESULT: " + result);
-        res.status(200).json(result);
-        
-    } catch (err) {
-        console.error("Failed to delete this wish ticket: ", err);
-        res.sendStatus(400).json({ message: err.toString() });
-    }
+    });
 
-})
+    // Get All Tickets By User And Plant
+    app.get('/wishticket/byplant', authenticateJWT, async (req, res) => {
+        try {
+            const body = req.body;
+            const result = await WishTicket.findWishTicketsByBoth(body.username, body.plant);
+            if (result.length === 0) { return res.status(401).json({ message: 'No User Tickets With Plant Name Exist' }); }
+            return res.status(200).json(result);
+        } catch (err) {
+            return res.status(401).json({ message: 'Could Not Query Tickets' });
+        }
+    });
     
+    // Delete (DELETE)
 
-
+    // Delete Owned Plant
+    app.delete('/wishticket/deleteticket/:id?', authenticateJWT, async (req, res) => {
+        try {
+            const params = req.params;
+            result = await WishTicket.findWishTicketByTicketId(params.id);
+            if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Ticket' }); }
+            result = await WishTicket.deleteWishTicket(params.id);
+            return res.status(204).json({ message: 'Successfully Deleted Ticket' });
+        } catch (err) {
+            return res.status(401).json({ message: 'Could Not Delete Ticket' });
+        }
+    });
 
 }
