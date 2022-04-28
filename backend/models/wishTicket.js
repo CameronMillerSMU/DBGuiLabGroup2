@@ -39,6 +39,7 @@ const getAllWishTickets = async () => {
     return result;
 };
 
+// Find Tickets By Id
 const findWishTicketByTicketId = async (ticketId) => {
     const query = knex(WISH_TABLE).where({ticketId});
     const result = await query;
