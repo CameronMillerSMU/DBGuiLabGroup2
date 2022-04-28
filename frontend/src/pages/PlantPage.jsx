@@ -22,7 +22,7 @@ export const PlantPage = (props) => {
 
 
 
-  
+
   const currentUser = ApiCall.getUser(sessionStorage.getItem("currentUser"));
 
 
@@ -30,6 +30,10 @@ export const PlantPage = (props) => {
   const [plant, setPlant] = React.useState([]);
   React.useEffect(() => {
     ApiCall.getPlant(plantName).then(res => {
+      const plant = res.data;
+      setPlant(plant);
+    });
+  }, []);
   return <>
     <ThemeProvider theme={theme}>
       <Container maxWidth="lg">
