@@ -8,7 +8,7 @@ import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Paper from '@mui/material/Paper';
 import {ThemeProvider, createTheme } from '@mui/system';
-
+import { Banner } from './Banner';
 //code reference: https://anothertechs.com/programming/react/weather-app-using-react/
 
 /*
@@ -88,7 +88,7 @@ export const Display = ({ weatherReport, pic }) =>{
   const pictitle = pic.name;
 
   const dayNight = weatherReport.current.is_day == 0? "#FFFFFF" : "#000000";
-  const textbg = weatherReport.current.is_day == 0? "#010101" : "textSecondary";
+  const textbg = weatherReport.current.is_day == 0? "#d9d9d9" : "#363636";
 
   const styles = {
     root: {
@@ -101,7 +101,9 @@ export const Display = ({ weatherReport, pic }) =>{
     }
   };
 
-  return <Card style={styles.root} >
+  return <>
+  <Banner />
+  <Card style={styles.root} >
     
     <CardHeader title={`${city}, ${country}`} style = {styles.text}/>
     <CardContent style = {styles.text}>
@@ -126,7 +128,8 @@ export const Display = ({ weatherReport, pic }) =>{
       </Typography>
 
     </CardContent>
-  </Card>;
+  </Card>
+  </>;
 }
 
 
