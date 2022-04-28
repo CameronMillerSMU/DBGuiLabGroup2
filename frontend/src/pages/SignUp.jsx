@@ -52,7 +52,7 @@ export const SignUp = (props) => {
   const handleSignUp = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    ApiCall.register(data.get('username'), data.get('password'), data.get('birthday'), data.get('location'), data.get('isPrivate')).then(res => {
+    ApiCall.register(data.get('username'), data.get('password'), data.get('birthday').toString(), data.get('location').toString(), data.get('isPrivate').toString()).then(res => {
       if (res.status <= 201) {
         props.setToken(res.data.data.jwt);
         localStorage.setItem("token", res.data.data.jwt);//change to sessionStorage
