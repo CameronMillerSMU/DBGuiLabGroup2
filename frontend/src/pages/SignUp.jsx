@@ -28,7 +28,7 @@ export const SignUp = (props) => {
   const handleSignUp = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    ApiCall.register(data.get('username'), data.get('password')).then(res => {
+    ApiCall.register(data.get('username'), data.get('password'), data.get('birthday').toString(), data.get('location').toString(), data.get('isPrivate').toString()).then(res => {
       if (res.status <= 201) {
         navigate('/home');
       }

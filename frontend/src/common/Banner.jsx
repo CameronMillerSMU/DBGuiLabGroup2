@@ -45,6 +45,8 @@ export const Banner = (props) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
+    setIsLoggedIn(sessionStorage.getItem("username") !== null);
+    console.log(isLoggedIn);
     setAnchorElUser(event.currentTarget);
   };
 
@@ -55,6 +57,36 @@ export const Banner = (props) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+
+  const onLogout = () => {
+    console.log("logged out");
+    //sessionStorage.setItem('token', "undefined");
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('password');
+    setIsLoggedIn(false);
+    navigate('/'); //will take home but logged out
+  }
+
+  useEffect(() => {
+    const temp = sessionStorage.getItem('token');
+    if (temp !== "undefined" || temp !== null) {
+      setIsLoggedIn(true);
+    }
+  }, [sessionStorage.getItem('token')]);
+
+  const handleProfile = () => {
+    if (sessionStorage.getItem("username") !== null) {
+      sessionStorage.setItem('currentUser', sessionStorage.getItem('userName'))
+      navigate('/profile');
+    }
+    else {
+      alert("Please login to view your profile")
+    }
+  }
 
   return (
     <AppBar position="static" sx={{ color: 'white', backgroundColor: '#43a047' }}> {/* This is logo*/}
@@ -102,20 +134,14 @@ export const Banner = (props) => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              
-            <MenuItem>
-              <Typography textAlign="center"></Typography>
+
+              <MenuItem>
+                <Typography textAlign="center"></Typography>
                 <Button
                   href="/home"
                   sx={{ color: 'black' }}
                 >
                   Home
-                </Button>
-                <Button
-                  href="/plants"
-                  sx={{ color: 'black' }}
-                >
-                  Plants
                 </Button>
                 <Button
                   href="/weather"
@@ -124,27 +150,15 @@ export const Banner = (props) => {
                   Weather
                 </Button>
                 <Button
-                  href="/profile"
+                  onClick={() => handleProfile()}
                   sx={{ color: 'black' }}
                 >
                   Profile
                 </Button>
-            </MenuItem>
-            
+              </MenuItem>
+
             </Menu>
           </Box>
-
-
-
-
-
-
-
-
-
-
-            
-
 
           <Typography
             variant="h6"
@@ -156,32 +170,26 @@ export const Banner = (props) => {
             <YardIcon fontSize='large' margin-left='25%' />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            
-              <Button
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                href='/home'
-              >
-                Home
-              </Button>
-              <Button
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                href='/plants'
-              >
-                Plants
-              </Button>
-              <Button
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                href='/weather'
-              >
-                Weather
-              </Button>
-              <Button
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                href='/profile'
-              >
-                Profile
-              </Button>
-            
+
+            <Button
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              href='/'
+            >
+              Home
+            </Button>
+            <Button
+              sx={{ my: 2, color: 'white', display: 'block' }}
+              href='/weather'
+            >
+              Weather
+            </Button>
+            <Button
+              onClick={() => handleProfile()}
+              sx={{ color: 'white' }}
+            >
+              Profile
+            </Button>
+
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -207,16 +215,24 @@ export const Banner = (props) => {
               onClose={handleCloseUserMenu}
               href='/home' //log out user and redirect home
             >
-             
-             <MenuItem onClick={handleCloseUserMenu}>
+              {isLoggedIn ? (
+                <MenuItem>
                   <Button
-                    href="/home"
+                    onClick={() => onLogout()}
                     sx={{ color: 'black' }}
                   >
                     Logout
                   </Button>
-              </MenuItem> 
-            
+                </MenuItem>) : (
+                <MenuItem>
+                  <Button
+                    href="/login"
+                    sx={{ color: 'black' }}
+                  >
+                    Login
+                  </Button>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>
