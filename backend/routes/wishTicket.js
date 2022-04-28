@@ -85,7 +85,7 @@ app.get('/wishticket/byid', authenticateJWT, async (req, res, next) => {
 
 })
 
-app.delete('/wishticket/', authenticateJWT, async (req, res, next) => {
+app.delete('/wishticket/delete', authenticateJWT, async (req, res, next) => {
     try {
         var stadio = req.body.id;
         if (req.body.id == undefined){
