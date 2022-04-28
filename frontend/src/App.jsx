@@ -38,7 +38,18 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
-  );
+     );
+
+    {/*
+          <Route path="/" element={<Home token={token}/>} />
+          <Route path="/login" element={<Login setToken={setToken}/>} />
+          <Route path="/signup" element={<SignUp setToken={setToken}/>} />
+          <Route path="/plants" element={<PlantPage token={token}/>} />
+          <Route path="/profile" element={<Profile token={token}/>} />
+          <Route path="/weather" element={<Weather token={token}/>} />
+
+    */}
+ 
 }
 
 export default App;
