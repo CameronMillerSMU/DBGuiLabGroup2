@@ -68,6 +68,7 @@ export const Banner = (props) => {
           >
             Flora&nbsp;
             <YardIcon fontSize='large' margin-left='25%' />
+
           </Typography>
 
 
@@ -183,6 +184,7 @@ export const Banner = (props) => {
               </Button>
             
           </Box>
+
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

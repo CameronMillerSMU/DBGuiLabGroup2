@@ -20,7 +20,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
-export const Login = () => {
+export const Login = (props) => {
 
   const [value, setValue] = React.useState('User');
   const changeEvent = (e) => {
@@ -37,14 +37,20 @@ export const Login = () => {
         ApiCall.getToken().then(response => {
           console.log('Result: ');
           console.log(response);
-          sessionStorage.setItem('username', response.data.username);
+          sessionStorage.setItem('username', response.data.username); //what does this return
           sessionStorage.setItem('password', response.data.password);
+
+          props.setToken(result.data.data.jwt);
+          localStorage.setItem('token', result.data.data.jwt);
+          sessionStorage.setItem('token', result.data.data.jwt);
+          
+          navigate("/");
         })
           .catch(error1 => {
             console.log('Error: ')
             console.log(error1);
           });
-        navigate('/home');
+        //navigate('/home');
       }
 
     }).catch(error2 => {
