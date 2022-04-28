@@ -43,14 +43,14 @@ export const Login = (props) => {
           props.setToken(result.data.data.jwt);
           localStorage.setItem('token', result.data.data.jwt);
           sessionStorage.setItem('token', result.data.data.jwt);
-          
+
           navigate("/");
         })
           .catch(error1 => {
             console.log('Error: ')
             console.log(error1);
           });
-        //navigate('/home');
+        navigate('/');
       }
 
     }).catch(error2 => {
@@ -102,11 +102,11 @@ export const Login = (props) => {
               sx={{
                 marginRight: 2
               }}
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/signup")}
               variant="outlined"
             >Sign Up</Button>
             <Button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
               variant="outlined"
             >Cancel</Button>
           </Box>

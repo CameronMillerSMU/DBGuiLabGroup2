@@ -19,9 +19,9 @@ export class ApiCalls {
         }
         )
     }
-    register(username, password, birthday, location) {
+    register(username, password, birthday, location, privateTag) {
         return new Promise((resolve, reject) => {
-            axios.post(`${apiEndpoint}/users/register`, { username: username, password: password, birthday: birthday, location: location })
+            axios.post(`${apiEndpoint}/users/register`, { username: username, password: password, birthday: birthday, location: location, privateTag: privateTag })
                 .then(response => {
                     console.log('Connected!!!');
                     sessionStorage.setItem('token', response.data);
@@ -57,7 +57,6 @@ export class ApiCalls {
                 })
         })
     }
-
     getUsers() {
         return new Promise((resolve, reject) => {
             axios.get(`${apiEndpoint}/users/allusers`)

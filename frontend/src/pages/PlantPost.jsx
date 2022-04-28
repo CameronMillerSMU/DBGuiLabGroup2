@@ -45,7 +45,7 @@ export const PlantPost = (props) => {
   const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const handleReply = (reply) => {
-    if(!plantposts.userId)Navigate("/"); //takes to login if not logged in
+    if(!plantposts.userId)Navigate("/login"); //takes to login if not logged in
 
 
   }

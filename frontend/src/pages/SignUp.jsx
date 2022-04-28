@@ -17,6 +17,8 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import ListItemText from '@mui/material/ListItemText';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Checkbox from '@mui/material/Checkbox';
+import { FormControlLabel } from '@mui/material';
 
 export const SignUp = (props) => {
   const theme = createTheme();
@@ -26,10 +28,9 @@ export const SignUp = (props) => {
 
 
 
-  const [cityN, setCityN] = React.useState("");
-  const handleCityN = (e) => {
-    setCityN(e.target.value);
-    console.log(e.target.value);
+  const [location, setLocation] = React.useState("");
+  const handleLocation = (e) => {
+    setLocation(e.target.value);
   };
   const [age, setAge] = React.useState("");
   const handleChange = (event) => {
@@ -39,7 +40,7 @@ export const SignUp = (props) => {
   const handleSignUp = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    ApiCall.register(data.get('username'), data.get('password'), data.get('birthday'), data.get('location')).then(res => {
+    ApiCall.register(data.get('username'), data.get('password'), data.get('birthday'), data.get('location'), data.get('isPrivate')).then(res => {
       if (res.status <= 201) {
         props.setToken(res.data.data.jwt);
         localStorage.setItem("token", res.data.data.jwt);//change to sessionStorage
@@ -51,8 +52,6 @@ export const SignUp = (props) => {
     });
   };
 
-  const [loc, setLoc] = React.useState("");
-
 
 
   const [cities, setCities] = React.useState([]);
@@ -62,6 +61,9 @@ export const SignUp = (props) => {
       setCities(cities);
     });
   }, []);
+
+  const [isPrivate, setIsPrivate] = React.useState(false);
+
 
   return <>
     <ThemeProvider theme={theme}>
@@ -111,8 +113,8 @@ export const SignUp = (props) => {
                 sx={{ m: 1, width: '27.8ch' }}>
                 <InputLabel id="required-select-label">Location</InputLabel>
                 <Select
-                  value={cityN}
-                  onChange={handleCityN}
+                  value={location}
+                  onChange={handleLocation}
                   required
                   labelId="location"
                   id="location"
@@ -129,6 +131,12 @@ export const SignUp = (props) => {
                 </Select>
               </FormControl>
             </Grid>
+            <Grid>
+              <FormControlLabel
+                label="Are you a private user?"
+                control={<Checkbox checked={isPrivate} color="primary" onChange={e => setIsPrivate(e.target.checked)} />}
+              />
+            </Grid>
             <Button item sx={{ mt: 2 }}
               type="submit"
               variant="outlined"
@@ -139,14 +147,15 @@ export const SignUp = (props) => {
               sx={{
                 marginRight: 2
               }}
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/login")}
               variant="outlined">
               Log in
             </Button>
             <Button
-              onClick={() => navigate("/home")}
+              onClick={() => navigate("/")}
               variant="outlined"
-            >Cancel</Button>
+            >Cancel
+            </Button>
           </Box>
         </Box>
       </div>

@@ -1,5 +1,3 @@
-const express = require('express');
-
 const Plant = require('../models/plants');
 
 const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth');
