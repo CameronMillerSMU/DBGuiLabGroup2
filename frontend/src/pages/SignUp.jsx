@@ -38,7 +38,7 @@ const theme = createTheme({
 });
 
 
-export const SignUp = () => {
+export const SignUp = (props) => {
   const theme = createTheme();
   const navigate = useNavigate();
   const context = useContext(AppContext);
@@ -54,6 +54,9 @@ export const SignUp = () => {
     const data = new FormData(event.currentTarget);
     ApiCall.register(data.get('username'), data.get('password'), data.get('birthday'), data.get('location'), data.get('isPrivate')).then(res => {
       if (res.status <= 201) {
+        props.setToken(res.data.data.jwt);
+        localStorage.setItem("token", res.data.data.jwt);//change to sessionStorage
+        sessionStorage.setItem("token", res.data.data.jwt);
         navigate('/');
       }
     }).catch(err => {

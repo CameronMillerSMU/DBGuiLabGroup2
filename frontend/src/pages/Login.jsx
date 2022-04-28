@@ -49,16 +49,6 @@ export const Login = (props) => {
     const data = new FormData(e.currentTarget);
     ApiCall.login(data.get('username'), data.get('password')).then(result => {
       if (result.status <= 201) {
-        ApiCall.getToken().then(response => {
-          console.log('Login Result: ');
-          console.log(response);
-          sessionStorage.setItem('username', response.data.username);
-          sessionStorage.setItem('password', response.data.password);
-        })
-          .catch(error1 => {
-            console.log('Error: ')
-            console.log(error1);
-          });
         navigate('/');
       }
 

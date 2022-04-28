@@ -70,16 +70,24 @@ export const Banner = (props) => {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  
   const onLogout = () => {
     console.log("logged out");
-    localStorage.removeItem('token');
-    props.setToken(null);
+    //sessionStorage.setItem('token', "undefined");
+    sessionStorage.removeItem('token');
+    setIsLoggedIn(false);
     navigate('/'); //will take home but logged out
   }
 
   useEffect(() => {
-    setIsLoggedIn(props.token);
-  }, [props.token]);
+    const temp = sessionStorage.getItem('token');
+    if(temp !== "undefined" || temp !== null) {
+      setIsLoggedIn(true);
+    }
+  }, [sessionStorage.getItem('token')]);
+  
+
+
 
   return (
     <AppBar position="static" sx={{ color: 'white', backgroundColor: '#43a047' }}> {/* This is logo*/}
@@ -93,6 +101,7 @@ export const Banner = (props) => {
           >
             Flora&nbsp;
             <YardIcon fontSize='large' margin-left='25%' />
+
           </Typography>
 
 
@@ -209,6 +218,7 @@ export const Banner = (props) => {
             
           </Box>
 
+
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -230,25 +240,18 @@ export const Banner = (props) => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-              //href='/home' //log out user and redirect home
             >
              
              <MenuItem onClick={handleCloseUserMenu}>
-                  { /* <Button
-                    href="/home"
-                    sx={{ color: 'black' }}
-                  >
-                    Logout
-                  </Button>
-                */}
-                {isLoggedIn && <Button type="button" id="logoutbutton"
-                onClick={onLogout}> Log out </Button>}
-                {!isLoggedIn && <Button type="button" id="loginbutton" href="/login"
-                > Sign in </Button>}
-
+                
+                {!isLoggedIn && <Link to="/login">Sign up</Link>}
+                
 
                 
               </MenuItem> 
+              <MenuItem onClick={handleCloseUserMenu}>
+                {isLoggedIn && <button type="button" id="logoutbutton" onClick={onLogout}>Log out</button>}
+              </MenuItem>
             
             </Menu>
           </Box>
