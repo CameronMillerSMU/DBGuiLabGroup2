@@ -16,7 +16,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import ListItemText from '@mui/material/ListItemText';
-import { Banner } from '../common/Banner';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export const SignUp = () => {
@@ -24,6 +23,18 @@ export const SignUp = () => {
   const navigate = useNavigate();
   const context = useContext(AppContext);
   const ApiCall = new ApiCalls();
+
+
+
+  const [cityN, setCityN] = React.useState("");
+  const handleCityN = (e) => {
+    setCityN(e.target.value);
+    console.log(e.target.value);
+  };
+  const [age, setAge] = React.useState("");
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
 
   const handleSignUp = async (event) => {
     event.preventDefault();
@@ -41,19 +52,13 @@ export const SignUp = () => {
 
 
 
-  const cities = ApiCall.getLocations();    //.data[0].cityName
-  console.log("Should be Berkeley: ");
-  console.log(cities[0]['cityName']);
-  console.log(cities[1]['cityName']);
-  let cityNames = [];
-  for (let i = 0; i < cities.length; i++) {
-    cityNames.push(cities[i].cityName);
-  }
-  for(let i = 0; i < cityNames.length; i++) {
-    console.log(cityNames[i]);
-  }
-
-
+  const [cities, setCities] = React.useState([]);
+  React.useEffect(() => {
+    ApiCall.getLocations().then(res => {
+      const cities = res.data;
+      setCities(cities);
+    });
+  }, []);
 
   return <>
     <ThemeProvider theme={theme}>
@@ -89,6 +94,7 @@ export const SignUp = () => {
               </Grid>
               <Grid item xs={12} controlId="birthday">
                 <TextField
+                  sx={{ mb: 1, width: '27.8ch' }}
                   placeholder="Enter Your Birthday"
                   name="birthday"
                   required
@@ -96,27 +102,31 @@ export const SignUp = () => {
                   type="date"
                 ></TextField>
               </Grid>
-              <Grid item xs={12} controlId="loc">
-                <FormControl fullWidth>
-                  <InputLabel id="required-select-label">Location</InputLabel>
-                  <Select
-                    required
-                    labelId="loc"
-                    id="loc"
-                    loc={loc}
-                    label="loc"
-                  // onChange={handleRegion}
-                  >
-                    {cityNames.map((city) => (
-                      <MenuItem key={city} loc={city}>
-                        <ListItemText primary={city} />
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
             </Grid>
-            <Button item sx={{ mt: 3, }}
+            <Grid item xs={12} controlId="location" >
+              <FormControl fullWidth
+                sx={{ m: 1, width: '27.8ch' }}>
+                <InputLabel id="required-select-label">Location</InputLabel>
+                <Select
+                  value={cityN}
+                  onChange={handleCityN}
+                  required
+                  labelId="location"
+                  id="location"
+                  label="loc"
+                  placeholder="Enter Your Location"
+                >
+                  {cities.map(city => {
+                    return (
+                      < MenuItem value={city.cityName} key={city.cityName} loc={city.cityName} >
+                        <ListItemText primary={city.cityName} />
+                      </MenuItem>
+                    )
+                  })}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Button item sx={{ mt: 2 }}
               type="submit"
               variant="outlined"
             >
