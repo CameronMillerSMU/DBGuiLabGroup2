@@ -1,228 +1,193 @@
-const plantPost = require('../models/plantPost');
+const PlantPost = require('../models/plantPost');
 
-const {
-    authenticateJWT,
-    authenticateWithClaims
-} = require('../middleware/auth');
+const { authenticateJWT, authenticateWithClaims } = require('../middleware/auth');
 
 module.exports = function routes(app, logger) {
 
-    /* createNewPlantPost,
-        findPlantPostByPostId,
-        findPlantPostsByPoster,
-        findPlantPostsByTopic,
-        findPlantPostByPostIdExcludePrivate,
-        findPlantPostsByPosterExcludePrivate,
-        findPlantPostsByTopicExcludePrivate,
-        getAllPlantPosts,
-        getAllPlantPostsExcludePrivate,
-        updatePost,
-        updatePrivacy,
-        deletePlantPost
-        */
+    // Create (POSTS)
 
-        app.post('/plantpost/newpost', authenticateJWT, async (req, res) => {
-            try {
-                const body = req.body;
-                result = await plantPost.createNewPlantPost(body.topic, body.poster, body.title, body.post, body.privateTag);
-                if (result.success) {
-                    result = await plantPost.findPlantPostsByTopic(body.topic);
-                    return res.status(201).json(result); } 
-                else { return res.status(201).json(result); }
-            } catch (err) {
-                return res.status(400).json({ message: 'Duplicate Entry'  });
-            }
-        });
+    // Create New Post: Topic, Poster, Title, Post, Privacy
+    app.post('/plantpost/newpost', authenticateJWT, async (req, res) => {
+        try {
+            const body = req.body;
+            result = await PlantPost.createNewPlantPost(body.topic, body.poster, body.title, body.post, body.privateTag);
+            if (result.success) {
+                result = await PlantPost.findPlantPostsByTopic(body.topic);
+                return res.status(201).json(result); } 
+            else { return res.status(201).json(result); }
+        } catch (err) {
+            result = await PlantPost.findPlantPostsByTopic(body.topic);
+            return res.status(201).json(result);
+        }
+    });
     
+    // Requests (GETS)
 
+    // Get All Posts
     app.get('/plantpost/allposts', authenticateJWT, async (req, res) => {
         try {
-            const result = await plantPost.getAllPlantPosts();
-            if (result.length === 0) {
-                return res.status(401).json({
-                    message: 'No Plant Posts Exist'
-                });
-            }
+            const result = await PlantPost.getAllPlantPosts();
+            if (result.length === 0) { return res.status(401).json({ message: 'No Plant Posts Exist' }); }
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Query Plant Posts'
-            });
+            return res.status(401).json({ message: 'Could Not Query Plant Posts' });
         }
     });
 
-    app.get('/plantpost/allpublicposts', authenticateJWT, async (req, res) => {
+    // Get Posts By Id
+    app.get('/plantpost/postbyid/:id?', authenticateJWT, async (req, res) => {
         try {
-            const result = await plantPost.getAllPlantPostsExcludePrivate();
-            if (result.length === 0) {
-                return res.status(401).json({
-                    message: 'No Public Plant Posts Exist'
-                });
-            }
+            const params = req.params;
+            const result = await PlantPost.findPlantPostByPostId(params.id);
+            if (result.length === 0) { return res.status(400).json({ message: 'No Posts Exist With Id' }); }
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Query Plant Posts'
-            });
+            return res.status(401).json({ message: 'Could Not Query Plant Posts' });
         }
     });
 
-
-
-    app.get('/plantpost/postbyid', authenticateJWT, async (req, res) => {
+    // Get Posts By Topic
+    app.get('/plantpost/postsbytopic', authenticateJWT, async (req, res) => {
         try {
-            const result = await plantPost.findPlantPostByPostId(req.body.id);
-            if (result.length === 0) {
-                return res.status(400).json({
-                    message: 'No posts exist with that ID'
-                });
-            }
+            const body = req.body;
+            const result = await PlantPost.findPlantPostsByTopic(body.topic);
+            if (result.length === 0) { return res.status(400).json({ message: 'No Posts Exist With Topic' }); }
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Query Posts'
-            });
+            return res.status(401).json({ message: 'Could Not Query Plant Posts' });
         }
     });
 
-    app.get('/plantpost/postbyposter', authenticateJWT, async (req, res) => {
+    // Get Posts By Poster
+    app.get('/plantpost/postsbyposter', authenticateJWT, async (req, res) => {
         try {
-            const result = await plantPost.findPlantPostByPoster(req.body.poster);
-            if (result.length === 0) {
-                return res.status(400).json({
-                    message: 'No posts exist by that poster'
-                });
-            }
+            const body = req.body;
+            const result = await PlantPost.findPlantPostsByPoster(body.poster);
+            if (result.length === 0) { return res.status(400).json({ message: 'No Posts Exist By Poster' }); }
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Query Posts'
-            });
+            return res.status(401).json({ message: 'Could Not Query Plant Posts' });
         }
     });
 
-    app.get('/plantpost/postbytopic', authenticateJWT, async (req, res) => {
+    // Get Public Posts
+    app.get('/plantpost/publicposts', authenticateJWT, async (req, res) => {
         try {
-            const result = await plantPost.findPlantPostsByTopic(req.body.topic);
-            if (result.length === 0) {
-                return res.status(400).json({
-                    message: 'No posts exist with that topic'
-                });
-            }
+            const result = await PlantPost.findPublicPlantPosts();
+            if (result.length === 0) { return res.status(401).json({ message: 'No Public Plant Posts Exist' }); }
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Query Posts'
-            });
+            return res.status(401).json({ message: 'Could Not Query Plant Posts' });
         }
     });
 
-    app.get('/plantpost/publicpostbyid', authenticateJWT, async (req, res) => {
+    // Get Public Posts With Poster
+    app.get('/plantpost/publicpostsbyposter', authenticateJWT, async (req, res) => {
         try {
-            const result = await plantPost.findPlantPostsByIdExcludePrivate(req.body.id);
-            if (result.length === 0) {
-                return res.status(400).json({
-                    message: 'No public posts exist with that ID'
-                });
-            }
+            const body = req.body;
+            const result = await PlantPost.findPublicPlantPostsByPoster(body.poster);
+            if (result.length === 0) { return res.status(400).json({ message: 'No Public Plant Posts With Poster Exist' }); }
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Query Posts'
-            });
+            return res.status(401).json({ message: 'Could Not Query Plant Posts' });
         }
     });
 
-    app.get('/plantpost/publicpostbyposter', authenticateJWT, async (req, res) => {
+    // Get Public Posts With Topic
+    app.get('/plantpost/publicpostsbytopic', authenticateJWT, async (req, res) => {
         try {
-            const result = await plantPost.findPlantPostsByPosterExcludePrivate(req.body.poster);
-            if (result.length === 0) {
-                return res.status(400).json({
-                    message: 'No public posts exist with that poster'
-                });
-            }
+            const body = req.body;
+            const result = await PlantPost.findPublicPlantPostsByTopic(body.topic);
+            if (result.length === 0) { return res.status(400).json({ message: 'No Public Plant Posts With Topic Exist' }); }
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Query Posts'
-            });
+            return res.status(401).json({ message: 'Could Not Query Plant Posts' });
         }
     });
 
-    app.get('/plantpost/publicpostbytopic', authenticateJWT, async (req, res) => {
-        try {
-            const result = await plantPost.findPlantPostsByTopicExcludePrivate(req.body.topic);
-            if (result.length === 0) {
-                return res.status(400).json({
-                    message: 'No public posts exist with that topic'
-                });
-            }
-            return res.status(200).json(result);
-        } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Query Posts'
-            });
-        }
-    });
+    // Updates (PUTS)
 
-    app.put('/plantpost/updatepost', authenticateJWT, async (req, res) => {
+    // Update Title
+    app.put('/plantpost/updatetitle/:id?', authenticateJWT, async (req, res) => {
         try {
             const body = req.body;
             const params = req.params;
-            result = await plantPost.updatePost(params.id, body.post);
-            if (result.length === 0) {
-                return res.status(401).json({
-                    message: 'Could Not Find Post'
-                });
-            }
-            result = await plantPost.findPlantPostByPostId(params.id);
+            result = await PlantPost.updateTitle(params.id, body.title);
+            if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Post' }); }
+            result = await PlantPost.findPlantPostByPostId(params.id);
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Update Post'
-            });
+            return res.status(401).json({ message: 'Could Not Update Title' });
         }
     });
 
-    app.put('/plantpost/updateprivacy', authenticateJWT, async (req, res) => {
+    // Update Post
+    app.put('/plantpost/updatepost/:id?', authenticateJWT, async (req, res) => {
         try {
             const body = req.body;
             const params = req.params;
-            result = await plantPost.updatePrivacy(params.id, body.new_privacy);
-            if (result.length === 0) {
-                return res.status(401).json({
-                    message: 'Could Not Find Post'
-                });
-            }
-            result = await plantPost.findPlantPostByPostId(params.id);
+            result = await PlantPost.updatePost(params.id, body.post);
+            if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Post' }); }
+            result = await PlantPost.findPlantPostByPostId(params.id);
             return res.status(200).json(result);
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Update Post Privacy'
-            });
+            return res.status(401).json({ message: 'Could Not Update Post' });
         }
     });
 
+    // Update Privacy
+    app.put('/plantpost/updateprivacy/:id?', authenticateJWT, async (req, res) => {
+        try {
+            const body = req.body;
+            const params = req.params;
+            result = await PlantPost.updatePrivacy(params.id, body.privacy);
+            if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Post' }); }
+            result = await PlantPost.findPlantPostByPostId(params.id);
+            return res.status(200).json(result);
+        } catch (err) {
+            return res.status(401).json({ message: 'Could Not Update Privacy' });
+        }
+    });
+
+    // Update Like (Increment)
+    app.put('/plantpost/updatelikeincrement/:id?', authenticateJWT, async (req, res) => {
+        try {
+            const params = req.params;
+            result = await PlantPost.updateLike(params.id);
+            if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Post' }); }
+            result = await PlantPost.findPlantPostByPostId(params.id); 
+            return res.status(200).json(result);
+        } catch (err) {
+            return res.status(401).json({ message: 'Could Not Update Like Counter (Increment)' });
+        }
+    });
+
+    // Update Like (Decrement)
+    app.put('/plantpost/updatelikedecrement/:id?', authenticateJWT, async (req, res) => {
+        try {
+            const params = req.params;
+            result = await PlantPost.downdateLike(params.id);
+            if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Post' }); }
+            result = await PlantPost.findPlantPostByPostId(params.id); 
+            return res.status(200).json(result);
+        } catch (err) {
+            return res.status(401).json({ message: 'Could Not Update Like Counter (Decrement)' });
+        }
+    });
+
+    // Delete (DELETE)
+
+    // Delete Plant Post
     app.delete('/plantpost/deletepost/:id?', authenticateJWT, async (req, res) => {
         try {
             const params = req.params;
-            result = await plantPost.findPlantPostByPostId(params.id);
-            if (result.length === 0) {
-                return res.status(401).json({
-                    message: 'Could Not Find Post'
-                });
-            }
-            result = await plantPost.deletePlantPost(params.id);
-            return res.status(204).json({
-                message: 'Successfully Deleted Plant Post'
-            });
+            result = await PlantPost.findPlantPostByPostId(params.id);
+            if (result.length === 0) { return res.status(401).json({ message: 'Could Not Find Post' }); }
+            result = await PlantPost.deletePlantPost(params.id);
+            return res.status(204).json({ message: 'Successfully Deleted Plant Post' });
         } catch (err) {
-            return res.status(401).json({
-                message: 'Could Not Delete Plant Post'
-            });
+            return res.status(401).json({ message: 'Could Not Delete Plant Post' });
         }
     });
-
-
 
 }
