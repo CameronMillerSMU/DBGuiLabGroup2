@@ -17,6 +17,8 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import ListItemText from '@mui/material/ListItemText';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Checkbox from '@mui/material/Checkbox';
+import { FormControlLabel } from '@mui/material';
 
 export const SignUp = () => {
   const theme = createTheme();
@@ -26,10 +28,9 @@ export const SignUp = () => {
 
 
 
-  const [cityN, setCityN] = React.useState("");
-  const handleCityN = (e) => {
-    setCityN(e.target.value);
-    console.log(e.target.value);
+  const [location, setLocation] = React.useState("");
+  const handleLocation = (e) => {
+    setLocation(e.target.value);
   };
   const [age, setAge] = React.useState("");
   const handleChange = (event) => {
@@ -39,7 +40,7 @@ export const SignUp = () => {
   const handleSignUp = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    ApiCall.register(data.get('username'), data.get('password'), data.get('birthday'), data.get('location')).then(res => {
+    ApiCall.register(data.get('username'), data.get('password'), data.get('birthday'), data.get('location'), data.get('isPrivate')).then(res => {
       if (res.status <= 201) {
         navigate('/home');
       }
@@ -47,8 +48,6 @@ export const SignUp = () => {
       alert("User is already associated with this website");
     });
   };
-
-  const [loc, setLoc] = React.useState("");
 
 
 
@@ -59,6 +58,9 @@ export const SignUp = () => {
       setCities(cities);
     });
   }, []);
+
+  const [isPrivate, setIsPrivate] = React.useState(false);
+
 
   return <>
     <ThemeProvider theme={theme}>
@@ -108,8 +110,8 @@ export const SignUp = () => {
                 sx={{ m: 1, width: '27.8ch' }}>
                 <InputLabel id="required-select-label">Location</InputLabel>
                 <Select
-                  value={cityN}
-                  onChange={handleCityN}
+                  value={location}
+                  onChange={handleLocation}
                   required
                   labelId="location"
                   id="location"
@@ -125,6 +127,12 @@ export const SignUp = () => {
                   })}
                 </Select>
               </FormControl>
+            </Grid>
+            <Grid>
+              <FormControlLabel
+                label="Are you a private user?"
+                control={<Checkbox checked={isPrivate} color="primary" onChange={e => setIsPrivate(e.target.checked)} />}
+              />
             </Grid>
             <Button item sx={{ mt: 2 }}
               type="submit"
@@ -143,7 +151,8 @@ export const SignUp = () => {
             <Button
               onClick={() => navigate("/home")}
               variant="outlined"
-            >Cancel</Button>
+            >Cancel
+            </Button>
           </Box>
         </Box>
       </div>
