@@ -133,17 +133,6 @@ export class ApiCalls {
         })
     }
 
-    getPlantByNameTwo(name) {
-        return new Promise((resolve, reject) => {
-            axios.get(`${apiEndpoint}/plants/plantbyname`, { name: name }, { headers: { Authorization: `Bearer ${sessionStorage.getItem('token')}` } })
-                .then(x => resolve(x.data))
-                .catch(x => {
-                    alert(x);
-                    reject(x);
-                });
-        });
-    }
-
 
 
 
