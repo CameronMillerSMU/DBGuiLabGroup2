@@ -12,6 +12,8 @@ import TextField from '@mui/material/TextField';
 
 import { Navigate } from 'react-router-dom';
 import { useState } from 'react';
+import { Banner } from '../common/Banner';
+import { PlantPosts } from '../common/PlantPosts';
 
 export const PlantPost = (props) => {
 
@@ -36,8 +38,11 @@ export const PlantPost = (props) => {
 
   //plantposts = list of posts sent by the user
 
-  const plantposts = props.posts;
-  const id = props.id;
+  //const plantposts = props.posts;
+  //const id = props.id;
+
+
+  const samplePost = new PlantPosts(1,"topic", "poster", "title", "post", 0);
 
   const [reply, setReply] = useState("");
 
@@ -45,30 +50,34 @@ export const PlantPost = (props) => {
   const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const handleReply = (reply) => {
-    if (!plantposts.userId) Navigate("/login"); //takes to login if not logged in
+    if (!props.token) Navigate("/login"); //takes to login if not logged in
 
 
   }
 
   return <>
+  <Banner />
     <Card
       sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
     >
       <CardMedia
         component="img"
-        sx={{
-          // 16:9
-          pt: '56.25%',
-        }}
-        image={plantposts[id].plantImg}
+        image="plant1.jpg"
         alt="random"
       />
       <CardContent sx={{ flexGrow: 1 }}>
+      <Typography>
+          {//plantposts[id].plantPostContent
+          samplePost.poster}
+        </Typography>
+    
         <Typography gutterBottom variant="h5" component="h2">
-          {plantposts[id].plantPostHeader}
+          {//plantposts[id].plantPostHeader
+          samplePost.title}
         </Typography>
         <Typography>
-          {plantposts[id].plantPostContent}
+          {//plantposts[id].plantPostContent
+          samplePost.post}
         </Typography>
       </CardContent>
 
@@ -77,10 +86,12 @@ export const PlantPost = (props) => {
                   */}
 
       <CardActions>
+        {/*
         <Button size="small">Delete</Button>
         <Button size="small">Edit</Button>
         <TextField id="outlined-basic" label="Reply" variant="outlined" value={(x) => setReply(x)} />
-        <Button size="small" onClick={handleReply(reply)}>Reply</Button>
+        <Button size="small" onClick={handleReply(reply)}>Reply</Button>*/
+}
       </CardActions>
     </Card>
 
@@ -89,3 +100,6 @@ export const PlantPost = (props) => {
 
 
 }
+
+/*
+*/

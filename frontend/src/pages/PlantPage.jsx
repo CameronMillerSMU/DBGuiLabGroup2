@@ -21,6 +21,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Banner } from '../common/Banner';
 import { Profile } from '../common';
+import { Plant } from '../common/Plant';
 
 
 const theme = createTheme({
@@ -44,18 +45,20 @@ const theme = createTheme({
 export const PlantPage = (props) => {
   const ApiCall = new ApiCalls();
   const plantName = sessionStorage.getItem("currentPlant");
-
-  const [plant, setPlant] = React.useState([]);
-  React.useEffect(() => {
-    ApiCall.getPlantByName(plantName).then(res => {
-      const plant = res.data;
-      setPlant(plant);
-    });
-  }, []);
+  const navigate = useNavigate();
+  // const [plant, setPlant] = React.useState([]);
+  // React.useEffect(() => {
+  //   ApiCall.getPlantByName(plantName).then(res => {
+  //     const plant = res.data;
+  //     setPlant(plant);
+  //   });
+  // }, []);
+  const plant = new Plant(1, "Cactus", "Any of numerous succulent, spiny, usually leafless plants of the family Cactaceae, native chiefly to arid regions of the Americas, having variously colored, often showy flowers with numerous stamens and petals.", "Cacti", "Very Hot", "/plant1.jpg")
   return <>
     <ThemeProvider theme={theme}>
+      <Banner />
       <Container maxWidth="lg">
-        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Card sx={{ mt: 5, height: '100%', display: 'flex', flexDirection: 'column' }}>
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
               {plant.name}
