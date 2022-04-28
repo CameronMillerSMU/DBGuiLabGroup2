@@ -81,8 +81,8 @@ export class ApiCalls {
             axios.get(`${apiEndpoint}/location/alllocations`)
                 .then(response => {
                     console.log('Response: ');
-                    console.log(response);
-                    resolve(response);
+                    console.log(response.data);
+                    resolve(response.data);
                 })
                 .catch(error => {
                     console.log('Cannot get locations');

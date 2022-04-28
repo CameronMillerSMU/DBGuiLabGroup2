@@ -38,7 +38,21 @@ export const SignUp = () => {
   };
 
   const [loc, setLoc] = React.useState("");
-  const cities = ApiCall.getLocations().data;
+
+
+
+  const cities = ApiCall.getLocations();    //.data[0].cityName
+  console.log("Should be Berkeley: ");
+  console.log(cities[0]['cityName']);
+  console.log(cities[1]['cityName']);
+  let cityNames = [];
+  for (let i = 0; i < cities.length; i++) {
+    cityNames.push(cities[i].cityName);
+  }
+  for(let i = 0; i < cityNames.length; i++) {
+    console.log(cityNames[i]);
+  }
+
 
 
   return <>
@@ -93,9 +107,9 @@ export const SignUp = () => {
                     label="loc"
                   // onChange={handleRegion}
                   >
-                    {cities.map((city) => (
-                      <MenuItem key={city.cityName} loc={city.cityName}>
-                        <ListItemText primary={city.cityName} />
+                    {cityNames.map((city) => (
+                      <MenuItem key={city} loc={city}>
+                        <ListItemText primary={city} />
                       </MenuItem>
                     ))}
                   </Select>
