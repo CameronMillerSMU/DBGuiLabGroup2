@@ -4,6 +4,7 @@ CREATE DATABASE flora;
 -- Use Database
 USE flora;
 
+-- Plants Table, List Of Plants
 CREATE TABLE flora.plants (
     name VARCHAR(300) PRIMARY KEY,
     description VARCHAR(500),
@@ -15,6 +16,7 @@ CREATE TABLE flora.plants (
     soil VARCHAR(300)
 );
 
+-- Location Table, List Of Locations
 CREATE TABLE flora.location (
     cityName VARCHAR(300) PRIMARY KEY,
     tempLow FLOAT,
@@ -24,6 +26,7 @@ CREATE TABLE flora.location (
     nearestStore VARCHAR(300)
 );
 
+-- User Table, Each User Has ___
 CREATE TABLE flora.users (
     username VARCHAR(300) PRIMARY KEY,
     password VARCHAR(300) NOT NULL,
@@ -37,6 +40,7 @@ CREATE TABLE flora.users (
     FOREIGN KEY (location) REFERENCES location(cityName)
 );
 
+-- User Owned Plants Table, Each User Has Specific Owned Plants
 CREATE TABLE flora.ownedPlants (
     id INTEGER PRIMARY KEY auto_increment,
     owner VARCHAR(300) NOT NULL,
@@ -51,34 +55,7 @@ CREATE TABLE flora.ownedPlants (
     FOREIGN KEY (name) REFERENCES plants(name)
 );
 
-CREATE TABLE flora.forum (
-    topic VARCHAR(300) PRIMARY KEY,
-    description VARCHAR(300) NOT NULL
-);
-
-CREATE TABLE flora.plantPost (
-    postId INTEGER PRIMARY KEY auto_increment,
-    topic VARCHAR(300) NOT NULL,
-    poster VARCHAR(300) NOT NULL,
-    title VARCHAR(300) NOT NULL,
-    post VARCHAR(300) NOT NULL,
-    privateTag BOOLEAN NOT NULL,
-    FOREIGN KEY(poster) REFERENCES users(username),
-    FOREIGN KEY (topic) REFERENCES forum(topic)
-);
-
-CREATE TABLE flora.comment (
-    commentId INTEGER PRIMARY KEY auto_increment,
-    postId INTEGER NOT NULL,
-    commentAuthor VARCHAR(300) NOT NULL,
-    post VARCHAR(300) NOT NULL,
-    replyTo INTEGER,
-    rootTag VARCHAR(300) NOT NULL,
-    privateTag BOOLEAN NOT NULL,
-    FOREIGN KEY (postId) REFERENCES plantPost(postId),
-    FOREIGN KEY (commentAuthor) REFERENCES users(username)
-);
-
+-- User Wish Ticket Table, Each User Wants New Plants
 CREATE TABLE flora.wishTicket (
     ticketId INTEGER PRIMARY KEY auto_increment,
     username VARCHAR(300) NOT NULL,
@@ -87,11 +64,35 @@ CREATE TABLE flora.wishTicket (
     FOREIGN KEY (plant) REFERENCES plants(name)
 );
 
-CREATE TABLE flora.like (
+-- Forum Table, List Of Forums
+CREATE TABLE flora.forum (
+    topic VARCHAR(300) PRIMARY KEY,
+    description VARCHAR(300) NOT NULL
+);
+
+-- Post Table, List Of Posts In Forum
+CREATE TABLE flora.plantPost (
+    postId INTEGER PRIMARY KEY auto_increment,
+    topic VARCHAR(300) NOT NULL,
+    poster VARCHAR(300) NOT NULL,
+    title VARCHAR(300) NOT NULL,
+    post VARCHAR(300) NOT NULL,
+    privateTag BOOLEAN NOT NULL,
+    likeCount INTEGER NOT NULL,
+    FOREIGN KEY (topic) REFERENCES forum(topic),
+    FOREIGN KEY (poster) REFERENCES users(username)
+);
+
+-- Comments Table, List Of Comments In Post In Forum
+CREATE TABLE flora.comment (
     commentId INTEGER PRIMARY KEY auto_increment,
     postId INTEGER NOT NULL,
-    user VARCHAR(300) NOT NULL,
-    FOREIGN KEY (commentId) REFERENCES comment(commentId),
+    poster VARCHAR(300) NOT NULL,
+    post VARCHAR(300) NOT NULL,
+    privateTag BOOLEAN NOT NULL,
+    likeCount INTEGER NOT NULL,
     FOREIGN KEY (postId) REFERENCES plantPost(postId),
-    FOREIGN KEY (user) REFERENCES users(username)
+    FOREIGN KEY (poster) REFERENCES users(username)
 );
+
+DROP DATABASE flora;

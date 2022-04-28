@@ -1,13 +1,11 @@
-const knex = require('knex');
+const knex = require('../database/knex');
 
 const POST_TABLE = 'plantPost';
 
 const createNewPlantPost = async (topic, poster, title, post, privateTag) => {
-
-    const query = knex(POST_TABLE).insert({ topic, poster, title, post, privateTag, likeCounter: 0});
+    const query = knex(POST_TABLE).insert({ topic:topic, poster:poster, title:title, post:post, privateTag:privateTag, likeCount: 0});
     console.log('Raw query for createNewPlantPost:', query.toString());
     const result = await query;
-
     return result;
 };
 
