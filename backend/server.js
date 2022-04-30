@@ -14,7 +14,7 @@ const locationRoutes = require('./routes/location');
 const forumRoutes = require('./routes/forum');
 const commentRoutes = require('./routes/comment');
 const wishRoutes = require('./routes/wishTicket');
-const plantPostRoutes = require('./routes/plantPost');
+const plantPostRoutes = require('./routes/plantpost');
 
 // Middleware Require
 const { log, ExpressAPILogMiddleware } = require('@rama41222/node-logger');
