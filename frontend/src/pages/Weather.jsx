@@ -15,7 +15,6 @@ import { useEffect, useState } from 'react';
 import { Button } from "@material-ui/core";
 import { Banner } from '../common/Banner';
 
-//code reference: https://anothertechs.com/programming/react/weather-app-using-react/
 
 export const Weather = (props) => {
   

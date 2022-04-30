@@ -7,9 +7,9 @@ import Card from "@material-ui/core/Card";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Paper from '@mui/material/Paper';
-import {ThemeProvider, createTheme } from '@mui/system';
+import {ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from "@mui/material/CssBaseline";
 import { Banner } from './Banner';
-//code reference: https://anothertechs.com/programming/react/weather-app-using-react/
 
 /*
 Promise {<pending>}
@@ -65,17 +65,16 @@ export const Display = ({ weatherReport, pic }) =>{
   const country = weatherReport.location.country;
   const city = weatherReport.location.name;
 
+  const [temp,setTemp] = useState(tempC);
   const [unit,setUnit] = useState(`C`);
-
-  const temp = tempC;
 
   function handleSwitchTemp(e){
     if(unit==`C`){
       setUnit(`F`);
-      temp = tempF;
+      setTemp(tempF);
     }else{
       setUnit(`C`);
-      temp = tempC;
+      setTemp(tempC);
     }
   }
 
@@ -87,14 +86,15 @@ export const Display = ({ weatherReport, pic }) =>{
   const picpath = pic.path;
   const pictitle = pic.name;
 
-  const dayNight = weatherReport.current.is_day == 0? "#FFFFFF" : "#000000";
-  const textbg = weatherReport.current.is_day == 0? "#d9d9d9" : "#363636";
+  const dayNight = weatherReport.current.is_day == 1? "#000000": "#FFFFFF";
+  //const [light, setLight] = React.useState(weatherReport.current.is_day == 1?true:false);
+  const textbg = weatherReport.current.is_day == 1? "#FFFFFF": "#000000";
 
   const styles = {
-    root: {
-        backgroundImage: `url(${picpath})`,
-        color: dayNight
-       
+    bg: {
+        //backgroundImage: `url(${picpath})`,
+        color: dayNight,
+        backgroundColor: textbg
     },
     text: {
       bgcolor: textbg
@@ -103,10 +103,16 @@ export const Display = ({ weatherReport, pic }) =>{
 
   return <>
   
-  <Card style={styles.root} >
-    
-    <CardHeader title={`${city}, ${country}`} style = {styles.text}/>
-    <CardContent style = {styles.text}>
+  <Card >
+  <CardMedia
+          component="img"
+          height="100%"
+          image={picpath}
+          alt={pictitle}
+        />
+  <Box style={styles.bg}>
+    <CardHeader title={`${city}, ${country}`}/>
+    <CardContent>
     <Typography >
     Current Time: {time}
       </Typography>
@@ -120,6 +126,7 @@ export const Display = ({ weatherReport, pic }) =>{
       Temp: {temp}
       <span>&#176;</span>
       {unit}
+      <button onClick={(x)=>handleSwitchTemp(x)}>C/F</button>
       </Typography>
       <Typography >
       Humidity: {humidity} %
@@ -128,6 +135,7 @@ export const Display = ({ weatherReport, pic }) =>{
       </Typography>
 
     </CardContent>
+    </Box>
   </Card>
   </>;
 }
@@ -142,56 +150,4 @@ export const Display = ({ weatherReport, pic }) =>{
         />
 
 
-<CardContent>
-        <Box sx={{ display: 'flex', flexDirection:'row' }}>
-          <Box p={1}>
-            <Typography sx={{ constiant: 'h2', color:'textSecondary' }}>
-              {city},{country}
-            </Typography>
-            <Typography sx={{ constiant: 'caption', color:'textSecondary' }}>
-              {lon}, {lat}
-            </Typography>
-          </Box>
-        </Box>
-      </CardContent>
-      <CardContent>
-        <Box sx={{ display: 'flex', flexDirection:'row-reverse' }}>
-          <Box p={0}>
-            <Typography sx={{ constiant: 'h4', color:'textSecondary' }}>
-              Temp: {temp}
-              <span>&#176;</span>
-              {unit}
-            </Typography>
-            <button onClick={(x)=>handleSwitchTemp(x)}>C/F</button>
-          </Box>
-        </Box>
-      </CardContent>
-      <CardContent>
-        <Box sx={{ display: 'flex', flexDirection:'row-reverse' }}>
-          <Box p={0}>
-            <Typography sx={{ constiant: 'h6', color:'textSecondary' }}>
-              {weatherdiscription}
-            </Typography>
-          </Box>
-        </Box>
-      </CardContent>
-      <CardContent>
-        <Box sx={{ display: 'flex', flexDirection:'row' }}>
-          <Box p={1}>
-            <Typography sx={{ constiant: 'h6', color:'textPrimary' }}>
-              Humidity: {humidity} %
-            </Typography>
-          </Box>
-          <Box p={1}>
-            <Typography sx={{ constiant: 'h6', color:'textSecondary' }}>
-              pressure: {pressure} pa
-            </Typography>
-          </Box>
-          <Box p={1}>
-            <Typography sx={{ constiant: 'h6', color:'textSecondary' }}>
-              wind: {wind} km/h
-            </Typography>
-          </Box>
-        </Box>
-      </CardContent>
 */
